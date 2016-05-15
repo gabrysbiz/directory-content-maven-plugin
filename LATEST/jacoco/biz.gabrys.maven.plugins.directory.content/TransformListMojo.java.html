@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>TransformListMojo.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Directory Content Maven Plugin</a> &gt; <a href="index.source.html" class="el_package">biz.gabrys.maven.plugins.directory.content</a> &gt; <span class="el_source">TransformListMojo.java</span></div><h1>TransformListMojo.java</h1><pre class="source lang-java linenums">/*
+ * Directory Content Maven Plugin
+ * http://directory-content-maven-plugin.projects.gabrys.biz/
+ *
+ * Copyright (c) 2015 Adam Gabryś
+ *
+ * This file is licensed under the BSD 3-Clause (the &quot;License&quot;).
+ * You may not use this file except in compliance with the License.
+ * You may obtain:
+ * - a copy of the License at project page
+ * - a template of the License at https://opensource.org/licenses/BSD-3-Clause
+ */
+package biz.gabrys.maven.plugins.directory.content;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+
+import biz.gabrys.maven.plugins.directory.content.file.FileMetadata;
+import biz.gabrys.maven.plugins.directory.content.file.FileMetadataFactory;
+import biz.gabrys.maven.plugins.directory.content.file.FileMetadataFactoryConfiguration;
+import biz.gabrys.maven.plugins.directory.content.transform.TransformException;
+import biz.gabrys.maven.plugins.directory.content.transform.XmlFileMetadataTransformer;
+import biz.gabrys.maven.plugins.directory.content.transform.XsltTransformer;
+
+/**
+ * Transforms files list to a document using &lt;a href=&quot;http://www.w3.org/TR/xslt&quot;&gt;XSLT&lt;/a&gt; technology. The XML document
+ * used to transformation process has specified structure:
+ * 
+ * &lt;pre&gt;
+ * &amp;lt;files&amp;gt;
+ *    &amp;lt;file&amp;gt;
+ *       &amp;lt;fullPath&amp;gt;full file path&amp;lt;/fullPath&amp;gt;
+ *       &amp;lt;fullName&amp;gt;name with extension&amp;lt;/fullName&amp;gt;
+ *       &amp;lt;name&amp;gt;name without extension&amp;lt;/name&amp;gt;
+ *       &amp;lt;!-- extension node is optionally --&amp;gt;
+ *       &amp;lt;extension&amp;gt;extension&amp;lt;/extension&amp;gt;
+ *       &amp;lt;directory&amp;gt;parent directory relative to ${directory.content.sourceDirectory}&amp;lt;/directory&amp;gt;
+ *       &amp;lt;size&amp;gt;size in bytes&amp;lt;/size&amp;gt;
+ *    &amp;lt;/file&amp;gt;
+ *    &amp;lt;!-- more file nodes --&amp;gt;
+ * &amp;lt;/files&amp;gt;
+ * &lt;/pre&gt;
+ * &lt;p&gt;
+ * Example:
+ * &lt;/p&gt;
+ * 
+ * &lt;pre&gt;
+ * &amp;lt;files&amp;gt;
+ *    &amp;lt;file&amp;gt;
+ *       &amp;lt;fullPath&amp;gt;static/js/script.js&amp;lt;/fullPath&amp;gt;
+ *       &amp;lt;fullName&amp;gt;script.js&amp;lt;/fullName&amp;gt;
+ *       &amp;lt;name&amp;gt;script&amp;lt;/name&amp;gt;
+ *       &amp;lt;extension&amp;gt;js&amp;lt;/extension&amp;gt;
+ *       &amp;lt;directory&amp;gt;static/js&amp;lt;/directory&amp;gt;
+ *       &amp;lt;size&amp;gt;131072&amp;lt;/size&amp;gt;
+ *    &amp;lt;/file&amp;gt;
+ *    &amp;lt;file&amp;gt;
+ *       &amp;lt;fullPath&amp;gt;static/js/file-without-extension&amp;lt;/fullPath&amp;gt;
+ *       &amp;lt;fullName&amp;gt;file-without-extension&amp;lt;/fullName&amp;gt;
+ *       &amp;lt;name&amp;gt;file-without-extension&amp;lt;/name&amp;gt;
+ *       &amp;lt;directory&amp;gt;static/js&amp;lt;/directory&amp;gt;
+ *       &amp;lt;size&amp;gt;28672&amp;lt;/size&amp;gt;
+ *    &amp;lt;/file&amp;gt;
+ * &amp;lt;/files&amp;gt;
+ * &lt;/pre&gt;
+ * 
+ * @since 1.0
+ */
+@Mojo(name = &quot;transformList&quot;, defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
+<span class="nc" id="L77">public class TransformListMojo extends AbstractTransformMojo {</span>
+
+    /**
+     * Generated output document file.
+     * @since 1.0
+     */
+    @Parameter(property = &quot;directory.content.outputFile&quot;, required = true)
+    protected File outputFile;
+
+    @Override
+    protected void fillParametersForLogger(final Collection&lt;String&gt; parameters) {
+<span class="nc" id="L88">        super.fillParametersForLogger(parameters);</span>
+<span class="nc" id="L89">        parameters.add(&quot;outputFile = &quot; + outputFile);</span>
+<span class="nc" id="L90">    }</span>
+
+    @Override
+    protected void execute2(final Collection&lt;File&gt; files) throws MojoFailureException {
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (!isTransformationRequired(files)) {</span>
+<span class="nc" id="L95">            getLog().info(&quot;Skips transforming files list, because all sources are older than output file: &quot; + outputFile.getAbsolutePath());</span>
+<span class="nc" id="L96">            return;</span>
+        }
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        getLog().info(String.format(&quot;Transforming list with %s file%s to document...&quot;, files.size(), files.size() != 1 ? &quot;s&quot; : &quot;&quot;));</span>
+
+<span class="nc" id="L100">        final String xml = transformToXml(files);</span>
+<span class="nc" id="L101">        final String document = transformToDocument(xml);</span>
+<span class="nc" id="L102">        saveDocument(document);</span>
+<span class="nc" id="L103">    }</span>
+
+    private boolean isTransformationRequired(final Collection&lt;File&gt; files) {
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        for (final File file : files) {</span>
+<span class="nc bnc" id="L107" title="All 6 branches missed.">            if (force || !outputFile.exists() || file.lastModified() &gt;= outputFile.lastModified()) {</span>
+<span class="nc" id="L108">                return true;</span>
+            }
+<span class="nc" id="L110">        }</span>
+<span class="nc" id="L111">        return false;</span>
+    }
+
+    private String transformToXml(final Collection&lt;File&gt; files) throws MojoFailureException {
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        if (getLog().isDebugEnabled()) {</span>
+<span class="nc" id="L116">            getLog().debug(&quot;Creating metadata...&quot;);</span>
+        }
+<span class="nc" id="L118">        final FileMetadataFactoryConfiguration configuration = new FileMetadataFactoryConfiguration();</span>
+<span class="nc" id="L119">        configuration.setRootDirectory(sourceDirectory);</span>
+<span class="nc" id="L120">        configuration.setSeparator(separator);</span>
+<span class="nc" id="L121">        final Collection&lt;FileMetadata&gt; metadata = new FileMetadataFactory(configuration).create(files);</span>
+<span class="nc" id="L122">        return new XmlFileMetadataTransformer().transform(metadata);</span>
+    }
+
+    private String transformToDocument(final String xml) throws MojoFailureException {
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        if (getLog().isDebugEnabled()) {</span>
+<span class="nc" id="L127">            getLog().debug(&quot;Transforming metadata to document...&quot;);</span>
+        }
+        try {
+<span class="nc" id="L130">            return new XsltTransformer().transform(xml, xsltFile);</span>
+<span class="nc" id="L131">        } catch (final TransformException e) {</span>
+<span class="nc" id="L132">            throw new MojoFailureException(e.getMessage(), e);</span>
+        }
+    }
+
+    private void saveDocument(final String document) throws MojoFailureException {
+<span class="nc bnc" id="L137" title="All 2 branches missed.">        if (verbose) {</span>
+<span class="nc" id="L138">            getLog().info(&quot;Saving document to &quot; + outputFile.getAbsolutePath());</span>
+        }
+        try {
+<span class="nc" id="L141">            FileUtils.write(outputFile, document, encoding);</span>
+<span class="nc" id="L142">        } catch (final IOException e) {</span>
+<span class="nc" id="L143">            throw new MojoFailureException(&quot;Cannot save document to file: &quot; + outputFile.getAbsolutePath(), e);</span>
+<span class="nc" id="L144">        }</span>
+<span class="nc" id="L145">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

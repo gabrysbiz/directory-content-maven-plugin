@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AbstractTransformMojo.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Directory Content Maven Plugin</a> &gt; <a href="index.source.html" class="el_package">biz.gabrys.maven.plugins.directory.content</a> &gt; <span class="el_source">AbstractTransformMojo.java</span></div><h1>AbstractTransformMojo.java</h1><pre class="source lang-java linenums">/*
+ * Directory Content Maven Plugin
+ * http://directory-content-maven-plugin.projects.gabrys.biz/
+ *
+ * Copyright (c) 2015 Adam Gabryś
+ *
+ * This file is licensed under the BSD 3-Clause (the &quot;License&quot;).
+ * You may not use this file except in compliance with the License.
+ * You may obtain:
+ * - a copy of the License at project page
+ * - a template of the License at https://opensource.org/licenses/BSD-3-Clause
+ */
+package biz.gabrys.maven.plugins.directory.content;
+
+import java.io.File;
+import java.util.Collection;
+
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Parameter;
+
+/**
+ * Parent class for all goals related with &lt;a href=&quot;http://www.w3.org/TR/xslt&quot;&gt;XSLT&lt;/a&gt; transformation.
+ * @since 1.0
+ */
+<span class="nc" id="L25">abstract class AbstractTransformMojo extends AbstractPluginMojo {</span>
+
+    /**
+     * The &lt;a href=&quot;http://www.w3.org/TR/xslt&quot;&gt;XSLT&lt;/a&gt; document used to transformation.
+     * @since 1.0
+     */
+    @Parameter(property = &quot;directory.content.xsltFile&quot;, required = true)
+    protected File xsltFile;
+
+    /**
+     * Source and output files encoding.
+     * @since 1.0
+     */
+    @Parameter(property = &quot;directory.content.encoding&quot;, defaultValue = &quot;${project.build.sourceEncoding}&quot;)
+    protected String encoding;
+
+    /**
+     * The separator used in full files paths.&lt;br&gt;
+     * &lt;b&gt;Default value is&lt;/b&gt;: &lt;tt&gt;/&lt;/tt&gt; on UNIX systems or &lt;tt&gt;\&lt;/tt&gt; on Microsoft Windows systems.
+     * @since 1.0
+     */
+    @Parameter(property = &quot;directory.content.separator&quot;)
+    protected String separator;
+
+    @Override
+    protected void fillParametersForLogger(final Collection&lt;String&gt; parameters) {
+<span class="nc" id="L51">        parameters.add(&quot;encoding = &quot; + encoding);</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (separator != null) {</span>
+<span class="nc" id="L53">            parameters.add(&quot;separator = &quot; + separator);</span>
+        } else {
+<span class="nc" id="L55">            parameters.add(String.format(&quot;separator = null (calculated: %s)&quot;, File.separator));</span>
+        }
+<span class="nc" id="L57">    }</span>
+
+    @Override
+    protected final void execute(final Collection&lt;File&gt; files) throws MojoFailureException {
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (separator == null) {</span>
+<span class="nc" id="L62">            separator = File.separator;</span>
+        }
+<span class="nc" id="L64">        execute2(files);</span>
+<span class="nc" id="L65">    }</span>
+
+    protected abstract void execute2(final Collection&lt;File&gt; files) throws MojoFailureException;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
