@@ -1,5 +1,5 @@
 # Directory Content Maven Plugin
-[![License BSD 3-Clause](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg)](https://directory-content-maven-plugin.projects.gabrys.biz/license.txt)
+[![License BSD 3-Clause](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg)](http://directory-content-maven-plugin.projects.gabrys.biz/license.txt)
 [![Build Status](https://travis-ci.org/gabrysbiz/directory-content-maven-plugin.svg?branch=develop)](https://travis-ci.org/gabrysbiz/directory-content-maven-plugin)
 
 Provides a collection of tools for working with directories.
