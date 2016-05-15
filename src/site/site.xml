@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/DECORATION/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
+
+    <bannerLeft>
+        <name>${projectName}</name>
+    </bannerLeft>
+
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>1.4</version>
+    </skin>
+    <custom>
+        <fluidoSkin>
+            <gitHub>
+                <projectId>gabrysbiz/directory-content-maven-plugin</projectId>
+                <ribbonColor>gray</ribbonColor>
+                <ribbonOrientation>right</ribbonOrientation>
+            </gitHub>
+            <googleSearch />
+        </fluidoSkin>
+    </custom>
+
+    <poweredBy>
+        <logo name="gabrys.biz on GitHub" href="https://github.com/gabrysbiz" img="images/logos/github.png" />
+        <logo name="Built by Maven" img="images/logos/maven-feather.png" />
+    </poweredBy>
+
+    <body>
+        <menu name="Overview">
+            <item name="Introduction" href="index.html" />
+            <item name="Goals" href="plugin-info.html" />
+            <item name="Usage" href="usage.html" />
+            <item name="FAQ" href="faq.html" />
+        </menu>
+
+        <menu name="Examples">
+            <item name="Using include/exclude patterns" href="examples/patterns.html" />
+            <item name="Copies files" href="examples/copy.html" />
+            <item name="Transform files list" href="examples/transform-list.html" />
+            <item name="Transform files metadata" href="examples/transform-metadata.html" />
+        </menu>
+
+        <menu ref="reports" />
+    </body>
+</project>

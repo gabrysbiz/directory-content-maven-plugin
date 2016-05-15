@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+    <properties>
+        <title>Transform files metadata</title>
+    </properties>
+
+    <body>
+        <section name="Transform files metadata to download pages for files list">
+            <p>
+            	This example shows how use a <a href="../transformMetadata-mojo.html">transformMetadata</a> goal to generate
+            	download pages for all files from <code>src/main/webapp/files</code>. Pages will be saved in
+            	<code>\${project.build.directory}/\${project.artifactId}-\${project.version}/download</code> directory.
+            </p>
+            <pre>&lt;project&gt;
+   ...
+   &lt;build&gt;
+      &lt;plugins&gt;
+         ...
+         &lt;plugin&gt;
+            &lt;groupId&gt;${project.groupId}&lt;/groupId&gt;
+            &lt;artifactId&gt;${project.artifactId}&lt;/artifactId&gt;
+            &lt;version&gt;${project.version}&lt;/version&gt;
+            &lt;executions&gt;
+               &lt;execution&gt;
+                  &lt;goals&gt;
+                     &lt;goal&gt;transformMetadata&lt;/goal&gt;
+                  &lt;/goals&gt;
+                  &lt;configuration&gt;
+                     &lt;sourceDirectory&gt;src/main/webapp/files&lt;/sourceDirectory&gt;
+                     &lt;includes&gt;
+                        &lt;include&gt;**/*&lt;/include&gt;
+                     &lt;/includes&gt;
+                     &lt;outputFileFormat&gt;{fileName}.html&lt;/outputFileFormat&gt;
+                     &lt;outputDirectory&gt;\${project.build.directory}/\${project.artifactId}-\${project.version}/download&lt;/outputDirectory&gt;
+                     &lt;xsltFile&gt;download-page.xsl&lt;/xsltFile&gt;
+                     &lt;separator&gt;/&lt;/separator&gt;
+                  &lt;/configuration&gt;
+               &lt;/execution&gt;
+            &lt;/executions&gt;
+         &lt;/plugin&gt;
+      &lt;/plugins&gt;
+   &lt;/build&gt;
+&lt;project&gt;</pre>
+        <p>
+            <code>download-page.xsl</code> content:
+        </p>
+        <pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;
+   &lt;!-- use xml, because html insert META tag: <a href="http://stackoverflow.com/q/4408725/4944847">http://stackoverflow.com/q/4408725/4944847</a> --&gt;
+   &lt;xsl:output method="xml" omit-xml-declaration="yes" indent="yes" /&gt;
+
+   &lt;xsl:template match="file"&gt;
+      &lt;xsl:text disable-output-escaping="yes"&gt;&lt;![CDATA[&lt;!doctype html&gt;]]&gt;&amp;#10;&lt;/xsl:text&gt;
+      &lt;html lang="en"&gt;
+         &lt;head&gt;
+            &lt;meta charset="UTF-8" /&gt;
+            &lt;title&gt;Download &lt;xsl:value-of select="fullName" /&gt;&lt;/title&gt;
+            &lt;link href="/style.css" rel="stylesheet" /&gt;
+         &lt;/head&gt;
+         &lt;body&gt;
+            &lt;div class="ads"&gt;Space for advertisement&lt;/div&gt;
+            &lt;div class="download"&gt;
+               &lt;a&gt;
+                  &lt;xsl:attribute name="href"&gt;
+                     &lt;xsl:text&gt;/files/&lt;/xsl:text&gt;
+                     &lt;xsl:value-of select="fullPath" /&gt;
+                  &lt;/xsl:attribute&gt;
+                  &lt;xsl:text&gt;Download &lt;/xsl:text&gt;
+                  &lt;xsl:value-of select="name" /&gt;
+                  &lt;xsl:if test="extension != ''"&gt;
+                     &lt;xsl:text&gt; (type: &lt;/xsl:text&gt;
+                     &lt;xsl:value-of select="extension" /&gt;
+                     &lt;xsl:text&gt;)&lt;/xsl:text&gt;
+                  &lt;/xsl:if&gt;
+               &lt;/a&gt;
+            &lt;/div&gt;
+            &lt;div class="ads"&gt;Space for advertisement&lt;/div&gt;
+         &lt;/body&gt;
+      &lt;/html&gt;
+   &lt;/xsl:template&gt;
+&lt;/xsl:stylesheet&gt;</pre>
+        </section>
+    </body>
+</document>

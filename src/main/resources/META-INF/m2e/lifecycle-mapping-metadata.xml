@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lifecycleMappingMetadata>
+    <pluginExecutions>
+        <pluginExecution>
+            <pluginExecutionFilter>
+                <goals>
+                    <goal>copy</goal>
+                </goals>
+            </pluginExecutionFilter>
+            <action>
+                <execute>
+                    <runOnIncremental>true</runOnIncremental>
+                </execute>
+            </action>
+        </pluginExecution>
+        <pluginExecution>
+            <pluginExecutionFilter>
+                <goals>
+                    <goal>transformList</goal>
+                </goals>
+            </pluginExecutionFilter>
+            <action>
+                <execute>
+                    <runOnIncremental>true</runOnIncremental>
+                </execute>
+            </action>
+        </pluginExecution>
+        <pluginExecution>
+            <pluginExecutionFilter>
+                <goals>
+                    <goal>transformMetadata</goal>
+                </goals>
+            </pluginExecutionFilter>
+            <action>
+                <execute>
+                    <runOnIncremental>true</runOnIncremental>
+                </execute>
+            </action>
+        </pluginExecution>
+    </pluginExecutions>
+</lifecycleMappingMetadata>
