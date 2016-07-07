@@ -4,6 +4,7 @@
 
     <bannerLeft>
         <name>${projectName}</name>
+        <href>../</href>
     </bannerLeft>
 
     <skin>
