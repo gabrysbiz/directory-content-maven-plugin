@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-	<url>
-		<loc>http://directory-content-maven-plugin.projects.gabrys.biz/</loc>
-		<changefreq>2016-05-15</changefreq>
-	</url>
-	<url>
-		<loc>http://directory-content-maven-plugin.projects.gabrys.biz/LATEST/</loc>
-		<changefreq>2016-05-15</changefreq>
-	</url>
-	<url>
-		<loc>http://directory-content-maven-plugin.projects.gabrys.biz/1.0/</loc>
-		<changefreq>2016-05-15</changefreq>
-	</url>
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    <url>
+        <loc>http://directory-content-maven-plugin.projects.gabrys.biz/</loc>
+        <lastmod>2016-07-07</lastmod>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>http://directory-content-maven-plugin.projects.gabrys.biz/1.0/</loc>
+        <lastmod>2016-05-15</lastmod>
+        <priority>0.8</priority>
+    </url>
 </urlset>
