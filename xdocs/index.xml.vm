@@ -9,7 +9,7 @@
     <body>
         <section name="${project.name}">
             <p>
-				Provides a collection of tools for working with directories.
+                Provides a collection of tools for working with directories.
             </p>
         </section>
         <section name="Goals Overview" id="goals-overview">
