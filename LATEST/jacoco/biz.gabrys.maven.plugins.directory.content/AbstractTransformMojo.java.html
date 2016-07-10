@@ -18,11 +18,14 @@ import java.util.Collection;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 
+import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
+import biz.gabrys.maven.plugin.util.parameter.sanitizer.SimpleSanitizer;
+
 /**
  * Parent class for all goals related with &lt;a href=&quot;http://www.w3.org/TR/xslt&quot;&gt;XSLT&lt;/a&gt; transformation.
  * @since 1.0
  */
-<span class="nc" id="L25">abstract class AbstractTransformMojo extends AbstractPluginMojo {</span>
+<span class="nc" id="L28">abstract class AbstractTransformMojo extends AbstractPluginMojo {</span>
 
     /**
      * The &lt;a href=&quot;http://www.w3.org/TR/xslt&quot;&gt;XSLT&lt;/a&gt; document used to transformation.
@@ -47,23 +50,23 @@ import org.apache.maven.plugins.annotations.Parameter;
     protected String separator;
 
     @Override
-    protected void fillParametersForLogger(final Collection&lt;String&gt; parameters) {
-<span class="nc" id="L51">        parameters.add(&quot;encoding = &quot; + encoding);</span>
-<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (separator != null) {</span>
-<span class="nc" id="L53">            parameters.add(&quot;separator = &quot; + separator);</span>
-        } else {
-<span class="nc" id="L55">            parameters.add(String.format(&quot;separator = null (calculated: %s)&quot;, File.separator));</span>
-        }
-<span class="nc" id="L57">    }</span>
+    protected final void fillParameters(final ParametersLogBuilder logger) {
+<span class="nc" id="L54">        logger.append(&quot;xsltFile&quot;, xsltFile);</span>
+<span class="nc" id="L55">        logger.append(&quot;encoding&quot;, encoding);</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        logger.append(&quot;separator&quot;, separator, new SimpleSanitizer(separator != null, File.separator));</span>
+<span class="nc" id="L57">        fillParameters2(logger);</span>
+<span class="nc" id="L58">    }</span>
+
+    protected abstract void fillParameters2(ParametersLogBuilder logger);
 
     @Override
     protected final void execute(final Collection&lt;File&gt; files) throws MojoFailureException {
-<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (separator == null) {</span>
-<span class="nc" id="L62">            separator = File.separator;</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (separator == null) {</span>
+<span class="nc" id="L65">            separator = File.separator;</span>
         }
-<span class="nc" id="L64">        execute2(files);</span>
-<span class="nc" id="L65">    }</span>
+<span class="nc" id="L67">        execute2(files);</span>
+<span class="nc" id="L68">    }</span>
 
-    protected abstract void execute2(final Collection&lt;File&gt; files) throws MojoFailureException;
+    protected abstract void execute2(Collection&lt;File&gt; files) throws MojoFailureException;
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

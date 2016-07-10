@@ -22,6 +22,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
+import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
 import biz.gabrys.maven.plugin.util.timer.SystemTimer;
 import biz.gabrys.maven.plugin.util.timer.Timer;
 
@@ -30,7 +31,7 @@ import biz.gabrys.maven.plugin.util.timer.Timer;
  * @since 1.0
  */
 @Mojo(name = &quot;copy&quot;, defaultPhase = LifecyclePhase.PROCESS_SOURCES, threadSafe = true)
-<span class="nc" id="L33">public class CopyMojo extends AbstractPluginMojo {</span>
+<span class="nc" id="L34">public class CopyMojo extends AbstractPluginMojo {</span>
 
     /**
      * The destination directory for copied files.
@@ -40,45 +41,46 @@ import biz.gabrys.maven.plugin.util.timer.Timer;
     protected File outputDirectory;
 
     @Override
-    protected void fillParametersForLogger(final Collection&lt;String&gt; parameters) {
-<span class="nc" id="L44">        parameters.add(&quot;outputDirectory = &quot; + outputDirectory);</span>
-<span class="nc" id="L45">    }</span>
+    protected void fillParameters(final ParametersLogBuilder logger) {
+<span class="nc" id="L45">        logger.append(&quot;outputDirectory&quot;, outputDirectory);</span>
+<span class="nc" id="L46">    }</span>
 
     @Override
     protected void execute(final Collection&lt;File&gt; files) throws MojoFailureException {
-<span class="nc bnc" id="L49" title="All 2 branches missed.">        getLog().info(String.format(&quot;Coping %s file%s...&quot;, files.size(), files.size() != 1 ? &quot;s&quot; : &quot;&quot;));</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        getLog().info(String.format(&quot;Coping %s file%s...&quot;, files.size(), files.size() != 1 ? &quot;s&quot; : &quot;&quot;));</span>
 
-<span class="nc bnc" id="L51" title="All 2 branches missed.">        for (final File file : files) {</span>
-<span class="nc" id="L52">            copy(file, getDestination(file));</span>
-<span class="nc" id="L53">        }</span>
-<span class="nc" id="L54">    }</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        for (final File file : files) {</span>
+<span class="nc" id="L53">            copy(file, getDestination(file));</span>
+<span class="nc" id="L54">        }</span>
+<span class="nc" id="L55">    }</span>
 
     private File getDestination(final File file) {
-<span class="nc" id="L57">        final String path = file.getAbsolutePath().substring(sourceDirectory.getAbsolutePath().length());</span>
-<span class="nc" id="L58">        return new File(outputDirectory.getAbsolutePath() + File.separator + path);</span>
+<span class="nc" id="L58">        final String path = file.getAbsolutePath().substring(sourceDirectory.getAbsolutePath().length());</span>
+<span class="nc" id="L59">        return new File(outputDirectory.getAbsolutePath() + File.separator + path);</span>
     }
 
     private void copy(final File source, final File destination) throws MojoFailureException {
-<span class="nc bnc" id="L62" title="All 6 branches missed.">        if (!force &amp;&amp; destination.exists() &amp;&amp; source.lastModified() &lt; destination.lastModified()) {</span>
-<span class="nc bnc" id="L63" title="All 2 branches missed.">            if (verbose) {</span>
-<span class="nc" id="L64">                getLog().info(&quot;Skips copy file, because source is older than destination file: &quot; + destination.getAbsolutePath());</span>
+<span class="nc bnc" id="L63" title="All 6 branches missed.">        if (!force &amp;&amp; destination.exists() &amp;&amp; source.lastModified() &lt; destination.lastModified()) {</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">            if (verbose) {</span>
+<span class="nc" id="L65">                getLog().info(&quot;Skips copy file, because source is older than destination file: &quot; + destination.getAbsolutePath());</span>
             }
-<span class="nc" id="L66">            return;</span>
+<span class="nc" id="L67">            return;</span>
         }
 
-<span class="nc" id="L69">        Timer timer = null;</span>
-<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (verbose) {</span>
-<span class="nc" id="L71">            getLog().info(&quot;Coping the file: &quot; + source.getAbsolutePath());</span>
-<span class="nc" id="L72">            timer = SystemTimer.getStartedTimer();</span>
+<span class="nc" id="L70">        Timer timer = null;</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        if (verbose) {</span>
+<span class="nc" id="L72">            getLog().info(&quot;Coping the file: &quot; + source.getAbsolutePath());</span>
+<span class="nc" id="L73">            getLog().info(&quot;Saving to &quot; + destination.getAbsolutePath());</span>
+<span class="nc" id="L74">            timer = SystemTimer.getStartedTimer();</span>
         }
         try {
-<span class="nc" id="L75">            FileUtils.copyFile(source, destination);</span>
-<span class="nc" id="L76">        } catch (final IOException e) {</span>
-<span class="nc" id="L77">            throw new MojoFailureException(&quot;Cannot copy file to: &quot; + destination.getAbsolutePath(), e);</span>
-<span class="nc" id="L78">        }</span>
-<span class="nc bnc" id="L79" title="All 2 branches missed.">        if (timer != null) {</span>
-<span class="nc" id="L80">            getLog().info(&quot;Finished in &quot; + timer.stop());</span>
+<span class="nc" id="L77">            FileUtils.copyFile(source, destination);</span>
+<span class="nc" id="L78">        } catch (final IOException e) {</span>
+<span class="nc" id="L79">            throw new MojoFailureException(&quot;Cannot copy file to: &quot; + destination.getAbsolutePath(), e);</span>
+<span class="nc" id="L80">        }</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if (timer != null) {</span>
+<span class="nc" id="L82">            getLog().info(&quot;Finished in &quot; + timer.stop());</span>
         }
-<span class="nc" id="L82">    }</span>
+<span class="nc" id="L84">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

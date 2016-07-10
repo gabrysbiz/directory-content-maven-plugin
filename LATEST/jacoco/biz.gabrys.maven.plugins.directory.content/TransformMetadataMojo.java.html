@@ -23,6 +23,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import biz.gabrys.maven.plugin.util.io.DestinationFileCreator;
+import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
 import biz.gabrys.maven.plugin.util.timer.SystemTimer;
 import biz.gabrys.maven.plugin.util.timer.Timer;
 import biz.gabrys.maven.plugins.directory.content.file.FileMetadata;
@@ -75,7 +76,7 @@ import biz.gabrys.maven.plugins.directory.content.transform.XsltTransformer;
  * @since 1.0
  */
 @Mojo(name = &quot;transformMetadata&quot;, defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
-<span class="nc" id="L78">public class TransformMetadataMojo extends AbstractTransformMojo {</span>
+<span class="nc" id="L79">public class TransformMetadataMojo extends AbstractTransformMojo {</span>
 
     /**
      * The directory for transformed files.
@@ -92,10 +93,9 @@ import biz.gabrys.maven.plugins.directory.content.transform.XsltTransformer;
     protected String outputFileFormat;
 
     @Override
-    protected void fillParametersForLogger(final Collection&lt;String&gt; parameters) {
-<span class="nc" id="L96">        super.fillParametersForLogger(parameters);</span>
-<span class="nc" id="L97">        parameters.add(&quot;outputDirectory = &quot; + outputDirectory);</span>
-<span class="nc" id="L98">        parameters.add(&quot;outputFileFormat = &quot; + outputFileFormat);</span>
+    protected void fillParameters2(final ParametersLogBuilder logger) {
+<span class="nc" id="L97">        logger.append(&quot;outputDirectory&quot;, outputDirectory);</span>
+<span class="nc" id="L98">        logger.append(&quot;outputFileFormat&quot;, outputFileFormat);</span>
 <span class="nc" id="L99">    }</span>
 
     @Override
