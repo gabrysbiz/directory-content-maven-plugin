@@ -22,6 +22,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
+import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
 import biz.gabrys.maven.plugin.util.timer.SystemTimer;
 import biz.gabrys.maven.plugin.util.timer.Timer;
 
@@ -40,8 +41,8 @@ public class CopyMojo extends AbstractPluginMojo {
     protected File outputDirectory;
 
     @Override
-    protected void fillParametersForLogger(final Collection<String> parameters) {
-        parameters.add("outputDirectory = " + outputDirectory);
+    protected void fillParameters(final ParametersLogBuilder logger) {
+        logger.append("outputDirectory", outputDirectory);
     }
 
     @Override
@@ -69,6 +70,7 @@ public class CopyMojo extends AbstractPluginMojo {
         Timer timer = null;
         if (verbose) {
             getLog().info("Coping the file: " + source.getAbsolutePath());
+            getLog().info("Saving to " + destination.getAbsolutePath());
             timer = SystemTimer.getStartedTimer();
         }
         try {

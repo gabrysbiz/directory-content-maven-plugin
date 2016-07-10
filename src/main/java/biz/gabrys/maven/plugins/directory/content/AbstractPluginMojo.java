@@ -13,8 +13,6 @@
 package biz.gabrys.maven.plugins.directory.content;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 
 import org.apache.maven.plugin.AbstractMojo;
@@ -24,8 +22,8 @@ import org.apache.maven.plugins.annotations.Parameter;
 import biz.gabrys.maven.plugin.util.io.FileScanner;
 import biz.gabrys.maven.plugin.util.io.ScannerFactory;
 import biz.gabrys.maven.plugin.util.io.ScannerPatternFormat;
-import biz.gabrys.maven.plugin.util.timer.SystemTimer;
-import biz.gabrys.maven.plugin.util.timer.Timer;
+import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
+import biz.gabrys.maven.plugin.util.parameter.sanitizer.SimpleSanitizer;
 
 /**
  * Parent class for all plugin goals.
@@ -66,8 +64,7 @@ abstract class AbstractPluginMojo extends AbstractMojo {
     /**
      * Defines inclusion and exclusion fileset patterns format. Available options:
      * <ul>
-     * <li><b>ant</b> - <a href="http://ant.apache.org/">Ant</a>
-     * <a href="http://ant.apache.org/manual/dirtasks.html#patterns">patterns</a></li>
+     * <li><b>ant</b> - <a href="http://ant.apache.org/manual/dirtasks.html#patterns">Ant patterns</a></li>
      * <li><b>regex</b> - regular expressions (use '/' as path separator)</li>
      * </ul>
      * @since 1.0
@@ -95,24 +92,23 @@ abstract class AbstractPluginMojo extends AbstractMojo {
     protected String[] excludes = new String[0];
 
     private void logParameters() {
-        if (getLog().isDebugEnabled()) {
-            getLog().debug("Job parameters:");
-            getLog().debug("\tskip = " + skip);
-            getLog().debug(String.format("\tverbose = %s (calculated: true)", verbose));
-            getLog().debug("\tsourceDirectory = " + sourceDirectory);
-            getLog().debug("\tfilesetPatternFormat = " + filesetPatternFormat);
-            getLog().debug("\tincludes = " + Arrays.toString(includes));
-            getLog().debug("\texcludes = " + Arrays.toString(excludes));
-            final Collection<String> parameters = new ArrayList<String>();
-            fillParametersForLogger(parameters);
-            for (final String parameter : parameters) {
-                getLog().debug('\t' + parameter);
-            }
-            getLog().debug("");
+        if (!getLog().isDebugEnabled()) {
+            return;
         }
+
+        final ParametersLogBuilder logger = new ParametersLogBuilder(getLog());
+        logger.append("skip", skip);
+        logger.append("verbose", verbose, new SimpleSanitizer(verbose, Boolean.TRUE));
+        logger.append("force", force);
+        logger.append("sourceDirectory", sourceDirectory);
+        logger.append("filesetPatternFormat", filesetPatternFormat);
+        logger.append("includes", includes);
+        logger.append("excludes", excludes);
+        fillParameters(logger);
+        logger.debug();
     }
 
-    protected abstract void fillParametersForLogger(Collection<String> parameters);
+    protected abstract void fillParameters(ParametersLogBuilder logger);
 
     private void calculateParameters() {
         if (getLog().isDebugEnabled()) {
@@ -121,7 +117,6 @@ abstract class AbstractPluginMojo extends AbstractMojo {
     }
 
     public final void execute() throws MojoFailureException {
-        final Timer timer = SystemTimer.getStartedTimer();
         logParameters();
         if (skip) {
             getLog().info("Skipping job execution");
@@ -138,9 +133,6 @@ abstract class AbstractPluginMojo extends AbstractMojo {
             return;
         }
         execute(files);
-        if (verbose) {
-            getLog().info("Finished in " + timer.stop());
-        }
     }
 
     private Collection<File> getFiles() {

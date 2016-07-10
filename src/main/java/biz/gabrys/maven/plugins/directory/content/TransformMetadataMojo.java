@@ -23,6 +23,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import biz.gabrys.maven.plugin.util.io.DestinationFileCreator;
+import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
 import biz.gabrys.maven.plugin.util.timer.SystemTimer;
 import biz.gabrys.maven.plugin.util.timer.Timer;
 import biz.gabrys.maven.plugins.directory.content.file.FileMetadata;
@@ -92,10 +93,9 @@ public class TransformMetadataMojo extends AbstractTransformMojo {
     protected String outputFileFormat;
 
     @Override
-    protected void fillParametersForLogger(final Collection<String> parameters) {
-        super.fillParametersForLogger(parameters);
-        parameters.add("outputDirectory = " + outputDirectory);
-        parameters.add("outputFileFormat = " + outputFileFormat);
+    protected void fillParameters2(final ParametersLogBuilder logger) {
+        logger.append("outputDirectory", outputDirectory);
+        logger.append("outputFileFormat", outputFileFormat);
     }
 
     @Override
