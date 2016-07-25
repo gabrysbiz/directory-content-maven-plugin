@@ -26,7 +26,7 @@
                             <br /><a href="https://repo.maven.apache.org/maven2/biz/gabrys/maven/plugins/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}.jar">repo.maven.apache.org</a>
                         #end
                     </td>
-                </tr>     
+                </tr>
                 <tr>
                     <td
                         #if (!$snapshot)
