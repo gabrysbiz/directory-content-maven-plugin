@@ -3,7 +3,7 @@
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     <url>
         <loc>http://directory-content-maven-plugin.projects.gabrys.biz/</loc>
-        <lastmod>2016-07-24</lastmod>
+        <lastmod>2016-07-25</lastmod>
         <priority>1.0</priority>
     </url>
     <url>
