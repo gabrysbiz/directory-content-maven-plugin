@@ -24,8 +24,6 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 import biz.gabrys.maven.plugin.util.io.DestinationFileCreator;
 import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
-import biz.gabrys.maven.plugin.util.timer.SystemTimer;
-import biz.gabrys.maven.plugin.util.timer.Timer;
 import biz.gabrys.maven.plugins.directory.content.file.FileMetadata;
 import biz.gabrys.maven.plugins.directory.content.file.FileMetadataFactory;
 import biz.gabrys.maven.plugins.directory.content.file.FileMetadataFactoryConfiguration;
@@ -76,7 +74,7 @@ import biz.gabrys.maven.plugins.directory.content.transform.XsltTransformer;
  * @since 1.0
  */
 @Mojo(name = &quot;transformMetadata&quot;, defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
-<span class="nc" id="L79">public class TransformMetadataMojo extends AbstractTransformMojo {</span>
+<span class="nc" id="L77">public class TransformMetadataMojo extends AbstractTransformMojo {</span>
 
     /**
      * The directory for transformed files.
@@ -94,73 +92,65 @@ import biz.gabrys.maven.plugins.directory.content.transform.XsltTransformer;
 
     @Override
     protected void fillParameters2(final ParametersLogBuilder logger) {
-<span class="nc" id="L97">        logger.append(&quot;outputDirectory&quot;, outputDirectory);</span>
-<span class="nc" id="L98">        logger.append(&quot;outputFileFormat&quot;, outputFileFormat);</span>
-<span class="nc" id="L99">    }</span>
+<span class="nc" id="L95">        logger.append(&quot;outputDirectory&quot;, outputDirectory);</span>
+<span class="nc" id="L96">        logger.append(&quot;outputFileFormat&quot;, outputFileFormat);</span>
+<span class="nc" id="L97">    }</span>
 
     @Override
     protected void execute2(final Collection&lt;File&gt; files) throws MojoFailureException {
-<span class="nc bnc" id="L103" title="All 2 branches missed.">        getLog().info(String.format(&quot;Transforming %s file%s...&quot;, files.size(), files.size() != 1 ? &quot;s&quot; : &quot;&quot;));</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        getLog().info(String.format(&quot;Transforming %s file%s...&quot;, files.size(), files.size() != 1 ? &quot;s&quot; : &quot;&quot;));</span>
 
-<span class="nc bnc" id="L105" title="All 2 branches missed.">        for (final File file : files) {</span>
-<span class="nc" id="L106">            transformFile(file);</span>
-<span class="nc" id="L107">        }</span>
-<span class="nc" id="L108">    }</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        for (final File file : files) {</span>
+<span class="nc" id="L104">            transformFile(file);</span>
+<span class="nc" id="L105">        }</span>
+<span class="nc" id="L106">    }</span>
 
     private void transformFile(final File file) throws MojoFailureException {
-<span class="nc" id="L111">        final File destination = new DestinationFileCreator(sourceDirectory, outputDirectory, outputFileFormat).create(file);</span>
-<span class="nc bnc" id="L112" title="All 6 branches missed.">        if (!force &amp;&amp; destination.exists() &amp;&amp; file.lastModified() &lt; destination.lastModified()) {</span>
-<span class="nc bnc" id="L113" title="All 2 branches missed.">            if (verbose) {</span>
-<span class="nc" id="L114">                getLog().info(&quot;Skips transforming metadata, because source is older than output file: &quot; + destination.getAbsolutePath());</span>
+<span class="nc" id="L109">        final File destination = new DestinationFileCreator(sourceDirectory, outputDirectory, outputFileFormat).create(file);</span>
+<span class="nc bnc" id="L110" title="All 6 branches missed.">        if (!force &amp;&amp; destination.exists() &amp;&amp; file.lastModified() &lt; destination.lastModified()) {</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">            if (verbose) {</span>
+<span class="nc" id="L112">                getLog().info(&quot;Skips transforming metadata, because source is older than output file: &quot; + destination.getAbsolutePath());</span>
             }
-<span class="nc" id="L116">            return;</span>
+<span class="nc" id="L114">            return;</span>
         }
 
-<span class="nc" id="L119">        Timer timer = null;</span>
-<span class="nc bnc" id="L120" title="All 2 branches missed.">        if (verbose) {</span>
-<span class="nc" id="L121">            getLog().info(&quot;Transforming metadata of the file: &quot; + file.getAbsolutePath());</span>
-<span class="nc" id="L122">            timer = SystemTimer.getStartedTimer();</span>
-        }
-
-<span class="nc" id="L125">        final FileMetadata metadata = createMetadata(file);</span>
-<span class="nc" id="L126">        final String document = transformMetadata(metadata);</span>
-<span class="nc" id="L127">        saveDocument(document, destination);</span>
-<span class="nc bnc" id="L128" title="All 2 branches missed.">        if (timer != null) {</span>
-<span class="nc" id="L129">            getLog().info(&quot;Finished in &quot; + timer.stop());</span>
-        }
-<span class="nc" id="L131">    }</span>
+<span class="nc" id="L117">        getLog().info(&quot;Transforming metadata of the file: &quot; + file.getAbsolutePath());</span>
+<span class="nc" id="L118">        final FileMetadata metadata = createMetadata(file);</span>
+<span class="nc" id="L119">        final String document = transformMetadata(metadata);</span>
+<span class="nc" id="L120">        saveDocument(document, destination);</span>
+<span class="nc" id="L121">    }</span>
 
     private FileMetadata createMetadata(final File file) {
-<span class="nc bnc" id="L134" title="All 2 branches missed.">        if (getLog().isDebugEnabled()) {</span>
-<span class="nc" id="L135">            getLog().debug(&quot;Creating metadata...&quot;);</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        if (getLog().isDebugEnabled()) {</span>
+<span class="nc" id="L125">            getLog().debug(&quot;Creating metadata...&quot;);</span>
         }
-<span class="nc" id="L137">        final FileMetadataFactoryConfiguration configuration = new FileMetadataFactoryConfiguration();</span>
-<span class="nc" id="L138">        configuration.setRootDirectory(sourceDirectory);</span>
-<span class="nc" id="L139">        configuration.setSeparator(separator);</span>
-<span class="nc" id="L140">        return new FileMetadataFactory(configuration).create(file);</span>
+<span class="nc" id="L127">        final FileMetadataFactoryConfiguration configuration = new FileMetadataFactoryConfiguration();</span>
+<span class="nc" id="L128">        configuration.setRootDirectory(sourceDirectory);</span>
+<span class="nc" id="L129">        configuration.setSeparator(separator);</span>
+<span class="nc" id="L130">        return new FileMetadataFactory(configuration).create(file);</span>
     }
 
     private String transformMetadata(final FileMetadata metadata) throws MojoFailureException {
-<span class="nc bnc" id="L144" title="All 2 branches missed.">        if (getLog().isDebugEnabled()) {</span>
-<span class="nc" id="L145">            getLog().debug(&quot;Transforming metadata to document...&quot;);</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        if (getLog().isDebugEnabled()) {</span>
+<span class="nc" id="L135">            getLog().debug(&quot;Transforming metadata to document...&quot;);</span>
         }
-<span class="nc" id="L147">        final String xml = new XmlFileMetadataTransformer().transform(metadata);</span>
+<span class="nc" id="L137">        final String xml = new XmlFileMetadataTransformer().transform(metadata);</span>
         try {
-<span class="nc" id="L149">            return new XsltTransformer().transform(xml, xsltFile);</span>
-<span class="nc" id="L150">        } catch (final TransformException e) {</span>
-<span class="nc" id="L151">            throw new MojoFailureException(e.getMessage(), e);</span>
+<span class="nc" id="L139">            return new XsltTransformer().transform(xml, xsltFile);</span>
+<span class="nc" id="L140">        } catch (final TransformException e) {</span>
+<span class="nc" id="L141">            throw new MojoFailureException(e.getMessage(), e);</span>
         }
     }
 
     private void saveDocument(final String document, final File destination) throws MojoFailureException {
-<span class="nc bnc" id="L156" title="All 2 branches missed.">        if (verbose) {</span>
-<span class="nc" id="L157">            getLog().info(&quot;Saving transformed document to &quot; + destination.getAbsolutePath());</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">        if (verbose) {</span>
+<span class="nc" id="L147">            getLog().info(&quot;Saving transformed document to &quot; + destination.getAbsolutePath());</span>
         }
         try {
-<span class="nc" id="L160">            FileUtils.write(destination, document, encoding);</span>
-<span class="nc" id="L161">        } catch (final IOException e) {</span>
-<span class="nc" id="L162">            throw new MojoFailureException(&quot;Cannot save transformed document to file: &quot; + destination.getAbsolutePath(), e);</span>
-<span class="nc" id="L163">        }</span>
-<span class="nc" id="L164">    }</span>
+<span class="nc" id="L150">            FileUtils.write(destination, document, encoding);</span>
+<span class="nc" id="L151">        } catch (final IOException e) {</span>
+<span class="nc" id="L152">            throw new MojoFailureException(&quot;Cannot save transformed document to file: &quot; + destination.getAbsolutePath(), e);</span>
+<span class="nc" id="L153">        }</span>
+<span class="nc" id="L154">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
