@@ -24,8 +24,6 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 import biz.gabrys.maven.plugin.util.io.DestinationFileCreator;
 import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
-import biz.gabrys.maven.plugin.util.timer.SystemTimer;
-import biz.gabrys.maven.plugin.util.timer.Timer;
 import biz.gabrys.maven.plugins.directory.content.file.FileMetadata;
 import biz.gabrys.maven.plugins.directory.content.file.FileMetadataFactory;
 import biz.gabrys.maven.plugins.directory.content.file.FileMetadataFactoryConfiguration;
@@ -116,18 +114,10 @@ public class TransformMetadataMojo extends AbstractTransformMojo {
             return;
         }
 
-        Timer timer = null;
-        if (verbose) {
-            getLog().info("Transforming metadata of the file: " + file.getAbsolutePath());
-            timer = SystemTimer.getStartedTimer();
-        }
-
+        getLog().info("Transforming metadata of the file: " + file.getAbsolutePath());
         final FileMetadata metadata = createMetadata(file);
         final String document = transformMetadata(metadata);
         saveDocument(document, destination);
-        if (timer != null) {
-            getLog().info("Finished in " + timer.stop());
-        }
     }
 
     private FileMetadata createMetadata(final File file) {
