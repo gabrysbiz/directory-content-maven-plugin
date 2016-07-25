@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20160725" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>Directory Content Maven Plugin &#x2013; Source Code Management</title>
+    <title>Directory Content Maven Plugin &#x2013; Examples</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.5.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -94,13 +94,41 @@
           <span class="none"></span>
         Download</a>
             </li>
-                                                                                                                        
+                                                                                                                            
+      <li class="active">
+  
+            <a href="#"><span class="icon-chevron-down"></span>Examples</a>
+                  <ul class="nav nav-list">
+                    
       <li>
   
-                          <a href="examples.html" title="Examples">
-          <span class="icon-chevron-right"></span>
-        Examples</a>
-                  </li>
+                          <a href="examples/patterns.html" title="Using include/exclude patterns">
+          <span class="none"></span>
+        Using include/exclude patterns</a>
+            </li>
+                    
+      <li>
+  
+                          <a href="examples/copy.html" title="Copies files">
+          <span class="none"></span>
+        Copies files</a>
+            </li>
+                    
+      <li>
+  
+                          <a href="examples/transform-list.html" title="Transform files list">
+          <span class="none"></span>
+        Transform files list</a>
+            </li>
+                    
+      <li>
+  
+                          <a href="examples/transform-metadata.html" title="Transform files metadata">
+          <span class="none"></span>
+        Transform files metadata</a>
+            </li>
+              </ul>
+        </li>
                 
       <li>
   
@@ -116,69 +144,13 @@
         Changelog</a>
             </li>
                               <li class="nav-header">Project Documentation</li>
-                                                                                                                                                                                                                        
+                                                                                                                                                                                                              
       <li>
   
                           <a href="project-info.html" title="Project Information">
-          <span class="icon-chevron-down"></span>
+          <span class="icon-chevron-right"></span>
         Project Information</a>
-                    <ul class="nav nav-list">
-                    
-      <li>
-  
-                          <a href="integration.html" title="CI Management">
-          <span class="none"></span>
-        CI Management</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="dependencies.html" title="Dependencies">
-          <span class="none"></span>
-        Dependencies</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="dependency-info.html" title="Dependency Information">
-          <span class="none"></span>
-        Dependency Information</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="issue-tracking.html" title="Issue Management">
-          <span class="none"></span>
-        Issue Management</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="license.html" title="Licenses">
-          <span class="none"></span>
-        Licenses</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="project-summary.html" title="Summary">
-          <span class="none"></span>
-        Summary</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="team-list.html" title="Team">
-          <span class="none"></span>
-        Team</a>
-            </li>
-                    
-      <li class="active">
-  
-            <a href="#"><span class="none"></span>Source Code Management</a>
-          </li>
-              </ul>
-        </li>
+                  </li>
                                                                                                       
       <li>
   
@@ -215,24 +187,62 @@
                 
         <div id="bodyColumn"  class="span10" >
                                   
-            <div class="section">
-<h2><a name="Overview"></a>Overview</h2><a name="Overview"></a>
-<p>This project uses <a class="externalLink" href="http://git-scm.com/">Git</a> to manage its source code. Instructions on Git use can be found at <a class="externalLink" href="http://git-scm.com/documentation">http://git-scm.com/documentation</a>.</p></div>
-<div class="section">
-<h2><a name="Web_Browser_Access"></a>Web Browser Access</h2><a name="Web_Browser_Access"></a>
-<p>The following is a link to a browsable version of the source repository:</p>
-<div class="source"><pre class="prettyprint"><a class="externalLink" href="https://github.com/gabrysbiz/directory-content-maven-plugin">https://github.com/gabrysbiz/directory-content-maven-plugin</a></pre></div></div>
-<div class="section">
-<h2><a name="Anonymous_Access"></a>Anonymous Access</h2><a name="Anonymous_Access"></a>
-<p>The source can be checked out anonymously from Git with this command (See <a class="externalLink" href="http://git-scm.com/docs/git-clone">http://git-scm.com/docs/git-clone</a>):</p>
-<div class="source"><pre class="prettyprint">$ git clone git://github.com/gabrysbiz/directory-content-maven-plugin.git</pre></div></div>
-<div class="section">
-<h2><a name="Developer_Access"></a>Developer Access</h2><a name="Developer_Access"></a>
-<p>Only project developers can access the Git tree via this method (See <a class="externalLink" href="http://git-scm.com/docs/git-clone">http://git-scm.com/docs/git-clone</a>).</p>
-<div class="source"><pre class="prettyprint">$ git clone git@github.com:gabrysbiz/directory-content-maven-plugin.git</pre></div></div>
-<div class="section">
-<h2><a name="Access_from_Behind_a_Firewall"></a>Access from Behind a Firewall</h2><a name="Access_from_Behind_a_Firewall"></a>
-<p>Refer to the documentation of the SCM used for more information about access behind a firewall.</p></div>
+            
+
+    
+        <div class="section">
+<h2><a name="Examples"></a>Examples</h2>
+            
+<p>
+                List of available examples:
+            </p>
+            
+<table border="0" class="table table-striped">
+                
+<tr class="a">
+                    
+<th>Document</th>
+                    
+<th>Description</th>
+                </tr>
+                
+<tr class="b">
+                    
+<td><a href="examples/patterns.html">Using include/exclude patterns</a></td>
+                    
+<td>This example shows how to filter source files.</td>
+                </tr>
+                
+<tr class="a">
+                    
+<td><a href="examples/copy.html">Copies files</a></td>
+                    
+<td>This example describes how to use a <a href="copy-mojo.html">copy</a> goal.</td>
+                </tr>
+                
+<tr class="b">
+                    
+<td><a href="examples/transform-list.html">Transform files list</a></td>
+                    
+<td>
+                        This example shows example shows how to use a <a href="transformList-mojo.html">transformList</a> goal to generate
+                        a <tt>import-scripts.jsp</tt> file with JavaScript imports.
+                    </td>
+                </tr>
+                
+<tr class="a">
+                    
+<td><a href="examples/transform-metadata.html">Transform files metadata</a></td>
+                    
+<td>
+                        This example describes how use a <a href="transformMetadata-mojo.html">transformMetadata</a> goal to generate
+                        download pages for all files from <tt>src/main/webapp/files</tt>.
+                    </td>
+                </tr>
+            </table>
+        </div>
+    
+
                   </div>
             </div>
           </div>
