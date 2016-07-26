@@ -15,9 +15,8 @@
         </section>
         <section id="ant" name="Ant patterns">
             <p>
-                <a href="http://ant.apache.org/">Ant</a> <a href="http://ant.apache.org/manual/dirtasks.html#patterns">patterns</a>
-                is a default format. The following example includes files with <code>js</code> extension, but which are not located
-                in <code>ignored</code> directory.
+                <a href="http://ant.apache.org/manual/dirtasks.html#patterns">Ant patterns</a> is a default format. The following
+                example includes files with <code>js</code> extension, but which are not located in <code>ignored</code> directory.
             </p>
             <pre>&lt;project&gt;
    ...
