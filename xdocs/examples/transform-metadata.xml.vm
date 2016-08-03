@@ -9,9 +9,9 @@
     <body>
         <section name="Transform files metadata to download pages for files list">
             <p>
-            	This example shows how use a <a href="../transformMetadata-mojo.html">transformMetadata</a> goal to generate
-            	download pages for all files from <code>src/main/webapp/files</code>. Pages will be saved in
-            	<code>\${project.build.directory}/\${project.artifactId}-\${project.version}/download</code> directory.
+                This example shows how use the <a href="../transformMetadata-mojo.html">transformMetadata</a> goal to generate
+                download pages for all files from <code>src/main/webapp/files</code>. Pages will be saved in
+                <code>\${project.build.directory}/\${project.artifactId}-\${project.version}/download</code> directory.
             </p>
             <pre>&lt;project&gt;
    ...
