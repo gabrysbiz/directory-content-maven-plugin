@@ -22,8 +22,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-import biz.gabrys.maven.plugin.util.timer.SystemTimer;
-import biz.gabrys.maven.plugin.util.timer.Timer;
+import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
 
 /**
  * Copies files from source to output directory.
@@ -40,8 +39,8 @@ public class CopyMojo extends AbstractPluginMojo {
     protected File outputDirectory;
 
     @Override
-    protected void fillParametersForLogger(final Collection<String> parameters) {
-        parameters.add("outputDirectory = " + outputDirectory);
+    protected void fillParameters(final ParametersLogBuilder logger) {
+        logger.append("outputDirectory", outputDirectory);
     }
 
     @Override
@@ -66,18 +65,14 @@ public class CopyMojo extends AbstractPluginMojo {
             return;
         }
 
-        Timer timer = null;
         if (verbose) {
-            getLog().info("Coping the file: " + source.getAbsolutePath());
-            timer = SystemTimer.getStartedTimer();
+            getLog().info(String.format("Copying %s to %s", source.getAbsolutePath(), destination.getAbsolutePath()));
         }
         try {
             FileUtils.copyFile(source, destination);
         } catch (final IOException e) {
-            throw new MojoFailureException("Cannot copy file to: " + destination.getAbsolutePath(), e);
-        }
-        if (timer != null) {
-            getLog().info("Finished in " + timer.stop());
+            final String message = String.format("Cannot copy %s to %s", source.getAbsolutePath(), destination.getAbsolutePath());
+            throw new MojoFailureException(message, e);
         }
     }
 }

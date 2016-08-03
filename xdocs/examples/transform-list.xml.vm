@@ -9,9 +9,9 @@
     <body>
         <section name="Transform files list to file with JavaScript imports">
             <p>
-            	This example shows how to use a <a href="../transformList-mojo.html">transformList</a> goal to generate
-            	a <code>import-scripts.jsp</code> file with JavaScript imports. POM define application which
-            	can be build in two modes:
+                This example shows how to use the <a href="../transformList-mojo.html">transformList</a> goal to generate
+                a <code>import-scripts.jsp</code> file with JavaScript imports. POM define application which
+                can be build in two modes:
             </p>
             <ol>
                 <li>production - merge and minify all JavaScript files to one file (<code>all.js</code>)</li>

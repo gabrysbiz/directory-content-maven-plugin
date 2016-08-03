@@ -18,6 +18,9 @@ import java.util.Collection;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 
+import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
+import biz.gabrys.maven.plugin.util.parameter.sanitizer.SimpleSanitizer;
+
 /**
  * Parent class for all goals related with <a href="http://www.w3.org/TR/xslt">XSLT</a> transformation.
  * @since 1.0
@@ -47,14 +50,14 @@ abstract class AbstractTransformMojo extends AbstractPluginMojo {
     protected String separator;
 
     @Override
-    protected void fillParametersForLogger(final Collection<String> parameters) {
-        parameters.add("encoding = " + encoding);
-        if (separator != null) {
-            parameters.add("separator = " + separator);
-        } else {
-            parameters.add(String.format("separator = null (calculated: %s)", File.separator));
-        }
+    protected final void fillParameters(final ParametersLogBuilder logger) {
+        logger.append("xsltFile", xsltFile);
+        logger.append("encoding", encoding);
+        logger.append("separator", separator, new SimpleSanitizer(separator != null, File.separator));
+        fillParameters2(logger);
     }
+
+    protected abstract void fillParameters2(ParametersLogBuilder logger);
 
     @Override
     protected final void execute(final Collection<File> files) throws MojoFailureException {
@@ -64,5 +67,5 @@ abstract class AbstractTransformMojo extends AbstractPluginMojo {
         execute2(files);
     }
 
-    protected abstract void execute2(final Collection<File> files) throws MojoFailureException;
+    protected abstract void execute2(Collection<File> files) throws MojoFailureException;
 }

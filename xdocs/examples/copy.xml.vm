@@ -9,9 +9,9 @@
     <body>
         <section name="Copies files from source to output directory">
             <p>
-            	This example shows how use a <a href="../copy-mojo.html">copy</a> goal to copy all files without
-            	<code>ignored</code> extension from <code>src/files</code> to
-            	<code>\${project.build.directory}/\${project.artifactId}-\${project.version}/files</code> directory.
+                This example shows how use the <a href="../copy-mojo.html">copy</a> goal to copy all files without
+                <code>ignored</code> extension from <code>src/files</code> to
+                <code>\${project.build.directory}/\${project.artifactId}-\${project.version}/files</code> directory.
             </p>
             <pre>&lt;project&gt;
    ...

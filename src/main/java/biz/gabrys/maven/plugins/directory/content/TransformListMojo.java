@@ -22,6 +22,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
+import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
 import biz.gabrys.maven.plugins.directory.content.file.FileMetadata;
 import biz.gabrys.maven.plugins.directory.content.file.FileMetadataFactory;
 import biz.gabrys.maven.plugins.directory.content.file.FileMetadataFactoryConfiguration;
@@ -84,9 +85,8 @@ public class TransformListMojo extends AbstractTransformMojo {
     protected File outputFile;
 
     @Override
-    protected void fillParametersForLogger(final Collection<String> parameters) {
-        super.fillParametersForLogger(parameters);
-        parameters.add("outputFile = " + outputFile);
+    protected void fillParameters2(final ParametersLogBuilder logger) {
+        logger.append("outputFile", outputFile);
     }
 
     @Override
@@ -103,8 +103,11 @@ public class TransformListMojo extends AbstractTransformMojo {
     }
 
     private boolean isTransformationRequired(final Collection<File> files) {
+        if (force || !outputFile.exists()) {
+            return true;
+        }
         for (final File file : files) {
-            if (force || !outputFile.exists() || file.lastModified() >= outputFile.lastModified()) {
+            if (file.lastModified() >= outputFile.lastModified()) {
                 return true;
             }
         }

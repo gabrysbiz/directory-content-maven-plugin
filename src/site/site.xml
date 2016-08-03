@@ -4,12 +4,13 @@
 
     <bannerLeft>
         <name>${projectName}</name>
+        <href>../</href>
     </bannerLeft>
 
     <skin>
         <groupId>org.apache.maven.skins</groupId>
         <artifactId>maven-fluido-skin</artifactId>
-        <version>1.4</version>
+        <version>1.5</version>
     </skin>
     <custom>
         <fluidoSkin>
@@ -32,14 +33,15 @@
             <item name="Introduction" href="index.html" />
             <item name="Goals" href="plugin-info.html" />
             <item name="Usage" href="usage.html" />
+            <item name="Download" href="download.html" />
+            <item name="Examples" collapse="true" href="examples.html">
+                <item name="Using include/exclude patterns" href="examples/patterns.html" />
+                <item name="Copies files" href="examples/copy.html" />
+                <item name="Transform files list" href="examples/transform-list.html" />
+                <item name="Transform files metadata" href="examples/transform-metadata.html" />
+            </item>
             <item name="FAQ" href="faq.html" />
-        </menu>
-
-        <menu name="Examples">
-            <item name="Using include/exclude patterns" href="examples/patterns.html" />
-            <item name="Copies files" href="examples/copy.html" />
-            <item name="Transform files list" href="examples/transform-list.html" />
-            <item name="Transform files metadata" href="examples/transform-metadata.html" />
+            <item name="Changelog" href="changelog.html" />
         </menu>
 
         <menu ref="reports" />

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+    <properties>
+        <title>Examples</title>
+    </properties>
+
+    <body>
+        <section name="Examples">
+            <p>
+                List of available examples:
+            </p>
+            <table border="0" class="table table-striped">
+                <tr class="a">
+                    <th>Document</th>
+                    <th>Description</th>
+                </tr>
+                <tr class="b">
+                    <td><a href="examples/patterns.html">Using include/exclude patterns</a></td>
+                    <td>This example shows how to filter source files.</td>
+                </tr>
+                <tr class="a">
+                    <td><a href="examples/copy.html">Copies files</a></td>
+                    <td>This example describes how to use the <a href="copy-mojo.html">copy</a> goal.</td>
+                </tr>
+                <tr class="b">
+                    <td><a href="examples/transform-list.html">Transform files list</a></td>
+                    <td>
+                        This example shows example shows how to use the <a href="transformList-mojo.html">transformList</a> goal to generate
+                        a <code>import-scripts.jsp</code> file with JavaScript imports.
+                    </td>
+                </tr>
+                <tr class="a">
+                    <td><a href="examples/transform-metadata.html">Transform files metadata</a></td>
+                    <td>
+                        This example describes how use the <a href="transformMetadata-mojo.html">transformMetadata</a> goal to generate
+                        download pages for all files from <code>src/main/webapp/files</code>.
+                    </td>
+                </tr>
+            </table>
+            <p>
+                You can also fetch example projects from <a href="https://github.com/gabrysbiz/directory-content-maven-plugin-examples">GitHub</a>.
+            </p>
+        </section>
+    </body>
+</document>
