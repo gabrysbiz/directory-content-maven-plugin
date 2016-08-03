@@ -5,7 +5,7 @@
 
     <groupId>biz.gabrys.maven.plugins</groupId>
     <artifactId>directory-content-maven-plugin</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
     <name>Directory Content Maven Plugin</name>
     <description>Provides a collection of tools for working with directories.</description>
