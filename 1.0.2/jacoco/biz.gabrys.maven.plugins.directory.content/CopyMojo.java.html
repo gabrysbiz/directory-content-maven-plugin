@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CopyMojo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Directory Content Maven Plugin</a> &gt; <a href="index.source.html" class="el_package">biz.gabrys.maven.plugins.directory.content</a> &gt; <span class="el_source">CopyMojo.java</span></div><h1>CopyMojo.java</h1><pre class="source lang-java linenums">/*
+ * Directory Content Maven Plugin
+ * http://directory-content-maven-plugin.projects.gabrys.biz/
+ *
+ * Copyright (c) 2015 Adam Gabryś
+ *
+ * This file is licensed under the BSD 3-Clause (the &quot;License&quot;).
+ * You may not use this file except in compliance with the License.
+ * You may obtain:
+ * - a copy of the License at project page
+ * - a template of the License at https://opensource.org/licenses/BSD-3-Clause
+ */
+package biz.gabrys.maven.plugins.directory.content;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+
+import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
+
+/**
+ * Copies files from source to output directory.
+ * @since 1.0
+ */
+@Mojo(name = &quot;copy&quot;, defaultPhase = LifecyclePhase.PROCESS_SOURCES, threadSafe = true)
+<span class="nc" id="L32">public class CopyMojo extends AbstractPluginMojo {</span>
+
+    /**
+     * The destination directory for copied files.
+     * @since 1.0
+     */
+    @Parameter(property = &quot;directory.content.outputDirectory&quot;, defaultValue = &quot;${project.build.directory}&quot;)
+    protected File outputDirectory;
+
+    @Override
+    protected void fillParameters(final ParametersLogBuilder logger) {
+<span class="nc" id="L43">        logger.append(&quot;outputDirectory&quot;, outputDirectory);</span>
+<span class="nc" id="L44">    }</span>
+
+    @Override
+    protected void execute(final Collection&lt;File&gt; files) throws MojoFailureException {
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        getLog().info(String.format(&quot;Coping %s file%s...&quot;, files.size(), files.size() != 1 ? &quot;s&quot; : &quot;&quot;));</span>
+
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        for (final File file : files) {</span>
+<span class="nc" id="L51">            copy(file, getDestination(file));</span>
+<span class="nc" id="L52">        }</span>
+<span class="nc" id="L53">    }</span>
+
+    private File getDestination(final File file) {
+<span class="nc" id="L56">        final String path = file.getAbsolutePath().substring(sourceDirectory.getAbsolutePath().length());</span>
+<span class="nc" id="L57">        return new File(outputDirectory.getAbsolutePath() + File.separator + path);</span>
+    }
+
+    private void copy(final File source, final File destination) throws MojoFailureException {
+<span class="nc bnc" id="L61" title="All 6 branches missed.">        if (!force &amp;&amp; destination.exists() &amp;&amp; source.lastModified() &lt; destination.lastModified()) {</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">            if (verbose) {</span>
+<span class="nc" id="L63">                getLog().info(&quot;Skips copy file, because source is older than destination file: &quot; + destination.getAbsolutePath());</span>
+            }
+<span class="nc" id="L65">            return;</span>
+        }
+
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (verbose) {</span>
+<span class="nc" id="L69">            getLog().info(String.format(&quot;Copying %s to %s&quot;, source.getAbsolutePath(), destination.getAbsolutePath()));</span>
+        }
+        try {
+<span class="nc" id="L72">            FileUtils.copyFile(source, destination);</span>
+<span class="nc" id="L73">        } catch (final IOException e) {</span>
+<span class="nc" id="L74">            final String message = String.format(&quot;Cannot copy %s to %s&quot;, source.getAbsolutePath(), destination.getAbsolutePath());</span>
+<span class="nc" id="L75">            throw new MojoFailureException(message, e);</span>
+<span class="nc" id="L76">        }</span>
+<span class="nc" id="L77">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

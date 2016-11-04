@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractPluginMojo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Directory Content Maven Plugin</a> &gt; <a href="index.source.html" class="el_package">biz.gabrys.maven.plugins.directory.content</a> &gt; <span class="el_source">AbstractPluginMojo.java</span></div><h1>AbstractPluginMojo.java</h1><pre class="source lang-java linenums">/*
+ * Directory Content Maven Plugin
+ * http://directory-content-maven-plugin.projects.gabrys.biz/
+ *
+ * Copyright (c) 2015 Adam Gabryś
+ *
+ * This file is licensed under the BSD 3-Clause (the &quot;License&quot;).
+ * You may not use this file except in compliance with the License.
+ * You may obtain:
+ * - a copy of the License at project page
+ * - a template of the License at https://opensource.org/licenses/BSD-3-Clause
+ */
+package biz.gabrys.maven.plugins.directory.content;
+
+import java.io.File;
+import java.util.Collection;
+
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Parameter;
+
+import biz.gabrys.maven.plugin.util.io.FileScanner;
+import biz.gabrys.maven.plugin.util.io.ScannerFactory;
+import biz.gabrys.maven.plugin.util.io.ScannerPatternFormat;
+import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
+import biz.gabrys.maven.plugin.util.parameter.sanitizer.SimpleSanitizer;
+
+/**
+ * Parent class for all plugin goals.
+ * @since 1.0
+ */
+<span class="nc" id="L32">abstract class AbstractPluginMojo extends AbstractMojo {</span>
+
+    /**
+     * Defines whether to skip the plugin execution.
+     * @since 1.0
+     */
+    @Parameter(property = &quot;directory.content.skip&quot;, defaultValue = &quot;false&quot;)
+    protected boolean skip;
+
+    /**
+     * Defines whether the plugin runs in verbose mode.&lt;br&gt;
+     * &lt;b&gt;Notice&lt;/b&gt;: always true in debug mode.
+     * @since 1.0
+     */
+    @Parameter(property = &quot;directory.content.verbose&quot;, defaultValue = &quot;false&quot;)
+    protected boolean verbose;
+
+    /**
+     * Forces to always process files. By default file is only processed when modified or the destination file does not
+     * exist.
+     * @since 1.0
+     */
+    @Parameter(property = &quot;directory.content.force&quot;, defaultValue = &quot;false&quot;)
+    protected boolean force;
+
+    /**
+     * The directory with source files.
+     * @since 1.0
+     */
+    @Parameter(property = &quot;directory.content.sourceDirectory&quot;, defaultValue = &quot;${project.build.sourceDirectory}&quot;)
+    protected File sourceDirectory;
+
+    /**
+     * Defines inclusion and exclusion fileset patterns format. Available options:
+     * &lt;ul&gt;
+     * &lt;li&gt;&lt;b&gt;ant&lt;/b&gt; - &lt;a href=&quot;http://ant.apache.org/manual/dirtasks.html#patterns&quot;&gt;Ant patterns&lt;/a&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;regex&lt;/b&gt; - regular expressions (use '/' as path separator)&lt;/li&gt;
+     * &lt;/ul&gt;
+     * @since 1.0
+     */
+    @Parameter(property = &quot;directory.content.filesetPatternFormat&quot;, defaultValue = &quot;ant&quot;)
+    protected String filesetPatternFormat;
+
+    /**
+     * List of files to include. Specified as fileset patterns which are relative to the
+     * &lt;a href=&quot;#sourceDirectory&quot;&gt;source directory&lt;/a&gt;. See &lt;a href=&quot;#filesetPatternFormat&quot;&gt;available fileset patterns
+     * formats&lt;/a&gt;.
+     * @since 1.0
+     */
+    @Parameter(required = true)
+    protected String[] includes;
+
+    /**
+     * List of files to exclude. Specified as fileset patterns which are relative to the
+     * &lt;a href=&quot;#sourceDirectory&quot;&gt;source directory&lt;/a&gt;. See &lt;a href=&quot;#filesetPatternFormat&quot;&gt;available fileset patterns
+     * formats&lt;/a&gt;.&lt;br&gt;
+     * &lt;b&gt;Default value is&lt;/b&gt;: &lt;tt&gt;[]&lt;/tt&gt;.
+     * @since 1.0
+     */
+<span class="nc" id="L91">    @Parameter</span>
+    protected String[] excludes = new String[0];
+
+    private void logParameters() {
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (!getLog().isDebugEnabled()) {</span>
+<span class="nc" id="L96">            return;</span>
+        }
+
+<span class="nc" id="L99">        final ParametersLogBuilder logger = new ParametersLogBuilder(getLog());</span>
+<span class="nc" id="L100">        logger.append(&quot;skip&quot;, skip);</span>
+<span class="nc" id="L101">        logger.append(&quot;verbose&quot;, verbose, new SimpleSanitizer(verbose, Boolean.TRUE));</span>
+<span class="nc" id="L102">        logger.append(&quot;force&quot;, force);</span>
+<span class="nc" id="L103">        logger.append(&quot;sourceDirectory&quot;, sourceDirectory);</span>
+<span class="nc" id="L104">        logger.append(&quot;filesetPatternFormat&quot;, filesetPatternFormat);</span>
+<span class="nc" id="L105">        logger.append(&quot;includes&quot;, includes);</span>
+<span class="nc" id="L106">        logger.append(&quot;excludes&quot;, excludes);</span>
+<span class="nc" id="L107">        fillParameters(logger);</span>
+<span class="nc" id="L108">        logger.debug();</span>
+<span class="nc" id="L109">    }</span>
+
+    protected abstract void fillParameters(ParametersLogBuilder logger);
+
+    private void calculateParameters() {
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        if (getLog().isDebugEnabled()) {</span>
+<span class="nc" id="L115">            verbose = true;</span>
+        }
+<span class="nc" id="L117">    }</span>
+
+    public final void execute() throws MojoFailureException {
+<span class="nc" id="L120">        logParameters();</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        if (skip) {</span>
+<span class="nc" id="L122">            getLog().info(&quot;Skipping job execution&quot;);</span>
+<span class="nc" id="L123">            return;</span>
+        }
+<span class="nc" id="L125">        calculateParameters();</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        if (!sourceDirectory.exists()) {</span>
+<span class="nc" id="L127">            getLog().warn(&quot;Source directory does not exist: &quot; + sourceDirectory.getAbsolutePath());</span>
+<span class="nc" id="L128">            return;</span>
+        }
+<span class="nc" id="L130">        final Collection&lt;File&gt; files = getFiles();</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        if (files.isEmpty()) {</span>
+<span class="nc" id="L132">            getLog().warn(&quot;Zero files to process&quot;);</span>
+<span class="nc" id="L133">            return;</span>
+        }
+<span class="nc" id="L135">        execute(files);</span>
+<span class="nc" id="L136">    }</span>
+
+    private Collection&lt;File&gt; getFiles() {
+<span class="nc" id="L139">        final ScannerPatternFormat patternFormat = ScannerPatternFormat.toPattern(filesetPatternFormat);</span>
+<span class="nc" id="L140">        final FileScanner scanner = new ScannerFactory().create(patternFormat, getLog());</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">        if (verbose) {</span>
+<span class="nc" id="L142">            getLog().info(&quot;Scanning directory for files...&quot;);</span>
+        }
+<span class="nc" id="L144">        return scanner.getFiles(sourceDirectory, includes, excludes);</span>
+    }
+
+    protected abstract void execute(Collection&lt;File&gt; files) throws MojoFailureException;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
