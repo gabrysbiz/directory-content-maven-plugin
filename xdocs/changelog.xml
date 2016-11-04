@@ -7,11 +7,22 @@
     </properties>
 
     <body>
+        <section id="release-1.0.2" name="Release 1.0.2">
+            <p>Dependencies:</p>
+            <ul>
+                <li>
+                    Upgraded <a href="http://maven-plugin-utils.projects.gabrys.biz/">Maven Plugin Utils</a>
+                    from <a href="http://maven-plugin-utils.projects.gabrys.biz/1.3.0/">1.3.0</a>
+                    to <a href="http://maven-plugin-utils.projects.gabrys.biz/1.4.0/">1.4.0</a>
+                </li>
+            </ul>
+        </section>
         <section id="release-1.0.1" name="Release 1.0.1">
             <p>Bugs:</p>
             <ul>
                 <li>Fixed logging Mojo parameters</li>
             </ul>
+            <p><a href="http://directory-content-maven-plugin.projects.gabrys.biz/1.0.1/">See documentation</a></p>
         </section>
         <section id="release-1.0" name="Release 1.0">
             <p>Initial release.</p>

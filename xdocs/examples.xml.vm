@@ -28,7 +28,7 @@
                     <td><a href="examples/transform-list.html">Transform files list</a></td>
                     <td>
                         This example shows example shows how to use the <a href="transformList-mojo.html">transformList</a> goal to generate
-                        a <code>import-scripts.jsp</code> file with JavaScript imports.
+                        an <code>import-scripts.jsp</code> file with JavaScript imports.
                     </td>
                 </tr>
                 <tr class="a">

@@ -10,7 +10,7 @@
         <section name="Transform files list to file with JavaScript imports">
             <p>
                 This example shows how to use the <a href="../transformList-mojo.html">transformList</a> goal to generate
-                a <code>import-scripts.jsp</code> file with JavaScript imports. POM define application which
+                an <code>import-scripts.jsp</code> file with JavaScript imports. POM define application which
                 can be build in two modes:
             </p>
             <ol>

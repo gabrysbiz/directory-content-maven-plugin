@@ -7,7 +7,7 @@
     </properties>
 
     <body>
-        <section name="${project.name}">
+        <section name="About">
             <p>
                 Provides a collection of tools for working with directories.
             </p>
