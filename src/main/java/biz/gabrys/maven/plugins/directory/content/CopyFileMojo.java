@@ -26,7 +26,7 @@ import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
 import biz.gabrys.maven.plugin.util.parameter.sanitizer.SimpleSanitizer;
 
 /**
- * Copies file to output directory.
+ * Copies file from source to output directory (allow to change name).
  * @since 1.1.0
  */
 @Mojo(name = "copyFile", defaultPhase = LifecyclePhase.PROCESS_SOURCES, threadSafe = true)
@@ -69,7 +69,7 @@ public final class CopyFileMojo extends AbstractMojo {
 
     /**
      * The destination file.<br>
-     * <b>Default value is</b>: <tt>${directory.content.sourceFileName}</tt>.
+     * <b>Default value is</b>: the same name as <a href="#sourceFileName">source file</a>.
      * @since 1.1.0
      */
     @Parameter(property = "directory.content.outputFileName")
