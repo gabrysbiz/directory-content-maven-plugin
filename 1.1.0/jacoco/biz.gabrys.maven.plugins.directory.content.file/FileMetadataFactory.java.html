@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileMetadataFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Directory Content Maven Plugin</a> &gt; <a href="index.source.html" class="el_package">biz.gabrys.maven.plugins.directory.content.file</a> &gt; <span class="el_source">FileMetadataFactory.java</span></div><h1>FileMetadataFactory.java</h1><pre class="source lang-java linenums">/*
+ * Directory Content Maven Plugin
+ * http://directory-content-maven-plugin.projects.gabrys.biz/
+ *
+ * Copyright (c) 2015 Adam Gabryś
+ *
+ * This file is licensed under the BSD 3-Clause (the &quot;License&quot;).
+ * You may not use this file except in compliance with the License.
+ * You may obtain:
+ * - a copy of the License at project page
+ * - a template of the License at https://opensource.org/licenses/BSD-3-Clause
+ */
+package biz.gabrys.maven.plugins.directory.content.file;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+/**
+ * Responsible for creating {@link FileMetadata files metadata}.
+ * @since 1.0
+ */
+public class FileMetadataFactory {
+
+    private final FileMetadataFactoryConfiguration configuration;
+    private final FileNameResolver fileNameResolver;
+    private final DirectoryResolver directoryResolver;
+
+    /**
+     * Constructs a new instance and sets configuration.
+     * @param configuration the factory configuration.
+     * @since 1.0
+     */
+    public FileMetadataFactory(final FileMetadataFactoryConfiguration configuration) {
+<span class="nc" id="L36">        this(configuration, new FileNameResolver(), new DirectoryResolver());</span>
+<span class="nc" id="L37">    }</span>
+
+    FileMetadataFactory(final FileMetadataFactoryConfiguration configuration, final FileNameResolver fileNameResolver,
+<span class="fc" id="L40">            final DirectoryResolver directoryResolver) {</span>
+<span class="fc" id="L41">        this.configuration = configuration;</span>
+<span class="fc" id="L42">        this.fileNameResolver = fileNameResolver;</span>
+<span class="fc" id="L43">        this.directoryResolver = directoryResolver;</span>
+<span class="fc" id="L44">    }</span>
+
+    /**
+     * Creates metadata for files.
+     * @param files the collection with files.
+     * @return files metadata.
+     * @since 1.0
+     */
+    public List&lt;FileMetadata&gt; create(final Collection&lt;File&gt; files) {
+<span class="fc" id="L53">        final List&lt;FileMetadata&gt; metadata = new ArrayList&lt;FileMetadata&gt;(files.size());</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        for (final File file : files) {</span>
+<span class="fc" id="L55">            metadata.add(create(file));</span>
+<span class="fc" id="L56">        }</span>
+<span class="fc" id="L57">        return metadata;</span>
+    }
+
+    /**
+     * Creates metadata for file.
+     * @param file the file.
+     * @return the file metadata.
+     * @since 1.0
+     */
+    public FileMetadata create(final File file) {
+<span class="fc" id="L67">        final String directory = directoryResolver.resolve(file, configuration.getRootDirectory(), configuration.getSeparator());</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        final String path = &quot;&quot;.equals(directory) ? &quot;&quot; : directory + configuration.getSeparator();</span>
+<span class="fc" id="L69">        final String name = file.getName();</span>
+
+<span class="fc" id="L71">        final FileMetadata metadata = new FileMetadata();</span>
+<span class="fc" id="L72">        metadata.setFullPath(path + name);</span>
+<span class="fc" id="L73">        metadata.setFullName(name);</span>
+<span class="fc" id="L74">        metadata.setName(fileNameResolver.resolveName(file));</span>
+<span class="fc" id="L75">        metadata.setExtension(fileNameResolver.resolveExtension(file));</span>
+<span class="fc" id="L76">        metadata.setDirectory(directory);</span>
+<span class="fc" id="L77">        metadata.setSize(file.length());</span>
+<span class="fc" id="L78">        return metadata;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>
