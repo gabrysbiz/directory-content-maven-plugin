@@ -26,6 +26,7 @@ If you feel like the plugin is missing a feature or has a defect, you can fill a
 To provide you with better understanding of some usages of the Directory Content Maven Plugin, you can take a look into the following examples:
 * [Using include/exclude patterns](http://directory-content-maven-plugin.projects.gabrys.biz/LATEST/examples/patterns.html)
 * [Copies files from source to output directory](http://directory-content-maven-plugin.projects.gabrys.biz/LATEST/examples/copy.html)
+* [Copies file to output directory with a new name](http://directory-content-maven-plugin.projects.gabrys.biz/LATEST/examples/copyFile.html)
 * [Transform files list to file with JavaScript imports](http://directory-content-maven-plugin.projects.gabrys.biz/LATEST/examples/transform-list.html)
 * [Transform files metadata to download files](http://directory-content-maven-plugin.projects.gabrys.biz/LATEST/examples/transform-metadata.html)
 

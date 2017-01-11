@@ -4,6 +4,9 @@
 Features:
 * Added [copyFile](http://directory-content-maven-plugin.projects.gabrys.biz/1.1.0/copyFile-mojo.html) goal
 
+Bugs:
+* Corrected the condition of the skip copying for [copy](http://directory-content-maven-plugin.projects.gabrys.biz/1.1.0/copy-mojo.html) goal
+
 [See documentation](http://directory-content-maven-plugin.projects.gabrys.biz/1.1.0/)
 
 ## 1.0.2

@@ -21,15 +21,15 @@
                     <td>This example shows how to filter source files.</td>
                 </tr>
                 <tr class="a">
-                    <td><a href="examples/copyFile.html">Copies file with a new name</a></td>
-                    <td>
-                        This example describes how to use the <a href="copyFile-mojo.html">copyFile</a> goal
-                        to copy file to directory with a new name equal.
-                    </td>
+                    <td><a href="examples/copy.html">Copies files</a></td>
+                    <td>This example describes how to use the <a href="copy-mojo.html">copy</a> goal.</td>
                 </tr>
                 <tr class="b">
-                    <td><a href="examples/copy.html">Copies files</a></td>
-                    <td>This example shows how to use the <a href="copy-mojo.html">copy</a> goal.</td>
+                    <td><a href="examples/copyFile.html">Copies file with a new name</a></td>
+                    <td>
+                        This example shows how to use the <a href="copyFile-mojo.html">copyFile</a> goal
+                        to copy file to directory with a new name equal.
+                    </td>
                 </tr>
                 <tr class="a">
                     <td><a href="examples/transform-list.html">Transform files list</a></td>

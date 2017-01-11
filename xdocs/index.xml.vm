@@ -64,6 +64,7 @@
             <ul>
                 <li><a href="examples/patterns.html">Using include/exclude patterns</a></li>
                 <li><a href="examples/copy.html">Copies files from source to output directory</a></li>
+                <li><a href="examples/copyFile.html">Copies file to output directory with a new name</a></li>
                 <li><a href="examples/transform-list.html">Transform files list to file with JavaScript imports</a></li>
                 <li><a href="examples/transform-metadata.html">Transform files metadata to download files</a></li>
             </ul>

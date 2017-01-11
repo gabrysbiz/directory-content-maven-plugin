@@ -36,8 +36,8 @@
             <item name="Download" href="download.html" />
             <item name="Examples" collapse="true" href="examples.html">
                 <item name="Using include/exclude patterns" href="examples/patterns.html" />
-                <item name="Copies file with a new name" href="examples/copyFile.html" />
                 <item name="Copies files" href="examples/copy.html" />
+                <item name="Copies file with a new name" href="examples/copyFile.html" />
                 <item name="Transform files list" href="examples/transform-list.html" />
                 <item name="Transform files metadata" href="examples/transform-metadata.html" />
             </item>
