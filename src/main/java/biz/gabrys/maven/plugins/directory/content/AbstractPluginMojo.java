@@ -26,7 +26,7 @@ import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
 import biz.gabrys.maven.plugin.util.parameter.sanitizer.SimpleSanitizer;
 
 /**
- * Parent class for all plugin goals.
+ * Parent class for plugin goals which process multiple files.
  * @since 1.0
  */
 abstract class AbstractPluginMojo extends AbstractMojo {

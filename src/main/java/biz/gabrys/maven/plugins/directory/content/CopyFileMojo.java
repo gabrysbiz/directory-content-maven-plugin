@@ -23,6 +23,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
+import biz.gabrys.maven.plugin.util.parameter.sanitizer.SimpleSanitizer;
 
 /**
  * Copies file to output directory.
@@ -35,42 +36,43 @@ public final class CopyFileMojo extends AbstractMojo {
      * Defines whether to skip the plugin execution.
      * @since 1.1.0
      */
-    @Parameter(property = "directory.content.copyFile.skip", defaultValue = "false")
+    @Parameter(property = "directory.content.skip", defaultValue = "false")
     protected boolean skip;
 
     /**
      * Forces to always copy file. By default file is only copied when modified or the destination file does not exist.
      * @since 1.1.0
      */
-    @Parameter(property = "directory.content.copyFile.force", defaultValue = "false")
+    @Parameter(property = "directory.content.force", defaultValue = "false")
     protected boolean force;
 
     /**
      * The directory with source file.
      * @since 1.1.0
      */
-    @Parameter(property = "directory.content.copyFile.sourceDirectory", defaultValue = "${basedir}")
+    @Parameter(property = "directory.content.sourceDirectory", defaultValue = "${basedir}")
     protected File sourceDirectory;
 
     /**
      * The source file which will be copied.
      * @since 1.1.0
      */
-    @Parameter(property = "directory.content.copyFile.sourceFileName", required = true)
+    @Parameter(property = "directory.content.sourceFileName", required = true)
     protected String sourceFileName;
 
     /**
      * The destination directory for copied file.
      * @since 1.1.0
      */
-    @Parameter(property = "directory.content.copyFile.outputDirectory", defaultValue = "${project.build.directory}")
+    @Parameter(property = "directory.content.outputDirectory", defaultValue = "${project.build.directory}")
     protected File outputDirectory;
 
     /**
-     * The destination file.
+     * The destination file.<br>
+     * <b>Default value is</b>: <tt>${directory.content.sourceFileName}</tt>.
      * @since 1.1.0
      */
-    @Parameter(property = "directory.content.copyFile.outputFileName", required = true)
+    @Parameter(property = "directory.content.outputFileName")
     protected String outputFileName;
 
     private void logParameters() {
@@ -84,8 +86,18 @@ public final class CopyFileMojo extends AbstractMojo {
         logger.append("sourceDirectory", sourceDirectory);
         logger.append("sourceFileName", sourceFileName);
         logger.append("outputDirectory", outputDirectory);
-        logger.append("outputFileName", outputFileName);
+        logger.append("outputFileName", outputFileName, new SimpleSanitizer(isOutputFileNameValid(), sourceFileName));
         logger.debug();
+    }
+
+    private void calculateParameters() {
+        if (!isOutputFileNameValid()) {
+            outputFileName = sourceFileName;
+        }
+    }
+
+    private boolean isOutputFileNameValid() {
+        return outputFileName != null && outputFileName.length() > 0;
     }
 
     public void execute() throws MojoFailureException {
@@ -95,6 +107,7 @@ public final class CopyFileMojo extends AbstractMojo {
             return;
         }
         validateParameters();
+        calculateParameters();
         final File sourceFile = new File(sourceDirectory, sourceFileName);
         final File outputFile = new File(outputDirectory, outputFileName);
         if (shouldCopyFile(sourceFile, outputFile)) {
@@ -114,7 +127,8 @@ public final class CopyFileMojo extends AbstractMojo {
 
     private boolean shouldCopyFile(final File sourceFile, final File outputFile) {
         if (!force && sourceFile.exists() && sourceFile.lastModified() < outputFile.lastModified()) {
-            getLog().info("Skips copy file, because source is older than destination file: " + outputFile.getAbsolutePath());
+            getLog().info(String.format("Skips copy file, because source (%s) is older than destination file (%s)",
+                    sourceFile.getAbsolutePath(), outputFile.getAbsolutePath()));
             return false;
         }
         return true;
