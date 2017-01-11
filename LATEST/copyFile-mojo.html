@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20170112" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>Directory Content Maven Plugin &#x2013; directory-content:copy</title>
+    <title>Directory Content Maven Plugin &#x2013; directory-content:copyFile</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.6.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -72,15 +72,15 @@
 
   
     <div class="section">
-<h2><a name="directory-content:copy"></a>directory-content:copy</h2>
+<h2><a name="directory-content:copyFile"></a>directory-content:copyFile</h2>
       
 <p><b>Full name</b>:</p>
       
-<p>biz.gabrys.maven.plugins:directory-content-maven-plugin:1.1.1-SNAPSHOT:copy</p>
+<p>biz.gabrys.maven.plugins:directory-content-maven-plugin:1.1.1-SNAPSHOT:copyFile</p>
       
 <p><b>Description</b>:</p>
       
-<div>Copies files from source to output directory.</div>
+<div>Copies file from source to output directory (allow to change name).</div>
       
 <p><b>Attributes</b>:</p>
       
@@ -90,7 +90,7 @@
         
 <li>The goal is thread-safe and supports parallel builds.</li>
         
-<li>Since version: <tt>1.0</tt>.</li>
+<li>Since version: <tt>1.1.0</tt>.</li>
         
 <li>Binds by default to the <a class="externalLink" href="http://maven.apache.org/ref/current/maven-core/lifecycles.html">lifecycle phase</a>: <tt>process-sources</tt>.</li>
       </ul>
@@ -113,16 +113,14 @@
           
 <tr class="b">
             
-<td><b><a href="#includes">includes</a></b></td>
+<td><b><a href="#sourceFilePath">sourceFilePath</a></b></td>
             
-<td><tt>String[]</tt></td>
+<td><tt>String</tt></td>
             
-<td><tt>1.0</tt></td>
+<td><tt>1.1.0</tt></td>
             
-<td>List of files to include. Specified as fileset patterns which are
-relative to the <a href="#sourceDirectory">source directory</a>.
-See <a href="#filesetPatternFormat">available fileset patterns
-formats</a>.<br /></td>
+<td>The source file path which will be copied (examples:
+<tt>filename.ext</tt>, <tt>directory/filename.ext</tt>).<br /><b>User property is</b>: <tt>directory.content.sourceFilePath</tt>.</td>
           </tr>
         </table>
       </div>
@@ -145,50 +143,14 @@ formats</a>.<br /></td>
           
 <tr class="b">
             
-<td><b><a href="#excludes">excludes</a></b></td>
-            
-<td><tt>String[]</tt></td>
-            
-<td><tt>1.0</tt></td>
-            
-<td>List of files to exclude. Specified as fileset patterns which are
-relative to the <a href="#sourceDirectory">source directory</a>.
-See <a href="#filesetPatternFormat">available fileset patterns
-formats</a>.<br />
-<b>Default value is</b>: <tt>[]</tt>.<br /></td>
-          </tr>
-          
-<tr class="a">
-            
-<td><b><a href="#filesetPatternFormat">filesetPatternFormat</a></b></td>
-            
-<td><tt>String</tt></td>
-            
-<td><tt>1.0</tt></td>
-            
-<td>Defines inclusion and exclusion fileset patterns format. Available
-options: 
-
-<ul>
-
-<li><b>ant</b> - <a class="externalLink" href="http://ant.apache.org/manual/dirtasks.html#patterns">Ant
-patterns</a></li>
-
-<li><b>regex</b> - regular expressions (use '/' as path
-separator)</li>
-</ul><br /><b>Default value is</b>: <tt>ant</tt>.<br /><b>User property is</b>: <tt>directory.content.filesetPatternFormat</tt>.</td>
-          </tr>
-          
-<tr class="b">
-            
 <td><b><a href="#force">force</a></b></td>
             
 <td><tt>boolean</tt></td>
             
-<td><tt>1.0</tt></td>
+<td><tt>1.1.0</tt></td>
             
-<td>Forces to always process files. By default file is only processed
-when modified or the destination file does not exist.<br /><b>Default value is</b>: <tt>false</tt>.<br /><b>User property is</b>: <tt>directory.content.force</tt>.</td>
+<td>Forces to always copy file. By default file is only copied when
+modified or the destination file does not exist.<br /><b>Default value is</b>: <tt>false</tt>.<br /><b>User property is</b>: <tt>directory.content.force</tt>.</td>
           </tr>
           
 <tr class="a">
@@ -197,43 +159,44 @@ when modified or the destination file does not exist.<br /><b>Default value is</
             
 <td><tt>File</tt></td>
             
-<td><tt>1.0</tt></td>
+<td><tt>1.1.0</tt></td>
             
-<td>The destination directory for copied files.<br /><b>Default value is</b>: <tt>${project.build.directory}</tt>.<br /><b>User property is</b>: <tt>directory.content.outputDirectory</tt>.</td>
+<td>The destination directory for copied file.<br /><b>Default value is</b>: <tt>${project.build.directory}</tt>.<br /><b>User property is</b>: <tt>directory.content.outputDirectory</tt>.</td>
           </tr>
           
 <tr class="b">
+            
+<td><b><a href="#outputFilePath">outputFilePath</a></b></td>
+            
+<td><tt>String</tt></td>
+            
+<td><tt>1.1.0</tt></td>
+            
+<td>The destination file path (examples: <tt>filename.ext</tt>,
+<tt>directory/filename.ext</tt>).<br />
+<b>Default value is</b>: the same as <a href="#sourceFilePath">source file path</a>.<br /><b>User property is</b>: <tt>directory.content.outputFilePath</tt>.</td>
+          </tr>
+          
+<tr class="a">
             
 <td><b><a href="#skip">skip</a></b></td>
             
 <td><tt>boolean</tt></td>
             
-<td><tt>1.0</tt></td>
+<td><tt>1.1.0</tt></td>
             
 <td>Defines whether to skip the plugin execution.<br /><b>Default value is</b>: <tt>false</tt>.<br /><b>User property is</b>: <tt>directory.content.skip</tt>.</td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td><b><a href="#sourceDirectory">sourceDirectory</a></b></td>
             
 <td><tt>File</tt></td>
             
-<td><tt>1.0</tt></td>
+<td><tt>1.1.0</tt></td>
             
-<td>The directory with source files.<br /><b>Default value is</b>: <tt>${project.build.sourceDirectory}</tt>.<br /><b>User property is</b>: <tt>directory.content.sourceDirectory</tt>.</td>
-          </tr>
-          
-<tr class="b">
-            
-<td><b><a href="#verbose">verbose</a></b></td>
-            
-<td><tt>boolean</tt></td>
-            
-<td><tt>1.0</tt></td>
-            
-<td>Defines whether the plugin runs in verbose mode.<br />
-<b>Notice</b>: always true in debug mode.<br /><b>Default value is</b>: <tt>false</tt>.<br /><b>User property is</b>: <tt>directory.content.verbose</tt>.</td>
+<td>The directory with source file.<br /><b>Default value is</b>: <tt>${basedir}</tt>.<br /><b>User property is</b>: <tt>directory.content.sourceDirectory</tt>.</td>
           </tr>
         </table>
       </div>
@@ -241,58 +204,16 @@ when modified or the destination file does not exist.<br /><b>Default value is</
 <div class="section">
 <h3><a name="Parameter_Details"></a>Parameter Details</h3>
         
-<p><b><a name="excludes">excludes</a>:</b></p>
-        
-<div>List of files to exclude. Specified as fileset patterns which are
-relative to the <a href="#sourceDirectory">source directory</a>.
-See <a href="#filesetPatternFormat">available fileset patterns
-formats</a>.<br />
-<b>Default value is</b>: <tt>[]</tt>.</div>
-        
-<ul>
-          
-<li><b>Type</b>: <tt>java.lang.String[]</tt></li>
-          
-<li><b>Since</b>: <tt>1.0</tt></li>
-          
-<li><b>Required</b>: <tt>No</tt></li>
-        </ul><hr />
-<p><b><a name="filesetPatternFormat">filesetPatternFormat</a>:</b></p>
-        
-<div>Defines inclusion and exclusion fileset patterns format. Available
-options: 
-
-<ul>
-
-<li><b>ant</b> - <a class="externalLink" href="http://ant.apache.org/manual/dirtasks.html#patterns">Ant
-patterns</a></li>
-
-<li><b>regex</b> - regular expressions (use '/' as path
-separator)</li>
-</ul></div>
-        
-<ul>
-          
-<li><b>Type</b>: <tt>java.lang.String</tt></li>
-          
-<li><b>Since</b>: <tt>1.0</tt></li>
-          
-<li><b>Required</b>: <tt>No</tt></li>
-          
-<li><b>User Property</b>: <tt>directory.content.filesetPatternFormat</tt></li>
-          
-<li><b>Default</b>: <tt>ant</tt></li>
-        </ul><hr />
 <p><b><a name="force">force</a>:</b></p>
         
-<div>Forces to always process files. By default file is only processed
-when modified or the destination file does not exist.</div>
+<div>Forces to always copy file. By default file is only copied when
+modified or the destination file does not exist.</div>
         
 <ul>
           
 <li><b>Type</b>: <tt>boolean</tt></li>
           
-<li><b>Since</b>: <tt>1.0</tt></li>
+<li><b>Since</b>: <tt>1.1.0</tt></li>
           
 <li><b>Required</b>: <tt>No</tt></li>
           
@@ -300,36 +221,37 @@ when modified or the destination file does not exist.</div>
           
 <li><b>Default</b>: <tt>false</tt></li>
         </ul><hr />
-<p><b><a name="includes">includes</a>:</b></p>
-        
-<div>List of files to include. Specified as fileset patterns which are
-relative to the <a href="#sourceDirectory">source directory</a>.
-See <a href="#filesetPatternFormat">available fileset patterns
-formats</a>.</div>
-        
-<ul>
-          
-<li><b>Type</b>: <tt>java.lang.String[]</tt></li>
-          
-<li><b>Since</b>: <tt>1.0</tt></li>
-          
-<li><b>Required</b>: <tt>Yes</tt></li>
-        </ul><hr />
 <p><b><a name="outputDirectory">outputDirectory</a>:</b></p>
         
-<div>The destination directory for copied files.</div>
+<div>The destination directory for copied file.</div>
         
 <ul>
           
 <li><b>Type</b>: <tt>java.io.File</tt></li>
           
-<li><b>Since</b>: <tt>1.0</tt></li>
+<li><b>Since</b>: <tt>1.1.0</tt></li>
           
 <li><b>Required</b>: <tt>No</tt></li>
           
 <li><b>User Property</b>: <tt>directory.content.outputDirectory</tt></li>
           
 <li><b>Default</b>: <tt>${project.build.directory}</tt></li>
+        </ul><hr />
+<p><b><a name="outputFilePath">outputFilePath</a>:</b></p>
+        
+<div>The destination file path (examples: <tt>filename.ext</tt>,
+<tt>directory/filename.ext</tt>).<br />
+<b>Default value is</b>: the same as <a href="#sourceFilePath">source file path</a>.</div>
+        
+<ul>
+          
+<li><b>Type</b>: <tt>java.lang.String</tt></li>
+          
+<li><b>Since</b>: <tt>1.1.0</tt></li>
+          
+<li><b>Required</b>: <tt>No</tt></li>
+          
+<li><b>User Property</b>: <tt>directory.content.outputFilePath</tt></li>
         </ul><hr />
 <p><b><a name="skip">skip</a>:</b></p>
         
@@ -339,7 +261,7 @@ formats</a>.</div>
           
 <li><b>Type</b>: <tt>boolean</tt></li>
           
-<li><b>Since</b>: <tt>1.0</tt></li>
+<li><b>Since</b>: <tt>1.1.0</tt></li>
           
 <li><b>Required</b>: <tt>No</tt></li>
           
@@ -349,36 +271,34 @@ formats</a>.</div>
         </ul><hr />
 <p><b><a name="sourceDirectory">sourceDirectory</a>:</b></p>
         
-<div>The directory with source files.</div>
+<div>The directory with source file.</div>
         
 <ul>
           
 <li><b>Type</b>: <tt>java.io.File</tt></li>
           
-<li><b>Since</b>: <tt>1.0</tt></li>
+<li><b>Since</b>: <tt>1.1.0</tt></li>
           
 <li><b>Required</b>: <tt>No</tt></li>
           
 <li><b>User Property</b>: <tt>directory.content.sourceDirectory</tt></li>
           
-<li><b>Default</b>: <tt>${project.build.sourceDirectory}</tt></li>
+<li><b>Default</b>: <tt>${basedir}</tt></li>
         </ul><hr />
-<p><b><a name="verbose">verbose</a>:</b></p>
+<p><b><a name="sourceFilePath">sourceFilePath</a>:</b></p>
         
-<div>Defines whether the plugin runs in verbose mode.<br />
-<b>Notice</b>: always true in debug mode.</div>
+<div>The source file path which will be copied (examples:
+<tt>filename.ext</tt>, <tt>directory/filename.ext</tt>).</div>
         
 <ul>
           
-<li><b>Type</b>: <tt>boolean</tt></li>
+<li><b>Type</b>: <tt>java.lang.String</tt></li>
           
-<li><b>Since</b>: <tt>1.0</tt></li>
+<li><b>Since</b>: <tt>1.1.0</tt></li>
           
-<li><b>Required</b>: <tt>No</tt></li>
+<li><b>Required</b>: <tt>Yes</tt></li>
           
-<li><b>User Property</b>: <tt>directory.content.verbose</tt></li>
-          
-<li><b>Default</b>: <tt>false</tt></li>
+<li><b>User Property</b>: <tt>directory.content.sourceFilePath</tt></li>
         </ul>
       </div>
     </div>

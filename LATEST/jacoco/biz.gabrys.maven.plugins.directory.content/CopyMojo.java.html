@@ -47,33 +47,40 @@ import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
     protected void execute(final Collection&lt;File&gt; files) throws MojoFailureException {
 <span class="nc bnc" id="L48" title="All 2 branches missed.">        getLog().info(String.format(&quot;Coping %s file%s...&quot;, files.size(), files.size() != 1 ? &quot;s&quot; : &quot;&quot;));</span>
 
-<span class="nc bnc" id="L50" title="All 2 branches missed.">        for (final File file : files) {</span>
-<span class="nc" id="L51">            copy(file, getDestination(file));</span>
-<span class="nc" id="L52">        }</span>
-<span class="nc" id="L53">    }</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        for (final File sourceFile : files) {</span>
+<span class="nc" id="L51">            final File outputFile = getDestination(sourceFile);</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">            if (shouldCopyFile(sourceFile, outputFile)) {</span>
+<span class="nc" id="L53">                copyFile(sourceFile, outputFile);</span>
+            }
+<span class="nc" id="L55">        }</span>
+<span class="nc" id="L56">    }</span>
 
     private File getDestination(final File file) {
-<span class="nc" id="L56">        final String path = file.getAbsolutePath().substring(sourceDirectory.getAbsolutePath().length());</span>
-<span class="nc" id="L57">        return new File(outputDirectory.getAbsolutePath() + File.separator + path);</span>
+<span class="nc" id="L59">        final String path = file.getAbsolutePath().substring(sourceDirectory.getAbsolutePath().length());</span>
+<span class="nc" id="L60">        return new File(outputDirectory.getAbsolutePath() + File.separator + path);</span>
     }
 
-    private void copy(final File source, final File destination) throws MojoFailureException {
-<span class="nc bnc" id="L61" title="All 6 branches missed.">        if (!force &amp;&amp; destination.exists() &amp;&amp; source.lastModified() &lt; destination.lastModified()) {</span>
-<span class="nc bnc" id="L62" title="All 2 branches missed.">            if (verbose) {</span>
-<span class="nc" id="L63">                getLog().info(&quot;Skips copy file, because source is older than destination file: &quot; + destination.getAbsolutePath());</span>
+    private boolean shouldCopyFile(final File sourceFile, final File outputFile) {
+<span class="nc bnc" id="L64" title="All 6 branches missed.">        if (!force &amp;&amp; outputFile.exists() &amp;&amp; sourceFile.lastModified() &lt;= outputFile.lastModified()) {</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">            if (verbose) {</span>
+<span class="nc" id="L66">                getLog().info(String.format(&quot;Skips copy file, because source (%s) is older than destination file (%s)&quot;,</span>
+<span class="nc" id="L67">                        sourceFile.getAbsolutePath(), outputFile.getAbsolutePath()));</span>
             }
-<span class="nc" id="L65">            return;</span>
+<span class="nc" id="L69">            return false;</span>
         }
+<span class="nc" id="L71">        return true;</span>
+    }
 
-<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (verbose) {</span>
-<span class="nc" id="L69">            getLog().info(String.format(&quot;Copying %s to %s&quot;, source.getAbsolutePath(), destination.getAbsolutePath()));</span>
+    private void copyFile(final File sourceFile, final File outputFile) throws MojoFailureException {
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        if (verbose) {</span>
+<span class="nc" id="L76">            getLog().info(String.format(&quot;Copying %s to %s&quot;, sourceFile.getAbsolutePath(), outputFile.getAbsolutePath()));</span>
         }
         try {
-<span class="nc" id="L72">            FileUtils.copyFile(source, destination);</span>
-<span class="nc" id="L73">        } catch (final IOException e) {</span>
-<span class="nc" id="L74">            final String message = String.format(&quot;Cannot copy %s to %s&quot;, source.getAbsolutePath(), destination.getAbsolutePath());</span>
-<span class="nc" id="L75">            throw new MojoFailureException(message, e);</span>
-<span class="nc" id="L76">        }</span>
-<span class="nc" id="L77">    }</span>
+<span class="nc" id="L79">            FileUtils.copyFile(sourceFile, outputFile);</span>
+<span class="nc" id="L80">        } catch (final IOException e) {</span>
+<span class="nc" id="L81">            final String message = String.format(&quot;Cannot copy %s to %s&quot;, sourceFile.getAbsolutePath(), outputFile.getAbsolutePath());</span>
+<span class="nc" id="L82">            throw new MojoFailureException(message, e);</span>
+<span class="nc" id="L83">        }</span>
+<span class="nc" id="L84">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

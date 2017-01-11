@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20170112" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>Directory Content Maven Plugin &#x2013; Using include/exclude patterns</title>
+    <title>Directory Content Maven Plugin &#x2013; Copies file with a new name</title>
     <link rel="stylesheet" href="../css/apache-maven-fluido-1.6.min.css" />
     <link rel="stylesheet" href="../css/site.css" />
     <link rel="stylesheet" href="../css/print.css" media="print" />
@@ -47,10 +47,10 @@
     <li><a href="../download.html" title="Download"><span class="none"></span>Download</a>  </li>
     <li><a href="../examples.html" title="Examples"><span class="icon-chevron-down"></span>Examples</a>
       <ul class="nav nav-list">
-    <li class="active"><a href="#"><span class="none"></span>Using include/exclude patterns</a>
-  </li>
+    <li><a href="../examples/patterns.html" title="Using include/exclude patterns"><span class="none"></span>Using include/exclude patterns</a>  </li>
     <li><a href="../examples/copy.html" title="Copies files"><span class="none"></span>Copies files</a>  </li>
-    <li><a href="../examples/copyFile.html" title="Copies file with a new name"><span class="none"></span>Copies file with a new name</a>  </li>
+    <li class="active"><a href="#"><span class="none"></span>Copies file with a new name</a>
+  </li>
     <li><a href="../examples/transform-list.html" title="Transform files list"><span class="none"></span>Transform files list</a>  </li>
     <li><a href="../examples/transform-metadata.html" title="Transform files metadata"><span class="none"></span>Transform files metadata</a>  </li>
       </ul>
@@ -82,24 +82,19 @@
 
     
         <div class="section">
-<h2><a name="Using_includeexclude_patterns"></a>Using include/exclude patterns</h2>
+<h2><a name="Copies_file_to_output_directory_with_a_new_name"></a>Copies file to output directory with a new name</h2>
             
 <p>
-                You can decide which files from the source directory will be processed. Include and exclude patterns can be defined
-                in two formats: <a href="#ant">Ant</a> and <a href="#regex">regular expressions</a>.
-            </p>
-        </div>
-        <a name="ant"></a>
-<div class="section" id="ant">
-<h2><a name="Ant_patterns"></a>Ant patterns</h2>
-            
-<p>
-                <a class="externalLink" href="http://ant.apache.org/manual/dirtasks.html#patterns">Ant patterns</a> is a default format. The following
-                example includes files with <tt>js</tt> extension, but which are not located in <tt>ignored</tt> directory.
+                This example shows how use the <a href="../copyFile-mojo.html">copyFile</a> goal to copy <tt>pom.xml</tt>
+                file to <tt>target</tt> directory with a new name equal to <tt>artifact-1.0.pom</tt>.
             </p>
             
 <div>
 <pre>&lt;project&gt;
+   ...
+   &lt;groupId&gt;org.example&lt;/groupId&gt;
+   &lt;artifactId&gt;artifact&lt;/artifactId&gt;
+   &lt;version&gt;1.0&lt;/version&gt;
    ...
    &lt;build&gt;
       &lt;plugins&gt;
@@ -111,58 +106,11 @@
             &lt;executions&gt;
                &lt;execution&gt;
                   &lt;goals&gt;
-                     ...
+                     &lt;goal&gt;copyFile&lt;/goal&gt;
                   &lt;/goals&gt;
                   &lt;configuration&gt;
-                     &lt;includes&gt;
-                        &lt;include&gt;**/*.js&lt;/include&gt;
-                     &lt;/includes&gt;
-                     &lt;excludes&gt;
-                        &lt;exclude&gt;ignored/**/*.*&lt;/exclude&gt;
-                     &lt;/excludes&gt;
-                     ...
-                  &lt;/configuration&gt;
-               &lt;/execution&gt;
-            &lt;/executions&gt;
-         &lt;/plugin&gt;
-      &lt;/plugins&gt;
-   &lt;/build&gt;
-&lt;project&gt;</pre></div>
-        </div>
-        <a name="regex"></a>
-<div class="section" id="regex">
-<h2><a name="Regular_expressions_patterns"></a>Regular expressions patterns</h2>
-            
-<p>
-                You can use regular expressions to define include and exclude patterns. File path separator is always equal to
-                <tt>/</tt>. The following example includes files with <tt>js</tt> extension, but which are not located
-                in <tt>ignored</tt> directory.
-            </p>
-            
-<div>
-<pre>&lt;project&gt;
-   ...
-   &lt;build&gt;
-      &lt;plugins&gt;
-         ...
-         &lt;plugin&gt;
-            &lt;groupId&gt;biz.gabrys.maven.plugins&lt;/groupId&gt;
-            &lt;artifactId&gt;directory-content-maven-plugin&lt;/artifactId&gt;
-            &lt;version&gt;1.1.1-SNAPSHOT&lt;/version&gt;
-            &lt;executions&gt;
-               &lt;execution&gt;
-                  &lt;goals&gt;
-                     ...
-                  &lt;/goals&gt;
-                  &lt;configuration&gt;
-                     &lt;filesetPatternFormat&gt;regex&lt;/filesetPatternFormat&gt;
-                     &lt;includes&gt;
-                         &lt;include&gt;^.+\.js$&lt;/include&gt;
-                     &lt;/includes&gt;
-                     &lt;excludes&gt;
-                         &lt;exclude&gt;^ignored/.+$&lt;/exclude&gt;
-                     &lt;/excludes&gt;
-                     ...
+                     &lt;sourceFilePath&gt;pom.xml&lt;/sourceFilePath&gt;
+                     &lt;outputFilePath&gt;${project.artifactId}-${project.version}.pom&lt;/outputFilePath&gt;
                   &lt;/configuration&gt;
                &lt;/execution&gt;
             &lt;/executions&gt;

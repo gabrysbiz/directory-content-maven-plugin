@@ -26,7 +26,7 @@ import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
 import biz.gabrys.maven.plugin.util.parameter.sanitizer.SimpleSanitizer;
 
 /**
- * Parent class for all plugin goals.
+ * Parent class for plugin goals which process multiple files.
  * @since 1.0
  */
 <span class="nc" id="L32">abstract class AbstractPluginMojo extends AbstractMojo {</span>
@@ -146,4 +146,4 @@ import biz.gabrys.maven.plugin.util.parameter.sanitizer.SimpleSanitizer;
 
     protected abstract void execute(Collection&lt;File&gt; files) throws MojoFailureException;
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

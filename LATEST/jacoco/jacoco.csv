@@ -3,7 +3,8 @@ Directory Content Maven Plugin,biz.gabrys.maven.plugins.directory.content.transf
 Directory Content Maven Plugin,biz.gabrys.maven.plugins.directory.content.transform,TransformException,4,0,0,0,2,0,1,0,1,0
 Directory Content Maven Plugin,biz.gabrys.maven.plugins.directory.content.transform,XsltTransformer,48,0,0,0,13,0,2,0,2,0
 Directory Content Maven Plugin,biz.gabrys.maven.plugins.directory.content,AbstractTransformMojo,45,0,4,0,10,0,5,0,3,0
-Directory Content Maven Plugin,biz.gabrys.maven.plugins.directory.content,CopyMojo,150,0,14,0,22,0,12,0,5,0
+Directory Content Maven Plugin,biz.gabrys.maven.plugins.directory.content,CopyFileMojo,242,0,22,0,45,0,19,0,8,0
+Directory Content Maven Plugin,biz.gabrys.maven.plugins.directory.content,CopyMojo,165,0,16,0,26,0,14,0,6,0
 Directory Content Maven Plugin,biz.gabrys.maven.plugins.directory.content,TransformMetadataMojo,213,0,18,0,38,0,16,0,7,0
 Directory Content Maven Plugin,biz.gabrys.maven.plugins.directory.content,AbstractPluginMojo,157,0,12,0,37,0,11,0,5,0
 Directory Content Maven Plugin,biz.gabrys.maven.plugins.directory.content,TransformListMojo,191,0,18,0,37,0,16,0,7,0
