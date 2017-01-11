@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+    <properties>
+        <title>Copies file with a new name</title>
+    </properties>
+
+    <body>
+        <section name="Copies file to output directory with a new name">
+            <p>
+                This example shows how use the <a href="../copyFile-mojo.html">copyFile</a> goal to copy <code>pom.xml</code>
+                file to <code>target</code> directory with a new name equal to <code>artifact-1.0.pom</code>.
+            </p>
+            <pre>&lt;project&gt;
+   ...
+   &lt;groupId&gt;org.example&lt;/groupId&gt;
+   &lt;artifactId&gt;artifact&lt;/artifactId&gt;
+   &lt;version&gt;1.0&lt;/version&gt;
+   ...
+   &lt;build&gt;
+      &lt;plugins&gt;
+         ...
+         &lt;plugin&gt;
+            &lt;groupId&gt;${project.groupId}&lt;/groupId&gt;
+            &lt;artifactId&gt;${project.artifactId}&lt;/artifactId&gt;
+            &lt;version&gt;${project.version}&lt;/version&gt;
+            &lt;executions&gt;
+               &lt;execution&gt;
+                  &lt;goals&gt;
+                     &lt;goal&gt;copyFile&lt;/goal&gt;
+                  &lt;/goals&gt;
+                  &lt;configuration&gt;
+                     &lt;sourceFilePath&gt;pom.xml&lt;/sourceFilePath&gt;
+                     &lt;outputFilePath&gt;\${project.artifactId}-\${project.version}.pom&lt;/outputFilePath&gt;
+                  &lt;/configuration&gt;
+               &lt;/execution&gt;
+            &lt;/executions&gt;
+         &lt;/plugin&gt;
+      &lt;/plugins&gt;
+   &lt;/build&gt;
+&lt;project&gt;</pre>
+        </section>
+    </body>
+</document>

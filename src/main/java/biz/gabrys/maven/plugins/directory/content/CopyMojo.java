@@ -47,8 +47,11 @@ public class CopyMojo extends AbstractPluginMojo {
     protected void execute(final Collection<File> files) throws MojoFailureException {
         getLog().info(String.format("Coping %s file%s...", files.size(), files.size() != 1 ? "s" : ""));
 
-        for (final File file : files) {
-            copy(file, getDestination(file));
+        for (final File sourceFile : files) {
+            final File outputFile = getDestination(sourceFile);
+            if (shouldCopyFile(sourceFile, outputFile)) {
+                copyFile(sourceFile, outputFile);
+            }
         }
     }
 
@@ -57,21 +60,25 @@ public class CopyMojo extends AbstractPluginMojo {
         return new File(outputDirectory.getAbsolutePath() + File.separator + path);
     }
 
-    private void copy(final File source, final File destination) throws MojoFailureException {
-        if (!force && destination.exists() && source.lastModified() < destination.lastModified()) {
+    private boolean shouldCopyFile(final File sourceFile, final File outputFile) {
+        if (!force && outputFile.exists() && sourceFile.lastModified() <= outputFile.lastModified()) {
             if (verbose) {
-                getLog().info("Skips copy file, because source is older than destination file: " + destination.getAbsolutePath());
+                getLog().info(String.format("Skips copy file, because source (%s) is older than destination file (%s)",
+                        sourceFile.getAbsolutePath(), outputFile.getAbsolutePath()));
             }
-            return;
+            return false;
         }
+        return true;
+    }
 
+    private void copyFile(final File sourceFile, final File outputFile) throws MojoFailureException {
         if (verbose) {
-            getLog().info(String.format("Copying %s to %s", source.getAbsolutePath(), destination.getAbsolutePath()));
+            getLog().info(String.format("Copying %s to %s", sourceFile.getAbsolutePath(), outputFile.getAbsolutePath()));
         }
         try {
-            FileUtils.copyFile(source, destination);
+            FileUtils.copyFile(sourceFile, outputFile);
         } catch (final IOException e) {
-            final String message = String.format("Cannot copy %s to %s", source.getAbsolutePath(), destination.getAbsolutePath());
+            final String message = String.format("Cannot copy %s to %s", sourceFile.getAbsolutePath(), outputFile.getAbsolutePath());
             throw new MojoFailureException(message, e);
         }
     }

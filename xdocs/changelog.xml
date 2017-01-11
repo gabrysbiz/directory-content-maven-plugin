@@ -7,6 +7,16 @@
     </properties>
 
     <body>
+        <section id="release-1.1.0" name="Release 1.1.0">
+            <p>Features:</p>
+            <ul>
+                <li>Added the <a href="copyFile-mojo.html">copyFile</a> goal</li>
+            </ul>
+            <p>Bugs:</p>
+            <ul>
+                <li>Corrected the condition of the skip copying for the <a href="copy-mojo.html">copy</a> goal</li>
+            </ul>
+        </section>
         <section id="release-1.0.2" name="Release 1.0.2">
             <p>Dependencies:</p>
             <ul>
@@ -16,6 +26,7 @@
                     to <a href="http://maven-plugin-utils.projects.gabrys.biz/1.4.0/">1.4.0</a>
                 </li>
             </ul>
+            <p><a href="http://directory-content-maven-plugin.projects.gabrys.biz/1.0.2/">See documentation</a></p>
         </section>
         <section id="release-1.0.1" name="Release 1.0.1">
             <p>Bugs:</p>

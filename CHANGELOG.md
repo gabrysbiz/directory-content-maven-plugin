@@ -1,5 +1,14 @@
 # Directory Content Maven Plugin Changelog
 
+## 1.1.0
+Features:
+* Added the [copyFile](http://directory-content-maven-plugin.projects.gabrys.biz/1.1.0/copyFile-mojo.html) goal
+
+Bugs:
+* Corrected the condition of the skip copying for the [copy](http://directory-content-maven-plugin.projects.gabrys.biz/1.1.0/copy-mojo.html) goal
+
+[See documentation](http://directory-content-maven-plugin.projects.gabrys.biz/1.1.0/)
+
 ## 1.0.2
 Dependencies:
 * Upgraded [Maven Plugin Utils](http://maven-plugin-utils.projects.gabrys.biz/) from [1.3.0](http://maven-plugin-utils.projects.gabrys.biz/1.3.0/) to [1.4.0](http://maven-plugin-utils.projects.gabrys.biz/1.4.0/)

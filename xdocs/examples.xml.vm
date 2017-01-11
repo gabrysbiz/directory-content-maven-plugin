@@ -25,17 +25,24 @@
                     <td>This example describes how to use the <a href="copy-mojo.html">copy</a> goal.</td>
                 </tr>
                 <tr class="b">
-                    <td><a href="examples/transform-list.html">Transform files list</a></td>
+                    <td><a href="examples/copyFile.html">Copies file with a new name</a></td>
                     <td>
-                        This example shows example shows how to use the <a href="transformList-mojo.html">transformList</a> goal to generate
-                        an <code>import-scripts.jsp</code> file with JavaScript imports.
+                        This example shows how to use the <a href="copyFile-mojo.html">copyFile</a> goal
+                        to copy file to directory with a new name equal.
                     </td>
                 </tr>
                 <tr class="a">
+                    <td><a href="examples/transform-list.html">Transform files list</a></td>
+                    <td>
+                        This example describes how to use the <a href="transformList-mojo.html">transformList</a>
+                        goal to generate an <code>import-scripts.jsp</code> file with JavaScript imports.
+                    </td>
+                </tr>
+                <tr class="b">
                     <td><a href="examples/transform-metadata.html">Transform files metadata</a></td>
                     <td>
-                        This example describes how use the <a href="transformMetadata-mojo.html">transformMetadata</a> goal to generate
-                        download pages for all files from <code>src/main/webapp/files</code>.
+                        This example shows how use the <a href="transformMetadata-mojo.html">transformMetadata</a>
+                        goal to generate download pages for all files from <code>src/main/webapp/files</code>.
                     </td>
                 </tr>
             </table>
