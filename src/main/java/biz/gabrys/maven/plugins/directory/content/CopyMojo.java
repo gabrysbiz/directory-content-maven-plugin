@@ -61,7 +61,7 @@ public class CopyMojo extends AbstractPluginMojo {
     }
 
     private boolean shouldCopyFile(final File sourceFile, final File outputFile) {
-        if (!force && sourceFile.exists() && sourceFile.lastModified() < outputFile.lastModified()) {
+        if (!force && outputFile.exists() && sourceFile.lastModified() <= outputFile.lastModified()) {
             if (verbose) {
                 getLog().info(String.format("Skips copy file, because source (%s) is older than destination file (%s)",
                         sourceFile.getAbsolutePath(), outputFile.getAbsolutePath()));

@@ -30,7 +30,7 @@ import biz.gabrys.maven.plugin.util.parameter.sanitizer.SimpleSanitizer;
  * @since 1.1.0
  */
 @Mojo(name = "copyFile", defaultPhase = LifecyclePhase.PROCESS_SOURCES, threadSafe = true)
-public final class CopyFileMojo extends AbstractMojo {
+public class CopyFileMojo extends AbstractMojo {
 
     /**
      * Defines whether to skip the plugin execution.
@@ -54,11 +54,12 @@ public final class CopyFileMojo extends AbstractMojo {
     protected File sourceDirectory;
 
     /**
-     * The source file which will be copied.
+     * The source file path which will be copied (examples: <code>filename.ext</code>,
+     * <code>directory/filename.ext</code>).
      * @since 1.1.0
      */
-    @Parameter(property = "directory.content.sourceFileName", required = true)
-    protected String sourceFileName;
+    @Parameter(property = "directory.content.sourceFilePath", required = true)
+    protected String sourceFilePath;
 
     /**
      * The destination directory for copied file.
@@ -68,12 +69,12 @@ public final class CopyFileMojo extends AbstractMojo {
     protected File outputDirectory;
 
     /**
-     * The destination file.<br>
-     * <b>Default value is</b>: the same name as <a href="#sourceFileName">source file</a>.
+     * The destination file path (examples: <code>filename.ext</code>, <code>directory/filename.ext</code>).<br>
+     * <b>Default value is</b>: the same as <a href="#sourceFilePath">source file path</a>.
      * @since 1.1.0
      */
-    @Parameter(property = "directory.content.outputFileName")
-    protected String outputFileName;
+    @Parameter(property = "directory.content.outputFilePath")
+    protected String outputFilePath;
 
     private void logParameters() {
         if (!getLog().isDebugEnabled()) {
@@ -84,20 +85,20 @@ public final class CopyFileMojo extends AbstractMojo {
         logger.append("skip", skip);
         logger.append("force", force);
         logger.append("sourceDirectory", sourceDirectory);
-        logger.append("sourceFileName", sourceFileName);
+        logger.append("sourceFilePath", sourceFilePath);
         logger.append("outputDirectory", outputDirectory);
-        logger.append("outputFileName", outputFileName, new SimpleSanitizer(isOutputFileNameValid(), sourceFileName));
+        logger.append("outputFilePath", outputFilePath, new SimpleSanitizer(isOutputFilePathValid(), sourceFilePath));
         logger.debug();
     }
 
     private void calculateParameters() {
-        if (!isOutputFileNameValid()) {
-            outputFileName = sourceFileName;
+        if (!isOutputFilePathValid()) {
+            outputFilePath = sourceFilePath;
         }
     }
 
-    private boolean isOutputFileNameValid() {
-        return outputFileName != null && outputFileName.length() > 0;
+    private boolean isOutputFilePathValid() {
+        return outputFilePath != null && outputFilePath.length() > 0;
     }
 
     public void execute() throws MojoFailureException {
@@ -108,8 +109,8 @@ public final class CopyFileMojo extends AbstractMojo {
         }
         validateParameters();
         calculateParameters();
-        final File sourceFile = new File(sourceDirectory, sourceFileName);
-        final File outputFile = new File(outputDirectory, outputFileName);
+        final File sourceFile = new File(sourceDirectory, sourceFilePath);
+        final File outputFile = new File(outputDirectory, outputFilePath);
         if (shouldCopyFile(sourceFile, outputFile)) {
             copyFile(sourceFile, outputFile);
         }
@@ -119,14 +120,14 @@ public final class CopyFileMojo extends AbstractMojo {
         if (!sourceDirectory.exists()) {
             throw new MojoFailureException("Source directory does not exist: " + sourceDirectory.getAbsolutePath());
         }
-        final File file = new File(sourceDirectory, sourceFileName);
+        final File file = new File(sourceDirectory, sourceFilePath);
         if (!file.exists()) {
             throw new MojoFailureException("Source file does not exist: " + file.getAbsolutePath());
         }
     }
 
     private boolean shouldCopyFile(final File sourceFile, final File outputFile) {
-        if (!force && sourceFile.exists() && sourceFile.lastModified() < outputFile.lastModified()) {
+        if (!force && outputFile.exists() && sourceFile.lastModified() <= outputFile.lastModified()) {
             getLog().info(String.format("Skips copy file, because source (%s) is older than destination file (%s)",
                     sourceFile.getAbsolutePath(), outputFile.getAbsolutePath()));
             return false;
