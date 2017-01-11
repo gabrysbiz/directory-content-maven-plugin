@@ -10,11 +10,11 @@
         <section id="release-1.1.0" name="Release 1.1.0">
             <p>Features:</p>
             <ul>
-                <li>Added <a href="copyFile-mojo.html">copyFile</a> goal</li>
+                <li>Added the <a href="copyFile-mojo.html">copyFile</a> goal</li>
             </ul>
             <p>Bugs:</p>
             <ul>
-                <li>Corrected the condition of the skip copying for <a href="copy-mojo.html">copy</a> goal</li>
+                <li>Corrected the condition of the skip copying for the <a href="copy-mojo.html">copy</a> goal</li>
             </ul>
         </section>
         <section id="release-1.0.2" name="Release 1.0.2">
