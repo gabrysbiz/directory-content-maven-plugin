@@ -18,6 +18,9 @@
                     <a href="copy-mojo.html">directory-content:copy</a> - copies files from source to output directory
                 </li>
                 <li>
+                    <a href="copyFile-mojo.html">directory-content:copyFile</a> - copies file from source to output directory (allow to change name)
+                </li>
+                <li>
                     <a href="transformList-mojo.html">directory-content:transformList</a> - transforms files list to a document using
                     <a href="http://www.w3.org/TR/xslt">XSLT</a> technology
                 </li>

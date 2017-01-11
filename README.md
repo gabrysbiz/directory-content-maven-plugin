@@ -6,6 +6,7 @@ Provides a collection of tools for working with directories.
 
 # Goals Overview
 * [directory-content:copy](http://directory-content-maven-plugin.projects.gabrys.biz/LATEST/copy-mojo.html) - copies files to directory
+* [directory-content:copyFile](http://directory-content-maven-plugin.projects.gabrys.biz/LATEST/copyFile-mojo.html) - copies file from source to output directory (allow to change name)
 * [directory-content:transformList](http://directory-content-maven-plugin.projects.gabrys.biz/LATEST/transformList-mojo.html) - transforms files list to a document using [XSLT](http://www.w3.org/TR/xslt) technology
 * [directory-content:transformMetadata](http://directory-content-maven-plugin.projects.gabrys.biz/LATEST/transformMetadata-mojo.html) - transforms files metadata to documents using [XSLT](http://www.w3.org/TR/xslt) technology
 
