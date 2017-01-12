@@ -40,6 +40,13 @@ import biz.gabrys.maven.plugin.util.parameter.sanitizer.SimpleSanitizer;
     protected boolean skip;
 
     /**
+     * Defines whether to skip the plugin execution if source file does not exist.
+     * @since 1.2.0
+     */
+    @Parameter(property = &quot;directory.content.skipIfSourceFileDoesNotExist&quot;, defaultValue = &quot;false&quot;)
+    protected boolean skipIfSourceFileDoesNotExist;
+
+    /**
      * Forces to always copy file. By default file is only copied when modified or the destination file does not exist.
      * @since 1.1.0
      */
@@ -77,72 +84,88 @@ import biz.gabrys.maven.plugin.util.parameter.sanitizer.SimpleSanitizer;
     protected String outputFilePath;
 
     private void logParameters() {
-<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (!getLog().isDebugEnabled()) {</span>
-<span class="nc" id="L81">            return;</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (!getLog().isDebugEnabled()) {</span>
+<span class="nc" id="L88">            return;</span>
         }
 
-<span class="nc" id="L84">        final ParametersLogBuilder logger = new ParametersLogBuilder(getLog());</span>
-<span class="nc" id="L85">        logger.append(&quot;skip&quot;, skip);</span>
-<span class="nc" id="L86">        logger.append(&quot;force&quot;, force);</span>
-<span class="nc" id="L87">        logger.append(&quot;sourceDirectory&quot;, sourceDirectory);</span>
-<span class="nc" id="L88">        logger.append(&quot;sourceFilePath&quot;, sourceFilePath);</span>
-<span class="nc" id="L89">        logger.append(&quot;outputDirectory&quot;, outputDirectory);</span>
-<span class="nc" id="L90">        logger.append(&quot;outputFilePath&quot;, outputFilePath, new SimpleSanitizer(isOutputFilePathValid(), sourceFilePath));</span>
-<span class="nc" id="L91">        logger.debug();</span>
-<span class="nc" id="L92">    }</span>
+<span class="nc" id="L91">        final ParametersLogBuilder logger = new ParametersLogBuilder(getLog());</span>
+<span class="nc" id="L92">        logger.append(&quot;skip&quot;, skip);</span>
+<span class="nc" id="L93">        logger.append(&quot;skipIfSourceFileDoesNotExist&quot;, skipIfSourceFileDoesNotExist);</span>
+<span class="nc" id="L94">        logger.append(&quot;force&quot;, force);</span>
+<span class="nc" id="L95">        logger.append(&quot;sourceDirectory&quot;, sourceDirectory);</span>
+<span class="nc" id="L96">        logger.append(&quot;sourceFilePath&quot;, sourceFilePath);</span>
+<span class="nc" id="L97">        logger.append(&quot;outputDirectory&quot;, outputDirectory);</span>
+<span class="nc" id="L98">        logger.append(&quot;outputFilePath&quot;, outputFilePath, new SimpleSanitizer(isOutputFilePathValid(), sourceFilePath));</span>
+<span class="nc" id="L99">        logger.debug();</span>
+<span class="nc" id="L100">    }</span>
 
     private void calculateParameters() {
-<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (!isOutputFilePathValid()) {</span>
-<span class="nc" id="L96">            outputFilePath = sourceFilePath;</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        if (!isOutputFilePathValid()) {</span>
+<span class="nc" id="L104">            outputFilePath = sourceFilePath;</span>
         }
-<span class="nc" id="L98">    }</span>
+<span class="nc" id="L106">    }</span>
 
     private boolean isOutputFilePathValid() {
-<span class="nc bnc" id="L101" title="All 4 branches missed.">        return outputFilePath != null &amp;&amp; outputFilePath.length() &gt; 0;</span>
+<span class="nc bnc" id="L109" title="All 4 branches missed.">        return outputFilePath != null &amp;&amp; outputFilePath.length() &gt; 0;</span>
     }
 
     public void execute() throws MojoFailureException {
-<span class="nc" id="L105">        logParameters();</span>
-<span class="nc bnc" id="L106" title="All 2 branches missed.">        if (skip) {</span>
-<span class="nc" id="L107">            getLog().info(&quot;Skipping job execution&quot;);</span>
-<span class="nc" id="L108">            return;</span>
+<span class="nc" id="L113">        logParameters();</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        if (shouldSkipExecution()) {</span>
+<span class="nc" id="L115">            return;</span>
         }
-<span class="nc" id="L110">        validateParameters();</span>
-<span class="nc" id="L111">        calculateParameters();</span>
-<span class="nc" id="L112">        final File sourceFile = new File(sourceDirectory, sourceFilePath);</span>
-<span class="nc" id="L113">        final File outputFile = new File(outputDirectory, outputFilePath);</span>
-<span class="nc bnc" id="L114" title="All 2 branches missed.">        if (shouldCopyFile(sourceFile, outputFile)) {</span>
-<span class="nc" id="L115">            copyFile(sourceFile, outputFile);</span>
+<span class="nc" id="L117">        calculateParameters();</span>
+<span class="nc" id="L118">        validateParameters();</span>
+<span class="nc" id="L119">        final File sourceFile = new File(sourceDirectory, sourceFilePath);</span>
+<span class="nc" id="L120">        final File outputFile = new File(outputDirectory, outputFilePath);</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        if (shouldCopyFile(sourceFile, outputFile)) {</span>
+<span class="nc" id="L122">            copyFile(sourceFile, outputFile);</span>
         }
-<span class="nc" id="L117">    }</span>
+<span class="nc" id="L124">    }</span>
+
+    private boolean shouldSkipExecution() {
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        if (skip) {</span>
+<span class="nc" id="L128">            getLog().info(&quot;Skipping job execution&quot;);</span>
+<span class="nc" id="L129">            return true;</span>
+        }
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        if (skipIfSourceFileDoesNotExist) {</span>
+<span class="nc" id="L132">            final File sourceFile = new File(sourceDirectory, sourceFilePath);</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">            if (!sourceFile.exists()) {</span>
+<span class="nc" id="L134">                getLog().info(&quot;Skipping job execution, because source file does not exist: &quot; + sourceFile.getAbsolutePath());</span>
+<span class="nc" id="L135">                return true;</span>
+            }
+        }
+<span class="nc" id="L138">        return false;</span>
+
+    }
 
     private void validateParameters() throws MojoFailureException {
-<span class="nc bnc" id="L120" title="All 2 branches missed.">        if (!sourceDirectory.exists()) {</span>
-<span class="nc" id="L121">            throw new MojoFailureException(&quot;Source directory does not exist: &quot; + sourceDirectory.getAbsolutePath());</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">        if (!sourceDirectory.exists()) {</span>
+<span class="nc" id="L144">            throw new MojoFailureException(&quot;Source directory does not exist: &quot; + sourceDirectory.getAbsolutePath());</span>
         }
-<span class="nc" id="L123">        final File file = new File(sourceDirectory, sourceFilePath);</span>
-<span class="nc bnc" id="L124" title="All 2 branches missed.">        if (!file.exists()) {</span>
-<span class="nc" id="L125">            throw new MojoFailureException(&quot;Source file does not exist: &quot; + file.getAbsolutePath());</span>
+<span class="nc" id="L146">        final File file = new File(sourceDirectory, sourceFilePath);</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">        if (!file.exists()) {</span>
+<span class="nc" id="L148">            throw new MojoFailureException(&quot;Source file does not exist: &quot; + file.getAbsolutePath());</span>
         }
-<span class="nc" id="L127">    }</span>
+<span class="nc" id="L150">    }</span>
 
     private boolean shouldCopyFile(final File sourceFile, final File outputFile) {
-<span class="nc bnc" id="L130" title="All 6 branches missed.">        if (!force &amp;&amp; outputFile.exists() &amp;&amp; sourceFile.lastModified() &lt;= outputFile.lastModified()) {</span>
-<span class="nc" id="L131">            getLog().info(String.format(&quot;Skips copy file, because source (%s) is older than destination file (%s)&quot;,</span>
-<span class="nc" id="L132">                    sourceFile.getAbsolutePath(), outputFile.getAbsolutePath()));</span>
-<span class="nc" id="L133">            return false;</span>
+<span class="nc bnc" id="L153" title="All 6 branches missed.">        if (!force &amp;&amp; outputFile.exists() &amp;&amp; sourceFile.lastModified() &lt;= outputFile.lastModified()) {</span>
+<span class="nc" id="L154">            getLog().info(String.format(&quot;Skips copy file, because source (%s) is older than destination file (%s)&quot;,</span>
+<span class="nc" id="L155">                    sourceFile.getAbsolutePath(), outputFile.getAbsolutePath()));</span>
+<span class="nc" id="L156">            return false;</span>
         }
-<span class="nc" id="L135">        return true;</span>
+<span class="nc" id="L158">        return true;</span>
     }
 
     private void copyFile(final File sourceFile, final File outputFile) throws MojoFailureException {
-<span class="nc" id="L139">        getLog().info(String.format(&quot;Copying %s to %s&quot;, sourceFile.getAbsolutePath(), outputFile.getAbsolutePath()));</span>
+<span class="nc" id="L162">        getLog().info(String.format(&quot;Copying %s to %s&quot;, sourceFile.getAbsolutePath(), outputFile.getAbsolutePath()));</span>
         try {
-<span class="nc" id="L141">            FileUtils.copyFile(sourceFile, outputFile);</span>
-<span class="nc" id="L142">        } catch (final IOException e) {</span>
-<span class="nc" id="L143">            final String message = String.format(&quot;Cannot copy %s to %s&quot;, sourceFile.getAbsolutePath(), outputFile.getAbsolutePath());</span>
-<span class="nc" id="L144">            throw new MojoFailureException(message, e);</span>
-<span class="nc" id="L145">        }</span>
-<span class="nc" id="L146">    }</span>
+<span class="nc" id="L164">            FileUtils.copyFile(sourceFile, outputFile);</span>
+<span class="nc" id="L165">        } catch (final IOException e) {</span>
+<span class="nc" id="L166">            final String message = String.format(&quot;Cannot copy %s to %s&quot;, sourceFile.getAbsolutePath(), outputFile.getAbsolutePath());</span>
+<span class="nc" id="L167">            throw new MojoFailureException(message, e);</span>
+<span class="nc" id="L168">        }</span>
+<span class="nc" id="L169">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>
