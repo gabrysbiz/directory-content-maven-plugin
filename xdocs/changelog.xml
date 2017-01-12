@@ -15,10 +15,6 @@
                     parameter to the <a href="copyFile-mojo.html">copyFile</a> goal
                 </li>
             </ul>
-            <p>Bugs:</p>
-            <ul>
-                <li>Corrected the condition of the skip copying for the <a href="copy-mojo.html">copy</a> goal</li>
-            </ul>
         </section>
         <section id="release-1.1.0" name="Release 1.1.0">
             <p>Features:</p>
