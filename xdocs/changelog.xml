@@ -7,15 +7,29 @@
     </properties>
 
     <body>
+        <section id="release-1.2.0" name="Release 1.2.0">
+            <p>Features:</p>
+            <ul>
+                <li>
+                    Added the <a href="copyFile-mojo.html#skipIfSourceFileDoesNotExist">skipIfSourceFileDoesNotExist</a>
+                    parameter to the <a href="copyFile-mojo.html">copyFile</a> goal
+                </li>
+            </ul>
+        </section>
         <section id="release-1.1.0" name="Release 1.1.0">
             <p>Features:</p>
             <ul>
-                <li>Added the <a href="copyFile-mojo.html">copyFile</a> goal</li>
+                <li>
+                    Added the
+                    <a href="http://directory-content-maven-plugin.projects.gabrys.biz/1.1.0/copyFile-mojo.html">copyFile</a>
+                    goal
+                </li>
             </ul>
             <p>Bugs:</p>
             <ul>
                 <li>Corrected the condition of the skip copying for the <a href="copy-mojo.html">copy</a> goal</li>
             </ul>
+            <p><a href="http://directory-content-maven-plugin.projects.gabrys.biz/1.1.0/">See documentation</a></p>
         </section>
         <section id="release-1.0.2" name="Release 1.0.2">
             <p>Dependencies:</p>
