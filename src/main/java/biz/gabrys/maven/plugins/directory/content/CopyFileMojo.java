@@ -40,6 +40,13 @@ public class CopyFileMojo extends AbstractMojo {
     protected boolean skip;
 
     /**
+     * Defines whether to skip the plugin execution if source file does not exist.
+     * @since 1.2.0
+     */
+    @Parameter(property = "directory.content.skipIfSourceFileDoesNotExist", defaultValue = "false")
+    protected boolean skipIfSourceFileDoesNotExist;
+
+    /**
      * Forces to always copy file. By default file is only copied when modified or the destination file does not exist.
      * @since 1.1.0
      */
@@ -83,6 +90,7 @@ public class CopyFileMojo extends AbstractMojo {
 
         final ParametersLogBuilder logger = new ParametersLogBuilder(getLog());
         logger.append("skip", skip);
+        logger.append("skipIfSourceFileDoesNotExist", skipIfSourceFileDoesNotExist);
         logger.append("force", force);
         logger.append("sourceDirectory", sourceDirectory);
         logger.append("sourceFilePath", sourceFilePath);
@@ -103,17 +111,32 @@ public class CopyFileMojo extends AbstractMojo {
 
     public void execute() throws MojoFailureException {
         logParameters();
-        if (skip) {
-            getLog().info("Skipping job execution");
+        if (shouldSkipExecution()) {
             return;
         }
-        validateParameters();
         calculateParameters();
+        validateParameters();
         final File sourceFile = new File(sourceDirectory, sourceFilePath);
         final File outputFile = new File(outputDirectory, outputFilePath);
         if (shouldCopyFile(sourceFile, outputFile)) {
             copyFile(sourceFile, outputFile);
         }
+    }
+
+    private boolean shouldSkipExecution() {
+        if (skip) {
+            getLog().info("Skipping job execution");
+            return true;
+        }
+        if (skipIfSourceFileDoesNotExist) {
+            final File sourceFile = new File(sourceDirectory, sourceFilePath);
+            if (!sourceFile.exists()) {
+                getLog().info("Skipping job execution, because source file does not exist: " + sourceFile.getAbsolutePath());
+                return true;
+            }
+        }
+        return false;
+
     }
 
     private void validateParameters() throws MojoFailureException {
