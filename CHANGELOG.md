@@ -1,5 +1,11 @@
 # Directory Content Maven Plugin Changelog
 
+## 1.2.1
+Bugs:
+* Added missing Eclipse `lifecycleMappingMetadata` for the [copyFile](http://directory-content-maven-plugin.projects.gabrys.biz/1.2.1/copyFile-mojo.html) goal
+
+[See documentation](http://directory-content-maven-plugin.projects.gabrys.biz/1.2.1/)
+
 ## 1.2.0
 Features:
 * Added the [skipIfSourceFileDoesNotExist](http://directory-content-maven-plugin.projects.gabrys.biz/1.2.0/copyFile-mojo.html#skipIfSourceFileDoesNotExist) parameter to the [copyFile](http://directory-content-maven-plugin.projects.gabrys.biz/1.2.0/copyFile-mojo.html) goal

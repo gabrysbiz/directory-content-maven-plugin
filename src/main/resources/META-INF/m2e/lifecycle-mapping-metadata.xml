@@ -16,6 +16,18 @@
         <pluginExecution>
             <pluginExecutionFilter>
                 <goals>
+                    <goal>copyFile</goal>
+                </goals>
+            </pluginExecutionFilter>
+            <action>
+                <execute>
+                    <runOnIncremental>true</runOnIncremental>
+                </execute>
+            </action>
+        </pluginExecution>
+        <pluginExecution>
+            <pluginExecutionFilter>
+                <goals>
                     <goal>transformList</goal>
                 </goals>
             </pluginExecutionFilter>

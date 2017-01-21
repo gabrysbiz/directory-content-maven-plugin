@@ -5,11 +5,11 @@
 
     <groupId>biz.gabrys.maven.plugins</groupId>
     <artifactId>directory-content-maven-plugin</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <packaging>maven-plugin</packaging>
     <name>Directory Content Maven Plugin</name>
     <description>Provides a collection of tools for working with directories.</description>
-    <url>http://directory-content-maven-plugin.projects.gabrys.biz/1.2.0/</url>
+    <url>http://directory-content-maven-plugin.projects.gabrys.biz/1.2.1/</url>
 
     <inceptionYear>2015</inceptionYear>
     <organization>
@@ -140,7 +140,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.6.0</version>
+                    <version>3.6.1</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-deploy-plugin</artifactId>
