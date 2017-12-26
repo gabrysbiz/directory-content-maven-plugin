@@ -2,7 +2,7 @@
  * Directory Content Maven Plugin
  * http://directory-content-maven-plugin.projects.gabrys.biz/
  *
- * Copyright (c) 2015 Adam Gabryś
+ * Copyright (c) 2015 Adam Gabrys
  *
  * This file is licensed under the BSD 3-Clause (the &quot;License&quot;).
  * You may not use this file except in compliance with the License.
@@ -116,34 +116,35 @@ import biz.gabrys.maven.plugin.util.parameter.sanitizer.SimpleSanitizer;
         }
 <span class="nc" id="L117">    }</span>
 
+    @Override
     public final void execute() throws MojoFailureException {
-<span class="nc" id="L120">        logParameters();</span>
-<span class="nc bnc" id="L121" title="All 2 branches missed.">        if (skip) {</span>
-<span class="nc" id="L122">            getLog().info(&quot;Skipping job execution&quot;);</span>
-<span class="nc" id="L123">            return;</span>
+<span class="nc" id="L121">        logParameters();</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">        if (skip) {</span>
+<span class="nc" id="L123">            getLog().info(&quot;Skipping job execution&quot;);</span>
+<span class="nc" id="L124">            return;</span>
         }
-<span class="nc" id="L125">        calculateParameters();</span>
-<span class="nc bnc" id="L126" title="All 2 branches missed.">        if (!sourceDirectory.exists()) {</span>
-<span class="nc" id="L127">            getLog().warn(&quot;Source directory does not exist: &quot; + sourceDirectory.getAbsolutePath());</span>
-<span class="nc" id="L128">            return;</span>
+<span class="nc" id="L126">        calculateParameters();</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        if (!sourceDirectory.exists()) {</span>
+<span class="nc" id="L128">            getLog().warn(&quot;Source directory does not exist: &quot; + sourceDirectory.getAbsolutePath());</span>
+<span class="nc" id="L129">            return;</span>
         }
-<span class="nc" id="L130">        final Collection&lt;File&gt; files = getFiles();</span>
-<span class="nc bnc" id="L131" title="All 2 branches missed.">        if (files.isEmpty()) {</span>
-<span class="nc" id="L132">            getLog().warn(&quot;Zero files to process&quot;);</span>
-<span class="nc" id="L133">            return;</span>
+<span class="nc" id="L131">        final Collection&lt;File&gt; files = getFiles();</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        if (files.isEmpty()) {</span>
+<span class="nc" id="L133">            getLog().warn(&quot;Zero files to process&quot;);</span>
+<span class="nc" id="L134">            return;</span>
         }
-<span class="nc" id="L135">        execute(files);</span>
-<span class="nc" id="L136">    }</span>
+<span class="nc" id="L136">        execute(files);</span>
+<span class="nc" id="L137">    }</span>
 
     private Collection&lt;File&gt; getFiles() {
-<span class="nc" id="L139">        final ScannerPatternFormat patternFormat = ScannerPatternFormat.toPattern(filesetPatternFormat);</span>
-<span class="nc" id="L140">        final FileScanner scanner = new ScannerFactory().create(patternFormat, getLog());</span>
-<span class="nc bnc" id="L141" title="All 2 branches missed.">        if (verbose) {</span>
-<span class="nc" id="L142">            getLog().info(&quot;Scanning directory for files...&quot;);</span>
+<span class="nc" id="L140">        final ScannerPatternFormat patternFormat = ScannerPatternFormat.toPattern(filesetPatternFormat);</span>
+<span class="nc" id="L141">        final FileScanner scanner = new ScannerFactory().create(patternFormat, getLog());</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        if (verbose) {</span>
+<span class="nc" id="L143">            getLog().info(&quot;Scanning directory for files...&quot;);</span>
         }
-<span class="nc" id="L144">        return scanner.getFiles(sourceDirectory, includes, excludes);</span>
+<span class="nc" id="L145">        return scanner.getFiles(sourceDirectory, includes, excludes);</span>
     }
 
     protected abstract void execute(Collection&lt;File&gt; files) throws MojoFailureException;
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

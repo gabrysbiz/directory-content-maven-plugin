@@ -2,7 +2,7 @@
  * Directory Content Maven Plugin
  * http://directory-content-maven-plugin.projects.gabrys.biz/
  *
- * Copyright (c) 2015 Adam Gabryś
+ * Copyright (c) 2015 Adam Gabrys
  *
  * This file is licensed under the BSD 3-Clause (the &quot;License&quot;).
  * You may not use this file except in compliance with the License.
@@ -109,63 +109,64 @@ import biz.gabrys.maven.plugin.util.parameter.sanitizer.SimpleSanitizer;
 <span class="nc bnc" id="L109" title="All 4 branches missed.">        return outputFilePath != null &amp;&amp; outputFilePath.length() &gt; 0;</span>
     }
 
+    @Override
     public void execute() throws MojoFailureException {
-<span class="nc" id="L113">        logParameters();</span>
-<span class="nc bnc" id="L114" title="All 2 branches missed.">        if (shouldSkipExecution()) {</span>
-<span class="nc" id="L115">            return;</span>
+<span class="nc" id="L114">        logParameters();</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        if (shouldSkipExecution()) {</span>
+<span class="nc" id="L116">            return;</span>
         }
-<span class="nc" id="L117">        calculateParameters();</span>
-<span class="nc" id="L118">        validateParameters();</span>
-<span class="nc" id="L119">        final File sourceFile = new File(sourceDirectory, sourceFilePath);</span>
-<span class="nc" id="L120">        final File outputFile = new File(outputDirectory, outputFilePath);</span>
-<span class="nc bnc" id="L121" title="All 2 branches missed.">        if (shouldCopyFile(sourceFile, outputFile)) {</span>
-<span class="nc" id="L122">            copyFile(sourceFile, outputFile);</span>
+<span class="nc" id="L118">        calculateParameters();</span>
+<span class="nc" id="L119">        validateParameters();</span>
+<span class="nc" id="L120">        final File sourceFile = new File(sourceDirectory, sourceFilePath);</span>
+<span class="nc" id="L121">        final File outputFile = new File(outputDirectory, outputFilePath);</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">        if (shouldCopyFile(sourceFile, outputFile)) {</span>
+<span class="nc" id="L123">            copyFile(sourceFile, outputFile);</span>
         }
-<span class="nc" id="L124">    }</span>
+<span class="nc" id="L125">    }</span>
 
     private boolean shouldSkipExecution() {
-<span class="nc bnc" id="L127" title="All 2 branches missed.">        if (skip) {</span>
-<span class="nc" id="L128">            getLog().info(&quot;Skipping job execution&quot;);</span>
-<span class="nc" id="L129">            return true;</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        if (skip) {</span>
+<span class="nc" id="L129">            getLog().info(&quot;Skipping job execution&quot;);</span>
+<span class="nc" id="L130">            return true;</span>
         }
-<span class="nc bnc" id="L131" title="All 2 branches missed.">        if (skipIfSourceFileDoesNotExist) {</span>
-<span class="nc" id="L132">            final File sourceFile = new File(sourceDirectory, sourceFilePath);</span>
-<span class="nc bnc" id="L133" title="All 2 branches missed.">            if (!sourceFile.exists()) {</span>
-<span class="nc" id="L134">                getLog().info(&quot;Skipping job execution, because source file does not exist: &quot; + sourceFile.getAbsolutePath());</span>
-<span class="nc" id="L135">                return true;</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        if (skipIfSourceFileDoesNotExist) {</span>
+<span class="nc" id="L133">            final File sourceFile = new File(sourceDirectory, sourceFilePath);</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">            if (!sourceFile.exists()) {</span>
+<span class="nc" id="L135">                getLog().info(&quot;Skipping job execution, because source file does not exist: &quot; + sourceFile.getAbsolutePath());</span>
+<span class="nc" id="L136">                return true;</span>
             }
         }
-<span class="nc" id="L138">        return false;</span>
+<span class="nc" id="L139">        return false;</span>
 
     }
 
     private void validateParameters() throws MojoFailureException {
-<span class="nc bnc" id="L143" title="All 2 branches missed.">        if (!sourceDirectory.exists()) {</span>
-<span class="nc" id="L144">            throw new MojoFailureException(&quot;Source directory does not exist: &quot; + sourceDirectory.getAbsolutePath());</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        if (!sourceDirectory.exists()) {</span>
+<span class="nc" id="L145">            throw new MojoFailureException(&quot;Source directory does not exist: &quot; + sourceDirectory.getAbsolutePath());</span>
         }
-<span class="nc" id="L146">        final File file = new File(sourceDirectory, sourceFilePath);</span>
-<span class="nc bnc" id="L147" title="All 2 branches missed.">        if (!file.exists()) {</span>
-<span class="nc" id="L148">            throw new MojoFailureException(&quot;Source file does not exist: &quot; + file.getAbsolutePath());</span>
+<span class="nc" id="L147">        final File file = new File(sourceDirectory, sourceFilePath);</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        if (!file.exists()) {</span>
+<span class="nc" id="L149">            throw new MojoFailureException(&quot;Source file does not exist: &quot; + file.getAbsolutePath());</span>
         }
-<span class="nc" id="L150">    }</span>
+<span class="nc" id="L151">    }</span>
 
     private boolean shouldCopyFile(final File sourceFile, final File outputFile) {
-<span class="nc bnc" id="L153" title="All 6 branches missed.">        if (!force &amp;&amp; outputFile.exists() &amp;&amp; sourceFile.lastModified() &lt;= outputFile.lastModified()) {</span>
-<span class="nc" id="L154">            getLog().info(String.format(&quot;Skips copy file, because source (%s) is older than destination file (%s)&quot;,</span>
-<span class="nc" id="L155">                    sourceFile.getAbsolutePath(), outputFile.getAbsolutePath()));</span>
-<span class="nc" id="L156">            return false;</span>
+<span class="nc bnc" id="L154" title="All 6 branches missed.">        if (!force &amp;&amp; outputFile.exists() &amp;&amp; sourceFile.lastModified() &lt;= outputFile.lastModified()) {</span>
+<span class="nc" id="L155">            getLog().info(String.format(&quot;Skips copy file, because source (%s) is older than destination file (%s)&quot;,</span>
+<span class="nc" id="L156">                    sourceFile.getAbsolutePath(), outputFile.getAbsolutePath()));</span>
+<span class="nc" id="L157">            return false;</span>
         }
-<span class="nc" id="L158">        return true;</span>
+<span class="nc" id="L159">        return true;</span>
     }
 
     private void copyFile(final File sourceFile, final File outputFile) throws MojoFailureException {
-<span class="nc" id="L162">        getLog().info(String.format(&quot;Copying %s to %s&quot;, sourceFile.getAbsolutePath(), outputFile.getAbsolutePath()));</span>
+<span class="nc" id="L163">        getLog().info(String.format(&quot;Copying %s to %s&quot;, sourceFile.getAbsolutePath(), outputFile.getAbsolutePath()));</span>
         try {
-<span class="nc" id="L164">            FileUtils.copyFile(sourceFile, outputFile);</span>
-<span class="nc" id="L165">        } catch (final IOException e) {</span>
-<span class="nc" id="L166">            final String message = String.format(&quot;Cannot copy %s to %s&quot;, sourceFile.getAbsolutePath(), outputFile.getAbsolutePath());</span>
-<span class="nc" id="L167">            throw new MojoFailureException(message, e);</span>
-<span class="nc" id="L168">        }</span>
-<span class="nc" id="L169">    }</span>
+<span class="nc" id="L165">            FileUtils.copyFile(sourceFile, outputFile);</span>
+<span class="nc" id="L166">        } catch (final IOException e) {</span>
+<span class="nc" id="L167">            final String message = String.format(&quot;Cannot copy %s to %s&quot;, sourceFile.getAbsolutePath(), outputFile.getAbsolutePath());</span>
+<span class="nc" id="L168">            throw new MojoFailureException(message, e);</span>
+<span class="nc" id="L169">        }</span>
+<span class="nc" id="L170">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
