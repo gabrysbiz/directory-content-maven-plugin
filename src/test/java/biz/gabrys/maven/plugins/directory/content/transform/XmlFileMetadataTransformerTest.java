@@ -1,11 +1,14 @@
 package biz.gabrys.maven.plugins.directory.content.transform;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import biz.gabrys.maven.plugins.directory.content.file.FileMetadata;
 
@@ -32,7 +35,8 @@ public final class XmlFileMetadataTransformerTest {
         expectedXml.append("</file>");
 
         final String xml = new XmlFileMetadataTransformer().transform(metadata);
-        Assert.assertEquals("XML representation of the object.", expectedXml.toString(), xml);
+
+        assertThat(xml).isEqualTo(expectedXml.toString());
     }
 
     @Test
@@ -56,7 +60,8 @@ public final class XmlFileMetadataTransformerTest {
         expectedXml.append("</file>");
 
         final String xml = new XmlFileMetadataTransformer().transform(metadata);
-        Assert.assertEquals("XML representation of the object.", expectedXml.toString(), xml);
+
+        assertThat(xml).isEqualTo(expectedXml.toString());
     }
 
     @Test
@@ -79,7 +84,8 @@ public final class XmlFileMetadataTransformerTest {
         expectedXml.append("</file>");
 
         final String xml = new XmlFileMetadataTransformer().transform(metadata);
-        Assert.assertEquals("XML representation of the object.", expectedXml.toString(), xml);
+
+        assertThat(xml).isEqualTo(expectedXml.toString());
     }
 
     @Test
@@ -125,14 +131,14 @@ public final class XmlFileMetadataTransformerTest {
 
         expectedXml.append("</files>");
 
-        final XmlFileMetadataTransformer transformer = Mockito.spy(new XmlFileMetadataTransformer());
+        final XmlFileMetadataTransformer transformer = spy(new XmlFileMetadataTransformer());
 
         final String xml = transformer.transform(metadata);
-        Assert.assertEquals("XML representation of the objects.", expectedXml.toString(), xml);
 
-        Mockito.verify(transformer).transform(metadata);
-        Mockito.verify(transformer).transform(fileMetadata1);
-        Mockito.verify(transformer).transform(fileMetadata2);
-        Mockito.verifyNoMoreInteractions(transformer);
+        assertThat(xml).isEqualTo(expectedXml.toString());
+        verify(transformer).transform(metadata);
+        verify(transformer).transform(fileMetadata1);
+        verify(transformer).transform(fileMetadata2);
+        verifyNoMoreInteractions(transformer);
     }
 }

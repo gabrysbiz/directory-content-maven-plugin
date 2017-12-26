@@ -1,8 +1,9 @@
 package biz.gabrys.maven.plugins.directory.content.file;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.File;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public final class DirectoryResolverTest {
@@ -12,7 +13,7 @@ public final class DirectoryResolverTest {
         final File file = new File("/root/file");
         final File rootDirectory = new File("/root");
         final String path = new DirectoryResolver().resolve(file, rootDirectory, File.separator);
-        Assert.assertEquals("Resolved directory path.", "", path);
+        assertThat(path).isEmpty();
     }
 
     @Test
@@ -20,7 +21,7 @@ public final class DirectoryResolverTest {
         final File file = new File("/root/file");
         final File rootDirectory = new File("/root");
         final String path = new DirectoryResolver().resolve(file, rootDirectory, ";");
-        Assert.assertEquals("Resolved directory path.", "", path);
+        assertThat(path).isEmpty();
     }
 
     @Test
@@ -28,7 +29,7 @@ public final class DirectoryResolverTest {
         final File file = new File("/root/directory1/directory2/file");
         final File rootDirectory = new File("/root");
         final String path = new DirectoryResolver().resolve(file, rootDirectory, File.separator);
-        Assert.assertEquals("Resolved directory path.", "directory1" + File.separator + "directory2", path);
+        assertThat(path).isEqualTo("directory1" + File.separator + "directory2");
     }
 
     @Test
@@ -36,6 +37,6 @@ public final class DirectoryResolverTest {
         final File file = new File("/root/directory1/directory2/file");
         final File rootDirectory = new File("/root");
         final String path = new DirectoryResolver().resolve(file, rootDirectory, ";");
-        Assert.assertEquals("Resolved directory path.", "directory1;directory2", path);
+        assertThat(path).isEqualTo("directory1;directory2");
     }
 }

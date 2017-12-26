@@ -2,7 +2,7 @@
  * Directory Content Maven Plugin
  * http://directory-content-maven-plugin.projects.gabrys.biz/
  *
- * Copyright (c) 2015 Adam Gabryś
+ * Copyright (c) 2015 Adam Gabrys
  *
  * This file is licensed under the BSD 3-Clause (the "License").
  * You may not use this file except in compliance with the License.
@@ -116,6 +116,7 @@ abstract class AbstractPluginMojo extends AbstractMojo {
         }
     }
 
+    @Override
     public final void execute() throws MojoFailureException {
         logParameters();
         if (skip) {

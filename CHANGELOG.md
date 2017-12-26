@@ -1,5 +1,15 @@
 # Directory Content Maven Plugin Changelog
 
+## 2.0.0
+Features:
+* Set compatibility with Java 6+
+* Set compatibility with Maven 3+
+
+Dependencies:
+* Upgraded [Maven Plugin Utils](http://maven-plugin-utils.projects.gabrys.biz/) from [1.4.0](http://maven-plugin-utils.projects.gabrys.biz/1.4.0/) to [2.0.0](http://maven-plugin-utils.projects.gabrys.biz/2.0.0/)
+
+[See documentation](http://directory-content-maven-plugin.projects.gabrys.biz/2.0.0/)
+
 ## 1.2.1
 Bugs:
 * Added missing Eclipse `lifecycleMappingMetadata` for the [copyFile](http://directory-content-maven-plugin.projects.gabrys.biz/1.2.1/copyFile-mojo.html) goal

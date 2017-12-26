@@ -2,7 +2,7 @@
  * Directory Content Maven Plugin
  * http://directory-content-maven-plugin.projects.gabrys.biz/
  *
- * Copyright (c) 2015 Adam Gabryś
+ * Copyright (c) 2015 Adam Gabrys
  *
  * This file is licensed under the BSD 3-Clause (the "License").
  * You may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import biz.gabrys.maven.plugins.directory.content.file.FileMetadata;
  */
 public class XmlFileMetadataTransformer implements FileMetadataTransformer {
 
+    @Override
     public String transform(final Iterable<FileMetadata> metadata) {
         final StringBuilder xml = new StringBuilder("<files>\n");
         for (final FileMetadata fileMetadata : metadata) {
@@ -35,6 +36,7 @@ public class XmlFileMetadataTransformer implements FileMetadataTransformer {
         return xml.toString();
     }
 
+    @Override
     public String transform(final FileMetadata metadata) {
         final XStream stream = new XStream();
         stream.aliasType("file", FileMetadata.class);
