@@ -18,7 +18,7 @@ import java.io.File;
  * Responsible for getting parent directory path for {@link File} objects.
  * @since 1.0
  */
-<span class="fc" id="L21">public class DirectoryResolver {</span>
+<span class="nc" id="L21">public class DirectoryResolver {</span>
 
     /**
      * Returns parent directory path for file.
@@ -29,15 +29,15 @@ import java.io.File;
      * @since 1.0
      */
     public String resolve(final File file, final File rootDirectory, final String separator) {
-<span class="fc" id="L32">        final int index = rootDirectory.getAbsolutePath().length();</span>
-<span class="fc" id="L33">        String path = file.getParentFile().getAbsolutePath().substring(index);</span>
-<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (path.startsWith(File.separator)) {</span>
-<span class="fc" id="L35">            path = path.substring(File.separator.length());</span>
+<span class="nc" id="L32">        final int index = rootDirectory.getAbsolutePath().length();</span>
+<span class="nc" id="L33">        String path = file.getParentFile().getAbsolutePath().substring(index);</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        if (path.startsWith(File.separator)) {</span>
+<span class="nc" id="L35">            path = path.substring(File.separator.length());</span>
         }
-<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (File.separator.equals(separator)) {</span>
-<span class="fc" id="L38">            return path;</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        if (File.separator.equals(separator)) {</span>
+<span class="nc" id="L38">            return path;</span>
         }
-<span class="fc" id="L40">        return path.replace(File.separator, separator);</span>
+<span class="nc" id="L40">        return path.replace(File.separator, separator);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

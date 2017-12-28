@@ -102,7 +102,7 @@ import biz.gabrys.maven.plugins.directory.content.transform.XsltTransformer;
 
 <span class="nc bnc" id="L103" title="All 2 branches missed.">        for (final File file : files) {</span>
 <span class="nc" id="L104">            transformFile(file);</span>
-<span class="nc" id="L105">        }</span>
+        }
 <span class="nc" id="L106">    }</span>
 
     private void transformFile(final File file) throws MojoFailureException {
@@ -150,7 +150,7 @@ import biz.gabrys.maven.plugins.directory.content.transform.XsltTransformer;
 <span class="nc" id="L150">            FileUtils.write(destination, document, encoding);</span>
 <span class="nc" id="L151">        } catch (final IOException e) {</span>
 <span class="nc" id="L152">            throw new MojoFailureException(&quot;Cannot save transformed document to file: &quot; + destination.getAbsolutePath(), e);</span>
-<span class="nc" id="L153">        }</span>
+        }
 <span class="nc" id="L154">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

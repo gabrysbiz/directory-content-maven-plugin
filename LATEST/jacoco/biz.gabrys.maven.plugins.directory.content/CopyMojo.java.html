@@ -52,7 +52,7 @@ import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
 <span class="nc bnc" id="L52" title="All 2 branches missed.">            if (shouldCopyFile(sourceFile, outputFile)) {</span>
 <span class="nc" id="L53">                copyFile(sourceFile, outputFile);</span>
             }
-<span class="nc" id="L55">        }</span>
+        }
 <span class="nc" id="L56">    }</span>
 
     private File getDestination(final File file) {
@@ -80,7 +80,7 @@ import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
 <span class="nc" id="L80">        } catch (final IOException e) {</span>
 <span class="nc" id="L81">            final String message = String.format(&quot;Cannot copy %s to %s&quot;, sourceFile.getAbsolutePath(), outputFile.getAbsolutePath());</span>
 <span class="nc" id="L82">            throw new MojoFailureException(message, e);</span>
-<span class="nc" id="L83">        }</span>
+        }
 <span class="nc" id="L84">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

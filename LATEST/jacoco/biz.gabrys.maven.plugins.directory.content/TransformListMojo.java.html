@@ -110,7 +110,7 @@ import biz.gabrys.maven.plugins.directory.content.transform.XsltTransformer;
 <span class="nc bnc" id="L110" title="All 2 branches missed.">            if (file.lastModified() &gt;= outputFile.lastModified()) {</span>
 <span class="nc" id="L111">                return true;</span>
             }
-<span class="nc" id="L113">        }</span>
+        }
 <span class="nc" id="L114">        return false;</span>
     }
 
@@ -144,7 +144,7 @@ import biz.gabrys.maven.plugins.directory.content.transform.XsltTransformer;
 <span class="nc" id="L144">            FileUtils.write(outputFile, document, encoding);</span>
 <span class="nc" id="L145">        } catch (final IOException e) {</span>
 <span class="nc" id="L146">            throw new MojoFailureException(&quot;Cannot save document to file: &quot; + outputFile.getAbsolutePath(), e);</span>
-<span class="nc" id="L147">        }</span>
+        }
 <span class="nc" id="L148">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
