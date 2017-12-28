@@ -5,11 +5,11 @@
 
     <groupId>biz.gabrys.maven.plugins</groupId>
     <artifactId>directory-content-maven-plugin</artifactId>
-    <version>1.2.1</version>
+    <version>2.0.0</version>
     <packaging>maven-plugin</packaging>
     <name>Directory Content Maven Plugin</name>
     <description>Provides a collection of tools for working with directories.</description>
-    <url>http://directory-content-maven-plugin.projects.gabrys.biz/1.2.1/</url>
+    <url>http://directory-content-maven-plugin.projects.gabrys.biz/2.0.0/</url>
 
     <inceptionYear>2015</inceptionYear>
     <organization>
@@ -37,7 +37,7 @@
     </developers>
 
     <prerequisites>
-        <maven>2.0.11</maven>
+        <maven>3.0</maven>
     </prerequisites>
 
     <scm>
@@ -74,27 +74,26 @@
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
-            <version>2.0.11</version>
+            <version>3.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.maven.plugin-tools</groupId>
             <artifactId>maven-plugin-annotations</artifactId>
-            <!-- latest compatible with JDK 1.5 -->
-            <version>3.4</version>
+            <version>3.5</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>biz.gabrys.maven</groupId>
             <artifactId>plugin-utils</artifactId>
-            <version>1.4.0</version>
+            <version>2.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
-            <!-- latest compatible with JDK 1.5 -->
+            <!-- latest compatible with JDK 6 -->
             <version>1.4.7</version>
         </dependency>
 
@@ -105,10 +104,16 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <!-- latest compatible with JDK 6 -->
+            <version>1.7.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <!-- latest compatible with JDK 1.5 -->
-            <version>1.10.19</version>
+            <version>2.13.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -140,7 +145,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.6.1</version>
+                    <version>3.7.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-deploy-plugin</artifactId>
@@ -166,6 +171,10 @@
                     </configuration>
                 </plugin>
                 <plugin>
+                    <artifactId>maven-plugin-plugin</artifactId>
+                    <version>3.5</version>
+                </plugin>
+                <plugin>
                     <artifactId>maven-project-info-reports-plugin</artifactId>
                     <version>2.9</version>
                 </plugin>
@@ -183,7 +192,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.19.1</version>
+                    <version>2.20.1</version>
                 </plugin>
                 <plugin>
                     <groupId>com.mycila</groupId>
@@ -192,7 +201,7 @@
                     <configuration>
                         <header>header-license-template.txt</header>
                         <properties>
-                            <owner>Adam Gabryś</owner>
+                            <owner>Adam Gabrys</owner>
                         </properties>
                         <includes>
                             <include>src/main/java/**</include>
@@ -205,7 +214,7 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.7.8</version>
+                    <version>0.7.9</version>
                     <configuration>
                         <rules>
                             <rule>
@@ -247,10 +256,20 @@
         </pluginManagement>
         <plugins>
             <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>src/site/resources/files</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+            <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
                 </configuration>
@@ -295,13 +314,13 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
-                        <phase>site</phase>
+                        <phase>pre-site</phase>
                         <goals>
                             <goal>run</goal>
                         </goals>
                         <configuration>
                             <target>
-                                <copy todir="${project.build.directory}/site/files">
+                                <copy todir="src/site/resources/files">
                                     <fileset dir="${project.build.directory}">
                                         <include name="${project.artifactId}-${project.version}.jar" />
                                         <include name="${project.artifactId}-${project.version}-sources.jar" />
@@ -327,7 +346,6 @@
                         <reports>
                             <report>cim</report>
                             <report>dependencies</report>
-                            <report>dependency-info</report>
                             <report>issue-tracking</report>
                             <report>license</report>
                             <report>summary</report>

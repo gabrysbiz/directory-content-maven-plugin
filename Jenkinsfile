@@ -17,19 +17,15 @@ node {
         stage('Checkout') {
             checkout scm
         }
-
-        withMaven(maven: 'MVN-3', jdk: 'JDK-8', mavenLocalRepo: '.repository') {
-            stage('Build') {
+        stage('Build') {
+            withMaven(maven: 'MVN-3', jdk: 'JDK-9', mavenLocalRepo: '.repository', options: [junitPublisher(disabled: true)]) {
                 sh 'mvn -e install site -DskipTests'
             }
-            stage('Test') {
-                sh 'mvn -e test'
-                junit 'target/surefire-reports/TEST-*.xml'
-            }
         }
-
-        stage('Archive') {
-            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+        stage('Test') {
+            withMaven(maven: 'MVN-3', jdk: 'JDK-9', mavenLocalRepo: '.repository', options: [openTasksPublisher(disabled: true), dependenciesFingerprintPublisher(disabled: true)]) {
+                sh 'mvn -e test'
+            }
         }
         stage('Post Build Cleanup') {
            step($class: 'WsCleanup')
