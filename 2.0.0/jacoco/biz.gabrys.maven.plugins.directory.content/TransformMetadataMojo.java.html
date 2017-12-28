@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransformMetadataMojo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Directory Content Maven Plugin</a> &gt; <a href="index.source.html" class="el_package">biz.gabrys.maven.plugins.directory.content</a> &gt; <span class="el_source">TransformMetadataMojo.java</span></div><h1>TransformMetadataMojo.java</h1><pre class="source lang-java linenums">/*
+ * Directory Content Maven Plugin
+ * http://directory-content-maven-plugin.projects.gabrys.biz/
+ *
+ * Copyright (c) 2015 Adam Gabrys
+ *
+ * This file is licensed under the BSD 3-Clause (the &quot;License&quot;).
+ * You may not use this file except in compliance with the License.
+ * You may obtain:
+ * - a copy of the License at project page
+ * - a template of the License at https://opensource.org/licenses/BSD-3-Clause
+ */
+package biz.gabrys.maven.plugins.directory.content;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+
+import biz.gabrys.maven.plugin.util.io.DestinationFileCreator;
+import biz.gabrys.maven.plugin.util.parameter.ParametersLogBuilder;
+import biz.gabrys.maven.plugins.directory.content.file.FileMetadata;
+import biz.gabrys.maven.plugins.directory.content.file.FileMetadataFactory;
+import biz.gabrys.maven.plugins.directory.content.file.FileMetadataFactoryConfiguration;
+import biz.gabrys.maven.plugins.directory.content.transform.TransformException;
+import biz.gabrys.maven.plugins.directory.content.transform.XmlFileMetadataTransformer;
+import biz.gabrys.maven.plugins.directory.content.transform.XsltTransformer;
+
+/**
+ * Transforms files metadata to documents using &lt;a href=&quot;http://www.w3.org/TR/xslt&quot;&gt;XSLT&lt;/a&gt; technology. Each file
+ * metadata used to transformation process has specified structure:
+ * 
+ * &lt;pre&gt;
+ * &amp;lt;file&amp;gt;
+ *    &amp;lt;fullPath&amp;gt;full file path&amp;lt;/fullPath&amp;gt;
+ *    &amp;lt;fullName&amp;gt;name with extension&amp;lt;/fullName&amp;gt;
+ *    &amp;lt;name&amp;gt;name without extension&amp;lt;/name&amp;gt;
+ *    &amp;lt;!-- extension node is optionally --&amp;gt;
+ *    &amp;lt;extension&amp;gt;extension&amp;lt;/extension&amp;gt;
+ *    &amp;lt;directory&amp;gt;parent directory relative to ${directory.content.sourceDirectory}&amp;lt;/directory&amp;gt;
+ *    &amp;lt;size&amp;gt;size in bytes&amp;lt;/size&amp;gt;
+ * &amp;lt;/file&amp;gt;
+ * &lt;/pre&gt;
+ * &lt;p&gt;
+ * Examples:
+ * &lt;/p&gt;
+ * 
+ * &lt;pre&gt;
+ * &amp;lt;file&amp;gt;
+ *    &amp;lt;fullPath&amp;gt;static/js/script.js&amp;lt;/fullPath&amp;gt;
+ *    &amp;lt;fullName&amp;gt;script.js&amp;lt;/fullName&amp;gt;
+ *    &amp;lt;name&amp;gt;script&amp;lt;/name&amp;gt;
+ *    &amp;lt;extension&amp;gt;js&amp;lt;/extension&amp;gt;
+ *    &amp;lt;directory&amp;gt;static/js&amp;lt;/directory&amp;gt;
+ *    &amp;lt;size&amp;gt;131072&amp;lt;/size&amp;gt;
+ * &amp;lt;/file&amp;gt;
+ * &lt;/pre&gt;
+ * 
+ * &lt;pre&gt;
+ * &amp;lt;file&amp;gt;
+ *    &amp;lt;fullPath&amp;gt;static/js/file-without-extension&amp;lt;/fullPath&amp;gt;
+ *    &amp;lt;fullName&amp;gt;file-without-extension&amp;lt;/fullName&amp;gt;
+ *    &amp;lt;name&amp;gt;file-without-extension&amp;lt;/name&amp;gt;
+ *    &amp;lt;directory&amp;gt;static/js&amp;lt;/directory&amp;gt;
+ *    &amp;lt;size&amp;gt;28672&amp;lt;/size&amp;gt;
+ * &amp;lt;/file&amp;gt;
+ * &lt;/pre&gt;
+ * 
+ * @since 1.0
+ */
+@Mojo(name = &quot;transformMetadata&quot;, defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
+<span class="nc" id="L77">public class TransformMetadataMojo extends AbstractTransformMojo {</span>
+
+    /**
+     * The directory for transformed files.
+     * @since 1.0
+     */
+    @Parameter(property = &quot;directory.content.outputDirectory&quot;, defaultValue = &quot;${project.build.directory}&quot;)
+    protected File outputDirectory;
+
+    /**
+     * Destination files naming format. {fileName} is equal to source file name without extension.
+     * @since 1.0
+     */
+    @Parameter(property = &quot;directory.content.outputFileFormat&quot;, required = true)
+    protected String outputFileFormat;
+
+    @Override
+    protected void fillParameters2(final ParametersLogBuilder logger) {
+<span class="nc" id="L95">        logger.append(&quot;outputDirectory&quot;, outputDirectory);</span>
+<span class="nc" id="L96">        logger.append(&quot;outputFileFormat&quot;, outputFileFormat);</span>
+<span class="nc" id="L97">    }</span>
+
+    @Override
+    protected void execute2(final Collection&lt;File&gt; files) throws MojoFailureException {
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        getLog().info(String.format(&quot;Transforming %s file%s...&quot;, files.size(), files.size() != 1 ? &quot;s&quot; : &quot;&quot;));</span>
+
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        for (final File file : files) {</span>
+<span class="nc" id="L104">            transformFile(file);</span>
+<span class="nc" id="L105">        }</span>
+<span class="nc" id="L106">    }</span>
+
+    private void transformFile(final File file) throws MojoFailureException {
+<span class="nc" id="L109">        final File destination = new DestinationFileCreator(sourceDirectory, outputDirectory, outputFileFormat).create(file);</span>
+<span class="nc bnc" id="L110" title="All 6 branches missed.">        if (!force &amp;&amp; destination.exists() &amp;&amp; file.lastModified() &lt; destination.lastModified()) {</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">            if (verbose) {</span>
+<span class="nc" id="L112">                getLog().info(&quot;Skips transforming metadata, because source is older than output file: &quot; + destination.getAbsolutePath());</span>
+            }
+<span class="nc" id="L114">            return;</span>
+        }
+
+<span class="nc" id="L117">        getLog().info(&quot;Transforming metadata of the file: &quot; + file.getAbsolutePath());</span>
+<span class="nc" id="L118">        final FileMetadata metadata = createMetadata(file);</span>
+<span class="nc" id="L119">        final String document = transformMetadata(metadata);</span>
+<span class="nc" id="L120">        saveDocument(document, destination);</span>
+<span class="nc" id="L121">    }</span>
+
+    private FileMetadata createMetadata(final File file) {
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        if (getLog().isDebugEnabled()) {</span>
+<span class="nc" id="L125">            getLog().debug(&quot;Creating metadata...&quot;);</span>
+        }
+<span class="nc" id="L127">        final FileMetadataFactoryConfiguration configuration = new FileMetadataFactoryConfiguration();</span>
+<span class="nc" id="L128">        configuration.setRootDirectory(sourceDirectory);</span>
+<span class="nc" id="L129">        configuration.setSeparator(separator);</span>
+<span class="nc" id="L130">        return new FileMetadataFactory(configuration).create(file);</span>
+    }
+
+    private String transformMetadata(final FileMetadata metadata) throws MojoFailureException {
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        if (getLog().isDebugEnabled()) {</span>
+<span class="nc" id="L135">            getLog().debug(&quot;Transforming metadata to document...&quot;);</span>
+        }
+<span class="nc" id="L137">        final String xml = new XmlFileMetadataTransformer().transform(metadata);</span>
+        try {
+<span class="nc" id="L139">            return new XsltTransformer().transform(xml, xsltFile);</span>
+<span class="nc" id="L140">        } catch (final TransformException e) {</span>
+<span class="nc" id="L141">            throw new MojoFailureException(e.getMessage(), e);</span>
+        }
+    }
+
+    private void saveDocument(final String document, final File destination) throws MojoFailureException {
+<span class="nc bnc" id="L146" title="All 2 branches missed.">        if (verbose) {</span>
+<span class="nc" id="L147">            getLog().info(&quot;Saving transformed document to &quot; + destination.getAbsolutePath());</span>
+        }
+        try {
+<span class="nc" id="L150">            FileUtils.write(destination, document, encoding);</span>
+<span class="nc" id="L151">        } catch (final IOException e) {</span>
+<span class="nc" id="L152">            throw new MojoFailureException(&quot;Cannot save transformed document to file: &quot; + destination.getAbsolutePath(), e);</span>
+<span class="nc" id="L153">        }</span>
+<span class="nc" id="L154">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
