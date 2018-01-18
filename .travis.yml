@@ -1,6 +1,8 @@
 language: java
-script: mvn -e clean install site
 jdk:
   - oraclejdk9
   - oraclejdk8
   - openjdk7
+script:
+  - mvn -e verify
+  - mvn -e site

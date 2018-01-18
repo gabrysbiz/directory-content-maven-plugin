@@ -12,23 +12,30 @@ properties([[
 node {
     timestamps {
         stage('Pre Build Cleanup') {
-           step($class: 'WsCleanup')
+            cleanWs()
         }
         stage('Checkout') {
             checkout scm
         }
+
         stage('Build') {
-            withMaven(maven: 'MVN-3', jdk: 'JDK-9', mavenLocalRepo: '.repository', options: [junitPublisher(disabled: true)]) {
-                sh 'mvn -e install site -DskipTests'
+            withMaven(maven: 'MVN-3', jdk: 'JDK-9', mavenLocalRepo: '.repository', options: [junitPublisher(disabled: true), openTasksPublisher(disabled: true)]) {
+                sh 'mvn -e package -DskipTests'
             }
         }
-        stage('Test') {
-            withMaven(maven: 'MVN-3', jdk: 'JDK-9', mavenLocalRepo: '.repository', options: [openTasksPublisher(disabled: true), dependenciesFingerprintPublisher(disabled: true)]) {
-                sh 'mvn -e test'
+        stage('Verify') {
+            withMaven(maven: 'MVN-3', jdk: 'JDK-9', mavenLocalRepo: '.repository', options: [artifactsPublisher(disabled: true), dependenciesFingerprintPublisher(disabled: true)]) {
+                sh 'mvn -e verify'
             }
         }
+        stage('Build Docs') {
+            withMaven(maven: 'MVN-3', jdk: 'JDK-9', mavenLocalRepo: '.repository', options: [artifactsPublisher(disabled: true), dependenciesFingerprintPublisher(disabled: true), junitPublisher(disabled: true), openTasksPublisher(disabled: true)]) {
+                sh 'mvn -e site'
+            }
+        }
+
         stage('Post Build Cleanup') {
-           step($class: 'WsCleanup')
+            cleanWs()
         }
     }
 }
