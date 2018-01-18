@@ -44,13 +44,13 @@ import javax.xml.transform.stream.StreamSource;
 <span class="nc" id="L44">            transformer = factory.newTransformer(new StreamSource(xslt));</span>
 <span class="nc" id="L45">        } catch (final TransformerConfigurationException e) {</span>
 <span class="nc" id="L46">            throw new TransformException(e);</span>
-        }
+<span class="nc" id="L47">        }</span>
 <span class="nc" id="L48">        final StringWriter writer = new StringWriter();</span>
         try {
 <span class="nc" id="L50">            transformer.transform(new StreamSource(new StringReader(xml)), new StreamResult(writer));</span>
 <span class="nc" id="L51">        } catch (final TransformerException e) {</span>
 <span class="nc" id="L52">            throw new TransformException(e);</span>
-        }
+<span class="nc" id="L53">        }</span>
 <span class="nc" id="L54">        writer.flush();</span>
 <span class="nc" id="L55">        return writer.toString();</span>
     }

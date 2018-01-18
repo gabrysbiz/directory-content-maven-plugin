@@ -36,12 +36,12 @@ public class FileMetadataFactory {
 <span class="nc" id="L36">        this(configuration, new FileNameResolver(), new DirectoryResolver());</span>
 <span class="nc" id="L37">    }</span>
 
-<span class="nc" id="L39">    FileMetadataFactory(final FileMetadataFactoryConfiguration configuration, final FileNameResolver fileNameResolver,</span>
-            final DirectoryResolver directoryResolver) {
-<span class="nc" id="L41">        this.configuration = configuration;</span>
-<span class="nc" id="L42">        this.fileNameResolver = fileNameResolver;</span>
-<span class="nc" id="L43">        this.directoryResolver = directoryResolver;</span>
-<span class="nc" id="L44">    }</span>
+    FileMetadataFactory(final FileMetadataFactoryConfiguration configuration, final FileNameResolver fileNameResolver,
+<span class="fc" id="L40">            final DirectoryResolver directoryResolver) {</span>
+<span class="fc" id="L41">        this.configuration = configuration;</span>
+<span class="fc" id="L42">        this.fileNameResolver = fileNameResolver;</span>
+<span class="fc" id="L43">        this.directoryResolver = directoryResolver;</span>
+<span class="fc" id="L44">    }</span>
 
     /**
      * Creates metadata for files.
@@ -50,11 +50,11 @@ public class FileMetadataFactory {
      * @since 1.0
      */
     public List&lt;FileMetadata&gt; create(final Collection&lt;File&gt; files) {
-<span class="nc" id="L53">        final List&lt;FileMetadata&gt; metadata = new ArrayList&lt;FileMetadata&gt;(files.size());</span>
-<span class="nc bnc" id="L54" title="All 2 branches missed.">        for (final File file : files) {</span>
-<span class="nc" id="L55">            metadata.add(create(file));</span>
-        }
-<span class="nc" id="L57">        return metadata;</span>
+<span class="fc" id="L53">        final List&lt;FileMetadata&gt; metadata = new ArrayList&lt;FileMetadata&gt;(files.size());</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        for (final File file : files) {</span>
+<span class="fc" id="L55">            metadata.add(create(file));</span>
+<span class="fc" id="L56">        }</span>
+<span class="fc" id="L57">        return metadata;</span>
     }
 
     /**
@@ -64,18 +64,18 @@ public class FileMetadataFactory {
      * @since 1.0
      */
     public FileMetadata create(final File file) {
-<span class="nc" id="L67">        final String directory = directoryResolver.resolve(file, configuration.getRootDirectory(), configuration.getSeparator());</span>
-<span class="nc bnc" id="L68" title="All 2 branches missed.">        final String path = &quot;&quot;.equals(directory) ? &quot;&quot; : directory + configuration.getSeparator();</span>
-<span class="nc" id="L69">        final String name = file.getName();</span>
+<span class="fc" id="L67">        final String directory = directoryResolver.resolve(file, configuration.getRootDirectory(), configuration.getSeparator());</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        final String path = &quot;&quot;.equals(directory) ? &quot;&quot; : directory + configuration.getSeparator();</span>
+<span class="fc" id="L69">        final String name = file.getName();</span>
 
-<span class="nc" id="L71">        final FileMetadata metadata = new FileMetadata();</span>
-<span class="nc" id="L72">        metadata.setFullPath(path + name);</span>
-<span class="nc" id="L73">        metadata.setFullName(name);</span>
-<span class="nc" id="L74">        metadata.setName(fileNameResolver.resolveName(file));</span>
-<span class="nc" id="L75">        metadata.setExtension(fileNameResolver.resolveExtension(file));</span>
-<span class="nc" id="L76">        metadata.setDirectory(directory);</span>
-<span class="nc" id="L77">        metadata.setSize(file.length());</span>
-<span class="nc" id="L78">        return metadata;</span>
+<span class="fc" id="L71">        final FileMetadata metadata = new FileMetadata();</span>
+<span class="fc" id="L72">        metadata.setFullPath(path + name);</span>
+<span class="fc" id="L73">        metadata.setFullName(name);</span>
+<span class="fc" id="L74">        metadata.setName(fileNameResolver.resolveName(file));</span>
+<span class="fc" id="L75">        metadata.setExtension(fileNameResolver.resolveExtension(file));</span>
+<span class="fc" id="L76">        metadata.setDirectory(directory);</span>
+<span class="fc" id="L77">        metadata.setSize(file.length());</span>
+<span class="fc" id="L78">        return metadata;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

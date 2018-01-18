@@ -18,7 +18,7 @@ import java.io.File;
  * Responsible for getting file name and extensions from {@link File} objects.
  * @since 1.0
  */
-<span class="nc" id="L21">public class FileNameResolver {</span>
+<span class="fc" id="L21">public class FileNameResolver {</span>
 
     /**
      * Returns file name without extension.
@@ -27,12 +27,12 @@ import java.io.File;
      * @since 1.0
      */
     public String resolveName(final File file) {
-<span class="nc" id="L30">        final String fullName = file.getName();</span>
-<span class="nc" id="L31">        final int index = fullName.lastIndexOf('.');</span>
-<span class="nc bnc" id="L32" title="All 2 branches missed.">        if (index &gt; -1) {</span>
-<span class="nc" id="L33">            return fullName.substring(0, index);</span>
+<span class="fc" id="L30">        final String fullName = file.getName();</span>
+<span class="fc" id="L31">        final int index = fullName.lastIndexOf('.');</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if (index &gt; -1) {</span>
+<span class="fc" id="L33">            return fullName.substring(0, index);</span>
         }
-<span class="nc" id="L35">        return fullName;</span>
+<span class="fc" id="L35">        return fullName;</span>
     }
 
     /**
@@ -42,16 +42,16 @@ import java.io.File;
      * @since 1.0
      */
     public String resolveExtension(final File file) {
-<span class="nc" id="L45">        final String fullName = file.getName();</span>
-<span class="nc" id="L46">        final int index = fullName.lastIndexOf('.');</span>
-<span class="nc bnc" id="L47" title="All 2 branches missed.">        if (index &gt; -1) {</span>
-<span class="nc bnc" id="L48" title="All 2 branches missed.">            if (index != fullName.length() - 1) {</span>
-<span class="nc" id="L49">                return fullName.substring(index + 1);</span>
+<span class="fc" id="L45">        final String fullName = file.getName();</span>
+<span class="fc" id="L46">        final int index = fullName.lastIndexOf('.');</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        if (index &gt; -1) {</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">            if (index != fullName.length() - 1) {</span>
+<span class="fc" id="L49">                return fullName.substring(index + 1);</span>
             } else {
-<span class="nc" id="L51">                return &quot;&quot;;</span>
+<span class="fc" id="L51">                return &quot;&quot;;</span>
             }
         }
-<span class="nc" id="L54">        return null;</span>
+<span class="fc" id="L54">        return null;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
