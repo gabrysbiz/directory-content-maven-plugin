@@ -3,6 +3,5 @@ jdk:
   - oraclejdk9
   - oraclejdk8
   - openjdk7
-script:
-  - mvn -e verify
-  - mvn -e site
+install: mvn -B -V -e package -DskipTests
+script: mvn -B -e verify site

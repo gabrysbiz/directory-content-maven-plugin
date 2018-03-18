@@ -1,40 +1,44 @@
-properties([[
-    $class: 'BuildDiscarderProperty',
-    strategy: [
-        $class: 'LogRotator',
-        artifactDaysToKeepStr: '-1',
-        artifactNumToKeepStr: '10',
-        daysToKeepStr: '-1',
-        numToKeepStr: '10'
-    ]
-]])
-
-node {
-    timestamps {
-        stage('Pre Build Cleanup') {
-            cleanWs()
-        }
-        stage('Checkout') {
-            checkout scm
-        }
-
+pipeline {
+    agent any
+    options {
+        buildDiscarder(logRotator(artifactDaysToKeepStr: '-1', artifactNumToKeepStr: '10', daysToKeepStr: '-1', numToKeepStr: '10'))
+        timestamps()
+    }
+    tools {
+        // withMaven ignores tools: https://issues.jenkins-ci.org/browse/JENKINS-43651
+        maven 'MVN-3'
+        jdk 'JDK-9'
+    }
+    environment {
+        MAVEN_ARGS = '-e -Dmaven.repo.local=.repository'
+    }
+    stages {
         stage('Build') {
-            withMaven(maven: 'MVN-3', jdk: 'JDK-9', mavenLocalRepo: '.repository', options: [junitPublisher(disabled: true), openTasksPublisher(disabled: true)]) {
-                sh 'mvn -e package -DskipTests'
+            steps {
+                withMaven(maven: 'MVN-3', jdk: 'JDK-9', publisherStrategy: 'EXPLICIT', options: [
+                    artifactsPublisher(disabled: false), dependenciesFingerprintPublisher(disabled: false), openTasksPublisher(disabled: false)
+                ]) {
+                    sh "mvn ${MAVEN_ARGS} package -DskipTests"
+                }
             }
         }
         stage('Verify') {
-            withMaven(maven: 'MVN-3', jdk: 'JDK-9', mavenLocalRepo: '.repository', options: [artifactsPublisher(disabled: true), dependenciesFingerprintPublisher(disabled: true)]) {
-                sh 'mvn -e verify'
+            steps {
+                withMaven(maven: 'MVN-3', jdk: 'JDK-9', publisherStrategy: 'EXPLICIT', options: [junitPublisher(disabled: false)]) {
+                    sh "mvn ${MAVEN_ARGS} verify"
+                }
             }
         }
         stage('Build Docs') {
-            withMaven(maven: 'MVN-3', jdk: 'JDK-9', mavenLocalRepo: '.repository', options: [artifactsPublisher(disabled: true), dependenciesFingerprintPublisher(disabled: true), junitPublisher(disabled: true), openTasksPublisher(disabled: true)]) {
-                sh 'mvn -e site'
+            steps {
+                withMaven(maven: 'MVN-3', jdk: 'JDK-9', publisherStrategy: 'EXPLICIT') {
+                    sh "mvn ${MAVEN_ARGS} site"
+                }
             }
         }
-
-        stage('Post Build Cleanup') {
+    }
+    post {
+        always {
             cleanWs()
         }
     }
