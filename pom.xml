@@ -94,7 +94,7 @@
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
             <!-- latest compatible with JDK 6 -->
-            <version>1.4.7</version>
+            <version>1.4.10</version>
         </dependency>
 
         <dependency>
@@ -322,8 +322,8 @@
                             <target>
                                 <copy todir="src/site/resources/files">
                                     <fileset dir="${project.build.directory}">
-                                        <include name="${project.artifactId}-${project.version}.jar" />
-                                        <include name="${project.artifactId}-${project.version}-sources.jar" />
+                                        <include name="${project.artifactId}-${project.version}.jar"/>
+                                        <include name="${project.artifactId}-${project.version}-sources.jar"/>
                                     </fileset>
                                 </copy>
                             </target>
