@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.StringReader;
 import java.io.StringWriter;
 
+import javax.xml.XMLConstants;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -27,7 +28,7 @@ import javax.xml.transform.stream.StreamSource;
  * Responsible for transforming XML documents using XSL templates.
  * @since 1.0
  */
-<span class="nc" id="L30">public class XsltTransformer {</span>
+<span class="fc" id="L31">public class XsltTransformer {</span>
 
     /**
      * Transforms XML document using XSL template.
@@ -38,21 +39,33 @@ import javax.xml.transform.stream.StreamSource;
      * @since 1.0
      */
     public String transform(final String xml, final File xslt) throws TransformException {
-<span class="nc" id="L41">        final TransformerFactory factory = TransformerFactory.newInstance();</span>
-        final Transformer transformer;
+<span class="fc" id="L42">        final Transformer transformer = createTransformer(createTransformerFactory(), xslt);</span>
+<span class="fc" id="L43">        final StringWriter writer = new StringWriter();</span>
         try {
-<span class="nc" id="L44">            transformer = factory.newTransformer(new StreamSource(xslt));</span>
-<span class="nc" id="L45">        } catch (final TransformerConfigurationException e) {</span>
-<span class="nc" id="L46">            throw new TransformException(e);</span>
-<span class="nc" id="L47">        }</span>
-<span class="nc" id="L48">        final StringWriter writer = new StringWriter();</span>
+<span class="fc" id="L45">            transformer.transform(new StreamSource(new StringReader(xml)), new StreamResult(writer));</span>
+<span class="fc" id="L46">        } catch (final TransformerException e) {</span>
+<span class="fc" id="L47">            throw new TransformException(e);</span>
+<span class="fc" id="L48">        }</span>
+<span class="fc" id="L49">        writer.flush();</span>
+<span class="fc" id="L50">        return writer.toString();</span>
+    }
+
+    Transformer createTransformer(final TransformerFactory factory, final File xslt) throws TransformException {
         try {
-<span class="nc" id="L50">            transformer.transform(new StreamSource(new StringReader(xml)), new StreamResult(writer));</span>
-<span class="nc" id="L51">        } catch (final TransformerException e) {</span>
-<span class="nc" id="L52">            throw new TransformException(e);</span>
-<span class="nc" id="L53">        }</span>
-<span class="nc" id="L54">        writer.flush();</span>
-<span class="nc" id="L55">        return writer.toString();</span>
+<span class="fc" id="L55">            return factory.newTransformer(new StreamSource(xslt));</span>
+<span class="fc" id="L56">        } catch (final TransformerConfigurationException e) {</span>
+<span class="fc" id="L57">            throw new TransformException(e);</span>
+        }
+    }
+
+    TransformerFactory createTransformerFactory() throws TransformException {
+<span class="fc" id="L62">        final TransformerFactory factory = TransformerFactory.newInstance();</span>
+        try {
+<span class="fc" id="L64">            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);</span>
+<span class="nc" id="L65">        } catch (final TransformerConfigurationException e) {</span>
+<span class="nc" id="L66">            throw new TransformException(e);</span>
+<span class="fc" id="L67">        }</span>
+<span class="fc" id="L68">        return factory;</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.0.201801022044</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>
