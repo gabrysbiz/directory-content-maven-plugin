@@ -7,6 +7,15 @@
     </properties>
 
     <body>
+         <section id="release-2.0.1" name="Release 2.0.1">
+            <p>Bugs:</p>
+            <ul>
+                <li>
+                    Fixed XML transformers should be secured
+                    (<a href="https://github.com/gabrysbiz/directory-content-maven-plugin/issues/15">#15</a>)
+                </li>
+            </ul>
+         </section>
          <section id="release-2.0.0" name="Release 2.0.0">
             <p>Features:</p>
             <ul>
@@ -21,6 +30,7 @@
                     to <a href="http://maven-plugin-utils.projects.gabrys.biz/2.0.0/">2.0.0</a>
                 </li>
             </ul>
+            <p><a href="http://directory-content-maven-plugin.projects.gabrys.biz/2.0.0/">See documentation</a></p>
          </section>
         <section id="release-1.2.1" name="Release 1.2.1">
             <p>Bugs:</p>
