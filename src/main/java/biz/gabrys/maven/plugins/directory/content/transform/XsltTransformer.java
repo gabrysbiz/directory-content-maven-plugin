@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.StringReader;
 import java.io.StringWriter;
 
+import javax.xml.XMLConstants;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -38,13 +39,7 @@ public class XsltTransformer {
      * @since 1.0
      */
     public String transform(final String xml, final File xslt) throws TransformException {
-        final TransformerFactory factory = TransformerFactory.newInstance();
-        final Transformer transformer;
-        try {
-            transformer = factory.newTransformer(new StreamSource(xslt));
-        } catch (final TransformerConfigurationException e) {
-            throw new TransformException(e);
-        }
+        final Transformer transformer = createTransformer(createTransformerFactory(), xslt);
         final StringWriter writer = new StringWriter();
         try {
             transformer.transform(new StreamSource(new StringReader(xml)), new StreamResult(writer));
@@ -53,5 +48,23 @@ public class XsltTransformer {
         }
         writer.flush();
         return writer.toString();
+    }
+
+    Transformer createTransformer(final TransformerFactory factory, final File xslt) throws TransformException {
+        try {
+            return factory.newTransformer(new StreamSource(xslt));
+        } catch (final TransformerConfigurationException e) {
+            throw new TransformException(e);
+        }
+    }
+
+    TransformerFactory createTransformerFactory() throws TransformException {
+        final TransformerFactory factory = TransformerFactory.newInstance();
+        try {
+            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        } catch (final TransformerConfigurationException e) {
+            throw new TransformException(e);
+        }
+        return factory;
     }
 }
