@@ -50,7 +50,7 @@ public class FileMetadataFactory {
      * @since 1.0
      */
     public List<FileMetadata> create(final Collection<File> files) {
-        final List<FileMetadata> metadata = new ArrayList<FileMetadata>(files.size());
+        final List<FileMetadata> metadata = new ArrayList<>(files.size());
         for (final File file : files) {
             metadata.add(create(file));
         }
@@ -65,7 +65,7 @@ public class FileMetadataFactory {
      */
     public FileMetadata create(final File file) {
         final String directory = directoryResolver.resolve(file, configuration.getRootDirectory(), configuration.getSeparator());
-        final String path = "".equals(directory) ? "" : directory + configuration.getSeparator();
+        final String path = directory.isEmpty() ? "" : directory + configuration.getSeparator();
         final String name = file.getName();
 
         final FileMetadata metadata = new FileMetadata();
