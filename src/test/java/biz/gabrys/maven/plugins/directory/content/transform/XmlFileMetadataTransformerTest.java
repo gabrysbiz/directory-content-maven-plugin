@@ -90,7 +90,7 @@ public final class XmlFileMetadataTransformerTest {
 
     @Test
     public void transform_twoFiles_returnsXml() {
-        final Collection<FileMetadata> metadata = new ArrayList<FileMetadata>();
+        final Collection<FileMetadata> metadata = new ArrayList<>();
 
         final StringBuilder expectedXml = new StringBuilder();
         expectedXml.append("<files>\n");

@@ -1,5 +1,15 @@
 # Directory Content Maven Plugin Changelog
 
+## 3.0.0
+Features:
+* Set compatibility with Java 8+
+* Set compatibility with Maven 3.3.9+
+
+Bugs:
+* Fixed xstream 1.4.7 : XML External Entity (XXE) Injection ([#16](https://github.com/gabrysbiz/directory-content-maven-plugin/issues/16))
+
+[See documentation](http://directory-content-maven-plugin.projects.gabrys.biz/3.0.0/)
+
 ## 2.0.1
 Bugs:
 * Fixed XML transformers should be secured ([#15](https://github.com/gabrysbiz/directory-content-maven-plugin/issues/15))

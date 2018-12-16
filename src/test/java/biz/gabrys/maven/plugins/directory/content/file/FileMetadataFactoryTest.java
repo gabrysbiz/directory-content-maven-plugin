@@ -16,7 +16,7 @@ import org.junit.Test;
 public final class FileMetadataFactoryTest {
 
     @Test
-    public void create_oneFile_returnMetadata() {
+    public void create_oneFile_returnsMetadata() {
         final FileMetadataFactoryConfiguration configuration = new FileMetadataFactoryConfiguration();
         final File rootDirectory = new File("/root");
         configuration.setRootDirectory(rootDirectory);
@@ -61,7 +61,51 @@ public final class FileMetadataFactoryTest {
     }
 
     @Test
-    public void create_twoFiles_returnMetadata() {
+    public void create_oneFileWithoutDirectory_returnsMetadata() {
+        final FileMetadataFactoryConfiguration configuration = new FileMetadataFactoryConfiguration();
+        final File rootDirectory = new File("/root");
+        configuration.setRootDirectory(rootDirectory);
+        final String separator = "separator";
+        configuration.setSeparator(separator);
+
+        final File file = mock(File.class);
+        final String fullName = "name.extension";
+        when(file.getName()).thenReturn(fullName);
+
+        final FileNameResolver fileNameResolver = mock(FileNameResolver.class);
+        final String name = "name";
+        when(fileNameResolver.resolveName(file)).thenReturn(name);
+        final String extension = "extension";
+        when(fileNameResolver.resolveExtension(file)).thenReturn(extension);
+
+        final DirectoryResolver directoryResolver = mock(DirectoryResolver.class);
+        when(directoryResolver.resolve(file, rootDirectory, separator)).thenReturn("");
+
+        final String fullPath = name + "." + extension;
+
+        final long size = 2;
+        when(file.length()).thenReturn(size);
+
+        final FileMetadataFactory factory = spy(new FileMetadataFactory(configuration, fileNameResolver, directoryResolver));
+        final FileMetadata metadata = factory.create(file);
+
+        assertThat(metadata.getFullPath()).isEqualTo(fullPath);
+        assertThat(metadata.getFullName()).isEqualTo(fullName);
+        assertThat(metadata.getName()).isEqualTo(name);
+        assertThat(metadata.getExtension()).isEqualTo(extension);
+        assertThat(metadata.getDirectory()).isEmpty();
+        assertThat(metadata.getSize()).isEqualTo(size);
+
+        verify(file).getName();
+        verify(factory).create(file);
+        verify(fileNameResolver).resolveName(file);
+        verify(fileNameResolver).resolveExtension(file);
+        verify(directoryResolver).resolve(file, rootDirectory, separator);
+        verifyNoMoreInteractions(factory, fileNameResolver, directoryResolver);
+    }
+
+    @Test
+    public void create_twoFiles_returnsMetadata() {
         final FileMetadataFactoryConfiguration configuration = new FileMetadataFactoryConfiguration();
         final File rootDirectory = new File("/root");
         configuration.setRootDirectory(rootDirectory);
@@ -88,11 +132,10 @@ public final class FileMetadataFactoryTest {
         final DirectoryResolver directoryResolver = mock(DirectoryResolver.class);
         final String directory1 = "directory1";
         when(directoryResolver.resolve(file1, rootDirectory, separator)).thenReturn(directory1);
-        final String directory2 = "directory2";
-        when(directoryResolver.resolve(file2, rootDirectory, separator)).thenReturn(directory2);
+        when(directoryResolver.resolve(file2, rootDirectory, separator)).thenReturn("");
 
         final String fullPath1 = directory1 + separator + name1 + "." + extension1;
-        final String fullPath2 = directory2 + separator + name2 + "." + extension2;
+        final String fullPath2 = name2 + "." + extension2;
 
         final long size1 = 1;
         when(file1.length()).thenReturn(size1);
@@ -116,7 +159,7 @@ public final class FileMetadataFactoryTest {
         assertThat(fileMetadata.getFullName()).isEqualTo(fullName2);
         assertThat(fileMetadata.getName()).isEqualTo(name2);
         assertThat(fileMetadata.getExtension()).isEqualTo(extension2);
-        assertThat(fileMetadata.getDirectory()).isEqualTo(directory2);
+        assertThat(fileMetadata.getDirectory()).isEmpty();
         assertThat(fileMetadata.getSize()).isEqualTo(size2);
 
         verify(file1).getName();

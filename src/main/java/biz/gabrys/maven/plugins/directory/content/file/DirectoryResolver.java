@@ -25,7 +25,7 @@ public class DirectoryResolver {
      * @param file the file.
      * @param rootDirectory the root directory for file path.
      * @param separator the file path separator used in returned path.
-     * @return the parent directory path.
+     * @return the parent directory path (never {@code null}).
      * @since 1.0
      */
     public String resolve(final File file, final File rootDirectory, final String separator) {

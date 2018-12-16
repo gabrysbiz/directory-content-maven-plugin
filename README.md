@@ -12,8 +12,8 @@ Provides a collection of tools for working with directories.
 
 # Requirements
 The plugin to run requires:
-* Java 6 or higher
-* Maven 3 or higher
+* Java 8 or higher
+* Maven 3.3.9 or higher
 
 # Usage
 General instructions on how to use the Directory Content Maven Plugin can be found on the [usage](http://directory-content-maven-plugin.projects.gabrys.biz/LATEST/usage.html) page. Some more specific use cases are described in the examples given below. Last but not least, users occasionally contribute additional examples, tips or errata to the plugin's [wiki](https://github.com/gabrysbiz/directory-content-maven-plugin/wiki) page.

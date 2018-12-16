@@ -7,7 +7,7 @@ pipeline {
     tools {
         // withMaven ignores tools: https://issues.jenkins-ci.org/browse/JENKINS-43651
         maven 'MVN-3'
-        jdk 'JDK-9'
+        jdk 'JDK-8'
     }
     environment {
         MAVEN_ARGS = '-e -Dmaven.repo.local=.repository'
@@ -15,7 +15,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                withMaven(maven: 'MVN-3', jdk: 'JDK-9', publisherStrategy: 'EXPLICIT', options: [
+                withMaven(maven: 'MVN-3', jdk: 'JDK-8', publisherStrategy: 'EXPLICIT', options: [
                     artifactsPublisher(disabled: false), dependenciesFingerprintPublisher(disabled: false), openTasksPublisher(disabled: false)
                 ]) {
                     sh "mvn ${MAVEN_ARGS} package -DskipTests"
@@ -24,14 +24,14 @@ pipeline {
         }
         stage('Verify') {
             steps {
-                withMaven(maven: 'MVN-3', jdk: 'JDK-9', publisherStrategy: 'EXPLICIT', options: [junitPublisher(disabled: false)]) {
+                withMaven(maven: 'MVN-3', jdk: 'JDK-8', publisherStrategy: 'EXPLICIT', options: [junitPublisher(disabled: false)]) {
                     sh "mvn ${MAVEN_ARGS} verify"
                 }
             }
         }
         stage('Build Docs') {
             steps {
-                withMaven(maven: 'MVN-3', jdk: 'JDK-9', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'MVN-3', jdk: 'JDK-8', publisherStrategy: 'EXPLICIT') {
                     sh "mvn ${MAVEN_ARGS} site"
                 }
             }

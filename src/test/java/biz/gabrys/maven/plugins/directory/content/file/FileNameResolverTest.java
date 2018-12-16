@@ -13,7 +13,7 @@ import org.junit.Test;
 public final class FileNameResolverTest {
 
     @Test
-    public void resolveName_fileWithoutExtension_returnFullName() {
+    public void resolveName_fileWithoutExtension_returnsFullName() {
         final FileNameResolver resolver = new FileNameResolver();
         final File file = mock(File.class);
         when(file.getName()).thenReturn("name");
@@ -26,7 +26,7 @@ public final class FileNameResolverTest {
     }
 
     @Test
-    public void resolveExtension_fileWithoutExtension_returnNull() {
+    public void resolveExtension_fileWithoutExtension_returnsNull() {
         final FileNameResolver resolver = new FileNameResolver();
         final File file = mock(File.class);
         when(file.getName()).thenReturn("name");
@@ -39,7 +39,7 @@ public final class FileNameResolverTest {
     }
 
     @Test
-    public void resolveName_fileWithExtension_returnNameWithoutExtension() {
+    public void resolveName_fileWithExtension_returnsNameWithoutExtension() {
         final FileNameResolver resolver = new FileNameResolver();
         final File file = mock(File.class);
         when(file.getName()).thenReturn("name.ext");
@@ -52,7 +52,7 @@ public final class FileNameResolverTest {
     }
 
     @Test
-    public void resolveExtension_fileWithExtension_returnExtension() {
+    public void resolveExtension_fileWithExtension_returnsExtension() {
         final FileNameResolver resolver = new FileNameResolver();
         final File file = mock(File.class);
         when(file.getName()).thenReturn("name.ext");
@@ -65,7 +65,7 @@ public final class FileNameResolverTest {
     }
 
     @Test
-    public void resolveName_fileWithExtensionWithManyDots_returnNameWithoutExtension() {
+    public void resolveName_fileWithExtensionWithManyDots_returnsNameWithoutExtension() {
         final FileNameResolver resolver = new FileNameResolver();
         final File file = mock(File.class);
         when(file.getName()).thenReturn("na.me.ext");
@@ -78,7 +78,7 @@ public final class FileNameResolverTest {
     }
 
     @Test
-    public void resolveExtension_fileWithExtensionWithManyDots_returnExtension() {
+    public void resolveExtension_fileWithExtensionWithManyDots_returnsExtension() {
         final FileNameResolver resolver = new FileNameResolver();
         final File file = mock(File.class);
         when(file.getName()).thenReturn("na.me.ext");
@@ -91,7 +91,7 @@ public final class FileNameResolverTest {
     }
 
     @Test
-    public void resolveName_fileWithDotAtTheEnd_returnNameWithoutLastDot() {
+    public void resolveName_fileWithDotAtTheEnd_returnsNameWithoutLastDot() {
         final FileNameResolver resolver = new FileNameResolver();
         final File file = mock(File.class);
         when(file.getName()).thenReturn("name.");
@@ -104,7 +104,7 @@ public final class FileNameResolverTest {
     }
 
     @Test
-    public void resolveExtension_fileWithDotAtTheEnd_returnEmptyText() {
+    public void resolveExtension_fileWithDotAtTheEnd_returnsEmptyText() {
         final FileNameResolver resolver = new FileNameResolver();
         final File file = mock(File.class);
         when(file.getName()).thenReturn("name.");
