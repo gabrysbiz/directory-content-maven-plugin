@@ -50,7 +50,7 @@ public class FileMetadataFactory {
      * @since 1.0
      */
     public List&lt;FileMetadata&gt; create(final Collection&lt;File&gt; files) {
-<span class="fc" id="L53">        final List&lt;FileMetadata&gt; metadata = new ArrayList&lt;FileMetadata&gt;(files.size());</span>
+<span class="fc" id="L53">        final List&lt;FileMetadata&gt; metadata = new ArrayList&lt;&gt;(files.size());</span>
 <span class="fc bfc" id="L54" title="All 2 branches covered.">        for (final File file : files) {</span>
 <span class="fc" id="L55">            metadata.add(create(file));</span>
 <span class="fc" id="L56">        }</span>
@@ -65,7 +65,7 @@ public class FileMetadataFactory {
      */
     public FileMetadata create(final File file) {
 <span class="fc" id="L67">        final String directory = directoryResolver.resolve(file, configuration.getRootDirectory(), configuration.getSeparator());</span>
-<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        final String path = &quot;&quot;.equals(directory) ? &quot;&quot; : directory + configuration.getSeparator();</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        final String path = directory.isEmpty() ? &quot;&quot; : directory + configuration.getSeparator();</span>
 <span class="fc" id="L69">        final String name = file.getName();</span>
 
 <span class="fc" id="L71">        final FileMetadata metadata = new FileMetadata();</span>
@@ -78,4 +78,4 @@ public class FileMetadataFactory {
 <span class="fc" id="L78">        return metadata;</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
